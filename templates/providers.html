@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Providers - ServiceMatch</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .line-clamp-2 {
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+        }
+        .chat-messages {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <h1 class="text-2xl font-bold text-indigo-600">ServiceMatch</h1>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div id="authSection">
+                        <!-- Auth buttons will be inserted by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Provider Results Section -->
+    <div class="max-w-6xl mx-auto py-12 px-4 sm:px-6 lg:px-8" id="resultsContainer">
+        <!-- Results will be inserted here by JavaScript -->
+    </div>
+
+    <!-- Chat Modal -->
+    <div id="chatModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+        <div class="flex items-center justify-center min-h-screen px-4">
+            <div class="bg-white rounded-lg shadow-xl w-full max-w-md">
+                <div class="flex items-center justify-between p-4 border-b">
+                    <h3 class="text-lg font-semibold" id="chatProviderName">Chat with Provider</h3>
+                    <button onclick="closeChatModal()" class="text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="h-96 flex flex-col">
+                    <div id="chatMessages" class="flex-1 p-4 overflow-y-auto border-b chat-messages">
+                        <p class="text-gray-500 text-center">Loading messages...</p>
+                    </div>
+                    <div class="p-4">
+                        <div class="flex space-x-2">
+                            <input type="text" id="chatInput" placeholder="Type your message..." 
+                                   class="flex-1 border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            <button onclick="sendChatMessage()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/providers.js"></script>
+</body>
+</html>

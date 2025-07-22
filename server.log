@@ -1,0 +1,13 @@
+nohup: ignoring input
+2025-07-20 17:34:34,256 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-07-20 17:34:34,256 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("users")
+2025-07-20 17:34:34,256 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-07-20 17:34:34,257 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("service_providers")
+2025-07-20 17:34:34,257 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-07-20 17:34:34,257 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("reviews")
+2025-07-20 17:34:34,257 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-07-20 17:34:34,257 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("chat_messages")
+2025-07-20 17:34:34,257 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-07-20 17:34:34,257 INFO sqlalchemy.engine.Engine COMMIT
+INFO:     Will watch for changes in these directories: ['/home/reginaldkyalo/codes/service-matching-website']
+ERROR:    [Errno 98] Address already in use

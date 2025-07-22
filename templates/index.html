@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ServiceMatch - Connect with Local Service Providers</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .card-hover {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .typing-animation {
+            border-right: 2px solid #4F46E5;
+            animation: typing 2s steps(30, end), blink-caret 0.75s step-end infinite;
+        }
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: #4F46E5 }
+        }
+        .pulse-effect {
+            animation: pulse 1s ease-in-out;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        .category-option {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .category-option:hover {
+            transform: translateY(-2px);
+        }
+        .category-option.selected {
+            transform: scale(1.02);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .ai-badge {
+            animation: bounce 1s infinite;
+        }
+        @keyframes bounce {
+            0%, 20%, 53%, 80%, 100% {
+                transform: translate3d(0,0,0);
+            }
+            40%, 43% {
+                transform: translate3d(0,-5px,0);
+            }
+            70% {
+                transform: translate3d(0,-2px,0);
+            }
+            90% {
+                transform: translate3d(0,-1px,0);
+            }
+        }
+        
+        /* Prevent FOUC by hiding content until loaded */
+        .content-loading {
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+        
+        .content-loaded {
+            opacity: 1;
+        }
+        
+        /* Preloader styles */
+        #pagePreloader {
+            transition: opacity 0.3s ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Page Preloader -->
+    <div id="pagePreloader" class="fixed inset-0 bg-white z-50 flex items-center justify-center">
+        <div class="text-center">
+            <div class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-indigo-600 bg-indigo-100">
+                <svg class="animate-spin -ml-1 mr-3 h-6 w-6 text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Loading ServiceMatch...
+            </div>
+            <p class="mt-2 text-sm text-gray-500">Preparing your service matching experience</p>
+        </div>
+    </div>
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <h1 class="text-2xl font-bold text-indigo-600">ServiceMatch</h1>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="#how-it-works" class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">How It Works</a>
+                    <a href="#services" class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">Services</a>
+                    <div id="authSection">
+                        <!-- Auth buttons will be inserted by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="gradient-bg">
+        <div class="max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h1 class="text-4xl font-extrabold text-white sm:text-5xl md:text-6xl">
+                    <span class="block">Smart Service</span>
+                    <span class="block text-indigo-200">Matching Platform</span>
+                </h1>
+                <p class="mt-3 max-w-md mx-auto text-base text-indigo-100 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
+                    Describe your problem, get matched with the perfect professional. From simple repairs to complex construction projects.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Problem Description Form -->
+    <div class="max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+        <div class="bg-white rounded-lg shadow-xl p-8 content-loading" id="mainContent">
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-extrabold text-gray-900">Describe Your Problem</h2>
+                <p class="mt-4 text-lg text-gray-600">Get instant AI analysis or select your service category directly</p>
+            </div>
+
+            <form id="problemForm" class="space-y-6" method="POST" enctype="multipart/form-data">
+                <div>
+                    <label for="problemDescription" class="block text-sm font-medium text-gray-700 mb-2">
+                        What's the issue you need help with? (Optional if selecting category directly)
+                    </label>
+                    <textarea 
+                        id="problemDescription" 
+                        name="problemDescription" 
+                        rows="4" 
+                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        placeholder="e.g., My kitchen tap is not working properly, or there are sparks coming from my electrical outlet... (Optional - you can also just select a category below)"
+                    ></textarea>
+                    <p class="mt-2 text-sm text-gray-500">Be as specific as possible for AI analysis, or simply select a category below for direct matching.</p>
+                </div>
+
+                <!-- AI Analysis Button -->
+                <div class="flex justify-center">
+                    <button 
+                        type="button"
+                        class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-lg text-lg transition-colors duration-200 flex items-center"
+                        id="analyzeBtn"
+                        onclick="analyzeProblem()"
+                    >
+                        <i class="fas fa-brain mr-2"></i>
+                        Analyze with AI
+                    </button>
+                </div>
+
+                <!-- AI Results (Hidden initially) -->
+                <div id="aiResults" class="hidden bg-blue-50 border border-blue-200 rounded-lg p-6">
+                    <h3 class="text-lg font-semibold text-blue-900 mb-4">AI Analysis Results</h3>
+                    <div id="aiContent"></div>
+                </div>
+
+                <!-- OR Separator -->
+                <div class="relative">
+                    <div class="absolute inset-0 flex items-center">
+                        <div class="w-full border-t border-gray-300"></div>
+                    </div>
+                    <div class="relative flex justify-center text-sm">
+                        <span class="px-2 bg-gray-50 text-gray-500">Or select a category directly (description optional)</span>
+                    </div>
+                </div>
+
+                <!-- Category Selection -->
+                <div class="border-t pt-6">
+                    <h3 class="text-lg font-medium text-gray-900 mb-6 text-center">
+                        Select Service Category
+                    </h3>
+                    
+                    <div id="categoryGroups" class="space-y-6">
+                        <!-- Loading state -->
+                        <div id="categoriesLoading" class="flex items-center justify-center py-12">
+                            <div class="text-center">
+                                <div class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-indigo-600 bg-indigo-100">
+                                    <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                    </svg>
+                                    Loading service categories...
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Categories will be loaded here -->
+                    </div>
+                    
+                    <input type="hidden" id="selectedCategory" name="selectedCategory">
+                </div>
+
+                <!-- Photo Upload (Optional) -->
+                <div class="bg-gray-50 rounded-lg p-6">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        <i class="fas fa-camera mr-2"></i>Upload Photos (Optional but helpful)
+                    </label>
+                    <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md hover:border-indigo-400 transition-colors">
+                        <div class="space-y-1 text-center">
+                            <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
+                                <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                            <div class="flex text-sm text-gray-600">
+                                <label for="problemImages" class="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
+                                    <span>Upload photos</span>
+                                    <input id="problemImages" name="problemImages" type="file" class="sr-only" multiple accept="image/*">
+                                </label>
+                                <p class="pl-1">or drag and drop</p>
+                            </div>
+                            <p class="text-xs text-gray-500">PNG, JPG, GIF up to 10MB each</p>
+                            <div id="filePreview" class="mt-4 hidden">
+                                <p class="text-sm text-gray-600 font-medium">Selected files:</p>
+                                <div id="fileList" class="text-xs text-gray-500"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="flex justify-center">
+                    <button 
+                        type="submit" 
+                        class="bg-green-600 hover:bg-green-700 text-white font-bold py-4 px-10 rounded-lg text-xl transition-colors duration-200 flex items-center disabled:opacity-50 disabled:cursor-not-allowed"
+                        id="submitBtn"
+                        disabled
+                    >
+                        <i class="fas fa-search mr-2"></i>
+                        Find Professionals
+                    </button>
+                </div>
+                
+                <div id="submitHelpText" class="text-center text-sm text-gray-500">
+                    <i class="fas fa-info-circle mr-1"></i>Please select a service category to continue
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Results Section (Hidden initially) -->
+    <div id="resultsSection" class="max-w-6xl mx-auto py-12 px-4 sm:px-6 lg:px-8 hidden">
+        <!-- Service Provider Results will be inserted here by JavaScript -->
+    </div>
+
+    <!-- How It Works Section -->
+    <div id="how-it-works" class="bg-gray-100 py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+                    How ServiceMatch Works
+                </h2>
+                <p class="mt-4 max-w-2xl mx-auto text-xl text-gray-600">
+                    Simple, smart, and efficient service provider matching
+                </p>
+            </div>
+
+            <div class="mt-20">
+                <div class="grid grid-cols-1 gap-8 md:grid-cols-3">
+                    <div class="text-center">
+                        <div class="flex items-center justify-center h-16 w-16 rounded-md bg-indigo-500 text-white mx-auto">
+                            <i class="fas fa-edit text-2xl"></i>
+                        </div>
+                        <h3 class="mt-6 text-xl font-medium text-gray-900">1. Describe Your Problem</h3>
+                        <p class="mt-4 text-gray-600">
+                            Simply describe your issue in plain English. Include photos if helpful. Our AI will understand the context.
+                        </p>
+                    </div>
+
+                    <div class="text-center">
+                        <div class="flex items-center justify-center h-16 w-16 rounded-md bg-indigo-500 text-white mx-auto">
+                            <i class="fas fa-brain text-2xl"></i>
+                        </div>
+                        <h3 class="mt-6 text-xl font-medium text-gray-900">2. Smart Analysis</h3>
+                        <p class="mt-4 text-gray-600">
+                            Our AI analyzes your description and instantly suggests the best service category, or you can select one manually from our organized categories.
+                        </p>
+                    </div>
+
+                    <div class="text-center">
+                        <div class="flex items-center justify-center h-16 w-16 rounded-md bg-indigo-500 text-white mx-auto">
+                            <i class="fas fa-handshake text-2xl"></i>
+                        </div>
+                        <h3 class="mt-6 text-xl font-medium text-gray-900">3. Get Matched</h3>
+                        <p class="mt-4 text-gray-600">
+                            Receive instant recommendations for qualified professionals based on your specific needs and location - no lengthy surveys required.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Services Section -->
+    <div id="services" class="py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+                    Services We Cover
+                </h2>
+                <p class="mt-4 max-w-2xl mx-auto text-xl text-gray-600">
+                    From simple repairs to complex construction projects
+                </p>
+            </div>
+
+            <div class="mt-20 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+                <div class="bg-white rounded-lg shadow-lg p-6 card-hover">
+                    <div class="text-indigo-600 text-3xl mb-4">
+                        <i class="fas fa-wrench"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Plumbing</h3>
+                    <p class="text-gray-600">Leaks, clogs, installations, and emergency repairs</p>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-lg p-6 card-hover">
+                    <div class="text-indigo-600 text-3xl mb-4">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Electrical</h3>
+                    <p class="text-gray-600">Wiring, outlets, lighting, and safety inspections</p>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-lg p-6 card-hover">
+                    <div class="text-indigo-600 text-3xl mb-4">
+                        <i class="fas fa-thermometer-half"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">HVAC</h3>
+                    <p class="text-gray-600">Heating, cooling, and ventilation systems</p>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-lg p-6 card-hover">
+                    <div class="text-indigo-600 text-3xl mb-4">
+                        <i class="fas fa-broom"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Cleaning</h3>
+                    <p class="text-gray-600">House cleaning, deep cleaning, and maintenance</p>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-lg p-6 card-hover">
+                    <div class="text-indigo-600 text-3xl mb-4">
+                        <i class="fas fa-hammer"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Carpentry</h3>
+                    <p class="text-gray-600">Woodwork, installations, and custom builds</p>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-lg p-6 card-hover">
+                    <div class="text-indigo-600 text-3xl mb-4">
+                        <i class="fas fa-hard-hat"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Construction</h3>
+                    <p class="text-gray-600">Renovations, additions, and new builds</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800">
+        <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h3 class="text-2xl font-bold text-white">ServiceMatch</h3>
+                <p class="mt-4 text-gray-400">Connecting you with trusted local professionals</p>
+                <div class="mt-8">
+                    <p class="text-gray-400">&copy; 2025 ServiceMatch. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/static/js/app.js"></script>
+</body>
+</html>
