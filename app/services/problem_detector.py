@@ -18,13 +18,18 @@ class ServiceCategory(str, Enum):
     ROOFING = "roofing"
     
     # Home Services
-    CLEANING = "cleaning"
-    LANDSCAPING = "landscaping"
+    HOUSE_CLEANING = "house_cleaning"
+    CARPET_COUCH_CLEANING = "carpet_couch_cleaning"
     PEST_CONTROL = "pest_control"
+    LAWN_TRIMMING = "lawn_trimming"
+    SITTERS = "sitters"
     
     # Repairs & Maintenance
-    APPLIANCE_REPAIR = "appliance_repair"
-    GENERAL_MAINTENANCE = "general_maintenance"
+    FRIDGE_REPAIR = "fridge_repair"
+    MICROWAVE_REPAIR = "microwave_repair"
+    TV_DISPLAY_REPAIR = "tv_display_repair"
+    SOUND_SYSTEMS_REPAIR = "sound_systems_repair"
+    WASHING_MACHINE_REPAIR = "washing_machine_repair"
     
     # Other
     UNKNOWN = "unknown"
@@ -51,109 +56,139 @@ class CategoryOrganizer:
     @staticmethod
     def get_category_groups() -> Dict[str, Dict]:
         return {
-            "Home Systems": {
+            "Home Services": {
                 "icon": "fas fa-home",
-                "description": "Essential home infrastructure",
+                "description": "Home maintenance and care",
                 "color": "blue",
                 "categories": [
                     {
-                        "category": ServiceCategory.PLUMBING,
-                        "name": "Plumbing",
-                        "icon": "fas fa-wrench",
-                        "description": "Pipes, fixtures, water issues"
+                        "category": ServiceCategory.HOUSE_CLEANING,
+                        "name": "House Cleaning",
+                        "icon": "fas fa-broom",
+                        "description": "Regular and deep house cleaning services"
                     },
                     {
-                        "category": ServiceCategory.ELECTRICAL,
-                        "name": "Electrical",
-                        "icon": "fas fa-bolt",
-                        "description": "Wiring, outlets, lighting"
+                        "category": ServiceCategory.CARPET_COUCH_CLEANING,
+                        "name": "Carpet, Couch Cleaning",
+                        "icon": "fas fa-couch",
+                        "description": "Professional furniture and carpet cleaning"
                     },
                     {
-                        "category": ServiceCategory.HVAC,
-                        "name": "Heating & Cooling",
-                        "icon": "fas fa-thermometer-half",
-                        "description": "HVAC, ventilation, climate"
+                        "category": ServiceCategory.PEST_CONTROL,
+                        "name": "Pest Control",
+                        "icon": "fas fa-bug",
+                        "description": "Extermination and pest prevention services"
+                    },
+                    {
+                        "category": ServiceCategory.LAWN_TRIMMING,
+                        "name": "Lawn & Trimming Services",
+                        "icon": "fas fa-leaf",
+                        "description": "Garden maintenance, lawn care and trimming"
+                    },
+                    {
+                        "category": ServiceCategory.SITTERS,
+                        "name": "Sitters - Pets, Baby & House",
+                        "icon": "fas fa-heart",
+                        "description": "Professional sitting services for pets, babies and houses"
+                    }
+                ]
+            },
+            "Repairs & Maintenance": {
+                "icon": "fas fa-tools",
+                "description": "Appliances repair & maintenance",
+                "color": "orange",
+                "categories": [
+                    {
+                        "category": ServiceCategory.FRIDGE_REPAIR,
+                        "name": "Fridge Repair",
+                        "icon": "fas fa-snowflake",
+                        "description": "Refrigerator and freezer repair services"
+                    },
+                    {
+                        "category": ServiceCategory.MICROWAVE_REPAIR,
+                        "name": "Microwave",
+                        "icon": "fas fa-microchip",
+                        "description": "Microwave oven repair and maintenance"
+                    },
+                    {
+                        "category": ServiceCategory.TV_DISPLAY_REPAIR,
+                        "name": "TV, Display Systems",
+                        "icon": "fas fa-tv",
+                        "description": "Television and display equipment repair"
+                    },
+                    {
+                        "category": ServiceCategory.SOUND_SYSTEMS_REPAIR,
+                        "name": "Sound Systems eg Radio",
+                        "icon": "fas fa-volume-up",
+                        "description": "Audio equipment and radio repair"
+                    },
+                    {
+                        "category": ServiceCategory.WASHING_MACHINE_REPAIR,
+                        "name": "Washing Machines",
+                        "icon": "fas fa-tshirt",
+                        "description": "Washing machine and dryer repair"
                     }
                 ]
             },
             "Home Improvement": {
                 "icon": "fas fa-hammer",
-                "description": "Renovation and construction",
+                "description": "Home renovation and improvement",
                 "color": "green",
                 "categories": [
                     {
                         "category": ServiceCategory.CONSTRUCTION,
                         "name": "Construction",
                         "icon": "fas fa-hard-hat",
-                        "description": "Building, additions, major projects"
+                        "description": "Building, renovations and major construction projects"
                     },
                     {
                         "category": ServiceCategory.CARPENTRY,
                         "name": "Carpentry",
                         "icon": "fas fa-hammer",
-                        "description": "Woodwork, cabinets, furniture"
+                        "description": "Woodwork, furniture and cabinet making"
                     },
                     {
                         "category": ServiceCategory.PAINTING,
                         "name": "Painting",
                         "icon": "fas fa-paint-roller",
-                        "description": "Interior/exterior painting"
+                        "description": "Interior and exterior painting services"
                     },
                     {
                         "category": ServiceCategory.FLOORING,
                         "name": "Flooring",
                         "icon": "fas fa-th-large",
-                        "description": "Floors, tiles, carpeting"
+                        "description": "Floor installation, repair and refinishing"
                     },
                     {
                         "category": ServiceCategory.ROOFING,
                         "name": "Roofing",
                         "icon": "fas fa-home",
-                        "description": "Roof repairs, installation"
+                        "description": "Roof repairs, installation and maintenance"
                     }
                 ]
             },
-            "Home Services": {
-                "icon": "fas fa-broom",
-                "description": "Regular maintenance and care",
+            "Home Systems": {
+                "icon": "fas fa-cogs",
+                "description": "Home general repairs",
                 "color": "purple",
                 "categories": [
                     {
-                        "category": ServiceCategory.CLEANING,
-                        "name": "Cleaning",
-                        "icon": "fas fa-broom",
-                        "description": "House cleaning, deep cleaning"
+                        "category": ServiceCategory.PLUMBING,
+                        "name": "Plumbing",
+                        "icon": "fas fa-wrench",
+                        "description": "Water systems, pipes and fixtures"
                     },
                     {
-                        "category": ServiceCategory.LANDSCAPING,
-                        "name": "Landscaping",
-                        "icon": "fas fa-leaf",
-                        "description": "Yard work, gardening, lawn care"
+                        "category": ServiceCategory.ELECTRICAL,
+                        "name": "Electrical",
+                        "icon": "fas fa-bolt",
+                        "description": "Wiring, outlets and electrical systems"
                     },
                     {
-                        "category": ServiceCategory.PEST_CONTROL,
-                        "name": "Pest Control",
-                        "icon": "fas fa-bug",
-                        "description": "Extermination, prevention"
-                    }
-                ]
-            },
-            "Repairs & Maintenance": {
-                "icon": "fas fa-tools",
-                "description": "Fix and maintain your home",
-                "color": "orange",
-                "categories": [
-                    {
-                        "category": ServiceCategory.APPLIANCE_REPAIR,
-                        "name": "Appliance Repair",
-                        "icon": "fas fa-cog",
-                        "description": "Fix appliances, equipment"
-                    },
-                    {
-                        "category": ServiceCategory.GENERAL_MAINTENANCE,
-                        "name": "General Maintenance",
-                        "icon": "fas fa-tools",
-                        "description": "Handyman, general repairs"
+                        "category": ServiceCategory.HVAC,
+                        "name": "Heating & Cooling",
+                        "icon": "fas fa-thermometer-half",
+                        "description": "HVAC systems and climate control"
                     }
                 ]
             }
@@ -194,13 +229,87 @@ class ProblemDetector:
                 "emergency_keywords": ["no heat", "no cooling", "carbon monoxide"],
                 "urgency_indicators": ["freezing", "overheating", "carbon monoxide"]
             },
-            ServiceCategory.CLEANING: {
+            ServiceCategory.HOUSE_CLEANING: {
                 "keywords": [
                     "clean", "cleaning", "house cleaning", "maid", "housekeeping", "vacuum",
-                    "mop", "dust", "sanitize", "deep clean", "spring cleaning", "maintenance clean"
+                    "mop", "dust", "sanitize", "deep clean", "spring cleaning", "maintenance clean",
+                    "domestic", "housekeeper", "sweep", "polish"
                 ],
                 "emergency_keywords": [],
                 "urgency_indicators": []
+            },
+            ServiceCategory.CARPET_COUCH_CLEANING: {
+                "keywords": [
+                    "carpet", "couch", "sofa", "upholstery", "furniture cleaning", "steam clean",
+                    "stain removal", "fabric cleaning", "rug cleaning", "chair cleaning"
+                ],
+                "emergency_keywords": [],
+                "urgency_indicators": []
+            },
+            ServiceCategory.PEST_CONTROL: {
+                "keywords": [
+                    "pest", "bug", "insect", "rat", "mouse", "cockroach", "ant", "spider",
+                    "termite", "bee", "wasp", "exterminator", "infestation", "rodent",
+                    "fumigation", "spray"
+                ],
+                "emergency_keywords": ["infestation", "bees", "wasps", "aggressive"],
+                "urgency_indicators": ["infestation", "swarm", "aggressive", "stinging"]
+            },
+            ServiceCategory.LAWN_TRIMMING: {
+                "keywords": [
+                    "lawn", "grass", "garden", "trim", "trimming", "hedge", "bushes", "shrubs",
+                    "mowing", "landscaping", "yard work", "pruning", "weeding", "gardener"
+                ],
+                "emergency_keywords": [],
+                "urgency_indicators": []
+            },
+            ServiceCategory.SITTERS: {
+                "keywords": [
+                    "sitter", "babysitter", "nanny", "pet sitter", "house sitter", "childcare",
+                    "pet care", "dog walker", "cat sitter", "house sitting", "child minder"
+                ],
+                "emergency_keywords": [],
+                "urgency_indicators": []
+            },
+            ServiceCategory.FRIDGE_REPAIR: {
+                "keywords": [
+                    "fridge", "refrigerator", "freezer", "cooling", "not cold", "ice maker",
+                    "compressor", "thermostat", "fridge repair", "refrigerator repair"
+                ],
+                "emergency_keywords": ["not cooling", "spoiled food", "water leaking"],
+                "urgency_indicators": ["urgent", "food spoiling", "leaking water"]
+            },
+            ServiceCategory.MICROWAVE_REPAIR: {
+                "keywords": [
+                    "microwave", "microwave oven", "heating", "not heating", "sparks",
+                    "turntable", "microwave repair", "oven repair"
+                ],
+                "emergency_keywords": ["sparks", "burning smell", "not working"],
+                "urgency_indicators": ["sparks", "burning", "smoke"]
+            },
+            ServiceCategory.TV_DISPLAY_REPAIR: {
+                "keywords": [
+                    "tv", "television", "screen", "display", "monitor", "no picture", "black screen",
+                    "lines on screen", "tv repair", "display repair", "lcd", "led"
+                ],
+                "emergency_keywords": [],
+                "urgency_indicators": []
+            },
+            ServiceCategory.SOUND_SYSTEMS_REPAIR: {
+                "keywords": [
+                    "radio", "speakers", "sound system", "audio", "stereo", "music system",
+                    "no sound", "distorted sound", "amplifier", "speaker repair"
+                ],
+                "emergency_keywords": [],
+                "urgency_indicators": []
+            },
+            ServiceCategory.WASHING_MACHINE_REPAIR: {
+                "keywords": [
+                    "washing machine", "washer", "dryer", "laundry", "not spinning", "not draining",
+                    "leaking", "washing machine repair", "dryer repair", "spin cycle"
+                ],
+                "emergency_keywords": ["flooding", "water everywhere", "major leak"],
+                "urgency_indicators": ["flooding", "water damage", "urgent"]
             },
             ServiceCategory.PEST_CONTROL: {
                 "keywords": [
@@ -251,30 +360,6 @@ class ProblemDetector:
                 ],
                 "emergency_keywords": ["roof leak", "missing shingles", "storm damage"],
                 "urgency_indicators": ["leak", "storm", "damage", "missing"]
-            },
-            ServiceCategory.LANDSCAPING: {
-                "keywords": [
-                    "yard", "garden", "lawn", "grass", "landscaping", "tree", "bush", "shrub",
-                    "mowing", "trimming", "planting", "mulch", "irrigation", "sprinkler"
-                ],
-                "emergency_keywords": ["fallen tree", "storm damage"],
-                "urgency_indicators": ["fallen", "storm", "blocking"]
-            },
-            ServiceCategory.APPLIANCE_REPAIR: {
-                "keywords": [
-                    "appliance", "refrigerator", "washer", "dryer", "dishwasher", "oven", "stove",
-                    "microwave", "freezer", "repair appliance", "not working", "broken appliance"
-                ],
-                "emergency_keywords": ["gas leak", "sparking appliance"],
-                "urgency_indicators": ["gas", "sparking", "smoke"]
-            },
-            ServiceCategory.GENERAL_MAINTENANCE: {
-                "keywords": [
-                    "handyman", "maintenance", "repair", "fix", "general repair", "odd jobs",
-                    "small repairs", "maintenance work", "home maintenance"
-                ],
-                "emergency_keywords": [],
-                "urgency_indicators": []
             }
         }
     
@@ -404,12 +489,19 @@ class ProblemDetector:
                 "Are all rooms affected equally?",
                 "Do you hear any unusual noises?"
             ],
-            ServiceCategory.CLEANING: [
+            ServiceCategory.HOUSE_CLEANING: [
                 "What type of cleaning service do you need?",
                 "How large is the area to be cleaned?",
                 "Do you have any specific cleaning preferences?",
                 "How often would you like cleaning service?",
                 "Are there any special requirements or restrictions?"
+            ],
+            ServiceCategory.CARPET_COUCH_CLEANING: [
+                "What type of furniture or carpet needs cleaning?",
+                "What kind of stains or issues are you dealing with?",
+                "How large is the area to be cleaned?",
+                "When was it last professionally cleaned?",
+                "Do you have any fabric care preferences?"
             ],
             ServiceCategory.PEST_CONTROL: [
                 "What type of pests have you seen?",
@@ -417,6 +509,55 @@ class ProblemDetector:
                 "How long have you been seeing pests?",
                 "Have you tried any treatments already?",
                 "Do you have pets or small children?"
+            ],
+            ServiceCategory.LAWN_TRIMMING: [
+                "What type of lawn or garden work do you need?",
+                "How large is your yard or garden area?",
+                "How often do you need maintenance?",
+                "Do you have specific plants or areas of concern?",
+                "What is your preferred schedule?"
+            ],
+            ServiceCategory.SITTERS: [
+                "What type of sitting service do you need?",
+                "What are the dates and times you need coverage?",
+                "Do you have any specific requirements or instructions?",
+                "What is the age of children or type of pets?",
+                "Do you need any additional services?"
+            ],
+            ServiceCategory.FRIDGE_REPAIR: [
+                "What specific issue is your refrigerator having?",
+                "How old is your refrigerator?",
+                "Is it still under warranty?",
+                "What brand and model is it?",
+                "When did the problem start?"
+            ],
+            ServiceCategory.MICROWAVE_REPAIR: [
+                "What issue is your microwave experiencing?",
+                "How old is your microwave?",
+                "What brand and model is it?",
+                "Is it a built-in or countertop model?",
+                "When did the problem start?"
+            ],
+            ServiceCategory.TV_DISPLAY_REPAIR: [
+                "What type of display issue are you experiencing?",
+                "What brand and model is your TV?",
+                "How old is your TV/display?",
+                "Is it still under warranty?",
+                "When did the problem start?"
+            ],
+            ServiceCategory.SOUND_SYSTEMS_REPAIR: [
+                "What type of audio equipment needs repair?",
+                "What specific issue are you experiencing?",
+                "What brand and model is it?",
+                "How old is the equipment?",
+                "When did the problem start?"
+            ],
+            ServiceCategory.WASHING_MACHINE_REPAIR: [
+                "What issue is your washing machine having?",
+                "Is it a front-load or top-load machine?",
+                "What brand and model is it?",
+                "How old is your machine?",
+                "When did the problem start?"
             ],
             ServiceCategory.CONSTRUCTION: [
                 "What type of construction work do you need?",

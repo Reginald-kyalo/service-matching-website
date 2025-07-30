@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Provider Dashboard - ServiceMatch</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .card-hover {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        .notification-dot {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center space-x-4">
+                    <button onclick="window.location.href='/'" 
+                            class="flex items-center px-3 py-2 text-sm font-medium text-gray-600 hover:text-indigo-600 hover:bg-gray-50 rounded-md transition-colors duration-200">
+                        <i class="fas fa-arrow-left mr-2"></i>
+                        <span>Back to Home</span>
+                    </button>
+                    <div class="flex-shrink-0">
+                        <h1 class="text-2xl font-bold text-indigo-600">ServiceMatch</h1>
+                    </div>
+                    <div class="ml-10">
+                        <span class="text-gray-600 text-sm">Provider Dashboard</span>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button class="relative p-2 text-gray-400 hover:text-gray-600" id="notificationsBtn">
+                        <i class="fas fa-bell text-xl"></i>
+                        <span id="notificationDot" class="absolute top-0 right-0 w-3 h-3 bg-red-500 rounded-full notification-dot hidden"></span>
+                    </button>
+                    <div id="providerInfo" class="flex items-center space-x-3">
+                        <!-- Provider info will be loaded here -->
+                    </div>
+                    <button onclick="logout()" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md text-sm font-medium">
+                        Sign Out
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+        
+        <!-- Stats Overview -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div class="bg-white rounded-lg shadow-sm p-6 card-hover">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <div class="w-8 h-8 bg-blue-100 rounded-md flex items-center justify-center">
+                            <i class="fas fa-envelope text-blue-600"></i>
+                        </div>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-500">New Requests</p>
+                        <p class="text-2xl font-semibold text-gray-900" id="newRequestsCount">0</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow-sm p-6 card-hover">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <div class="w-8 h-8 bg-green-100 rounded-md flex items-center justify-center">
+                            <i class="fas fa-comments text-green-600"></i>
+                        </div>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-500">Active Chats</p>
+                        <p class="text-2xl font-semibold text-gray-900" id="activeChatsCount">0</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow-sm p-6 card-hover">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <div class="w-8 h-8 bg-yellow-100 rounded-md flex items-center justify-center">
+                            <i class="fas fa-star text-yellow-600"></i>
+                        </div>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-500">Rating</p>
+                        <p class="text-2xl font-semibold text-gray-900" id="averageRating">0.0</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow-sm p-6 card-hover">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <div class="w-8 h-8 bg-purple-100 rounded-md flex items-center justify-center">
+                            <i class="fas fa-handshake text-purple-600"></i>
+                        </div>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-500">Completed Jobs</p>
+                        <p class="text-2xl font-semibold text-gray-900" id="completedJobs">0</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <!-- Recent Requests -->
+            <div class="lg:col-span-2">
+                <div class="bg-white rounded-lg shadow-sm">
+                    <div class="px-6 py-4 border-b border-gray-200">
+                        <h3 class="text-lg font-semibold text-gray-900">Recent Service Requests</h3>
+                    </div>
+                    <div class="p-6">
+                        <div id="requestsList">
+                            <!-- Requests will be loaded here -->
+                            <div class="text-center py-8 text-gray-500">
+                                <i class="fas fa-inbox text-4xl mb-4"></i>
+                                <p>No new requests at the moment</p>
+                                <p class="text-sm">New requests will appear here when customers need your services</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Active Conversations -->
+            <div class="lg:col-span-1">
+                <div class="bg-white rounded-lg shadow-sm">
+                    <div class="px-6 py-4 border-b border-gray-200">
+                        <h3 class="text-lg font-semibold text-gray-900">Active Conversations</h3>
+                    </div>
+                    <div class="p-6">
+                        <div id="conversationsList">
+                            <!-- Conversations will be loaded here -->
+                            <div class="text-center py-8 text-gray-500">
+                                <i class="fas fa-comments text-3xl mb-4"></i>
+                                <p class="text-sm">No active conversations</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Profile Section -->
+        <div class="mt-8">
+            <div class="bg-white rounded-lg shadow-sm">
+                <div class="px-6 py-4 border-b border-gray-200">
+                    <div class="flex justify-between items-center">
+                        <h3 class="text-lg font-semibold text-gray-900">Provider Profile</h3>
+                        <div class="flex space-x-3">
+                            <button onclick="window.location.href='/provider-services'" 
+                                    class="text-indigo-600 hover:text-indigo-700 text-sm font-medium">
+                                <i class="fas fa-cogs mr-1"></i> Manage Services
+                            </button>
+                            <button onclick="editProfile()" class="text-indigo-600 hover:text-indigo-700 text-sm font-medium">
+                                <i class="fas fa-edit mr-1"></i> Edit Profile
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div id="profileDisplay" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- Profile information will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chat Modal -->
+    <div id="chatModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+        <div class="flex items-center justify-center min-h-screen px-4">
+            <div class="bg-white rounded-lg shadow-xl w-full max-w-md">
+                <div class="flex items-center justify-between p-4 border-b">
+                    <h3 class="text-lg font-semibold" id="chatCustomerName">Chat with Customer</h3>
+                    <button onclick="closeChatModal()" class="text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="h-96 flex flex-col">
+                    <div id="chatMessages" class="flex-1 p-4 overflow-y-auto border-b">
+                        <!-- Chat messages will be inserted here -->
+                    </div>
+                    <div class="p-4">
+                        <div class="flex space-x-2">
+                            <input type="text" id="chatInput" placeholder="Type your message..." 
+                                   class="flex-1 border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            <button onclick="sendChatMessage()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Request Details Modal -->
+    <div id="requestModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+        <div class="flex items-center justify-center min-h-screen px-4">
+            <div class="bg-white rounded-lg shadow-xl w-full max-w-2xl">
+                <div class="flex items-center justify-between p-6 border-b">
+                    <h3 class="text-lg font-semibold">Service Request Details</h3>
+                    <button onclick="closeRequestModal()" class="text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div id="requestDetails" class="p-6">
+                    <!-- Request details will be loaded here -->
+                </div>
+                <div class="px-6 py-4 border-t bg-gray-50 flex justify-end space-x-3">
+                    <button onclick="declineRequest()" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-md">
+                        Decline
+                    </button>
+                    <button onclick="acceptRequest()" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md">
+                        Accept & Contact Customer
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notifications Dropdown -->
+    <div id="notificationsDropdown" class="absolute right-4 top-16 w-80 bg-white rounded-lg shadow-lg border hidden z-40">
+        <div class="p-4 border-b">
+            <h4 class="font-semibold text-gray-900">Notifications</h4>
+        </div>
+        <div id="notificationsList" class="max-h-64 overflow-y-auto">
+            <!-- Notifications will be loaded here -->
+        </div>
+    </div>
+
+    <!-- Edit Profile Modal -->
+    <div id="editProfileModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+        <div class="flex items-center justify-center min-h-screen px-4">
+            <div class="bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-screen overflow-y-auto">
+                <div class="flex items-center justify-between p-6 border-b">
+                    <h3 class="text-lg font-semibold text-gray-900">Edit Provider Profile</h3>
+                    <button onclick="closeEditProfileModal()" class="text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <form id="editProfileForm" class="p-6 space-y-6">
+                    <!-- Basic Information -->
+                    <div class="space-y-4">
+                        <h4 class="text-md font-medium text-gray-900">Basic Information</h4>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label for="editFullName" class="block text-sm font-medium text-gray-700">Full Name</label>
+                                <input type="text" id="editFullName" name="fullName" readonly
+                                       class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 bg-gray-50 text-gray-500">
+                                <p class="text-xs text-gray-500 mt-1">Name cannot be changed for security reasons</p>
+                            </div>
+                            
+                            <div>
+                                <label for="editBusinessName" class="block text-sm font-medium text-gray-700">Business Name</label>
+                                <input type="text" id="editBusinessName" name="businessName"
+                                       class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label for="editEmail" class="block text-sm font-medium text-gray-700">Email</label>
+                                <input type="email" id="editEmail" name="email" readonly
+                                       class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 bg-gray-50 text-gray-500">
+                                <p class="text-xs text-gray-500 mt-1">Email cannot be changed</p>
+                            </div>
+                            
+                            <div>
+                                <label for="editPhone" class="block text-sm font-medium text-gray-700">Phone</label>
+                                <input type="tel" id="editPhone" name="phone" readonly
+                                       class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 bg-gray-50 text-gray-500">
+                                <p class="text-xs text-gray-500 mt-1">Phone cannot be changed for security reasons</p>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label for="editDescription" class="block text-sm font-medium text-gray-700">Business Description</label>
+                            <textarea id="editDescription" name="description" rows="3"
+                                      class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                      placeholder="Tell customers about your business and services..."></textarea>
+                        </div>
+                    </div>
+                    
+                    <!-- Pricing -->
+                    <div class="space-y-4">
+                        <h4 class="text-md font-medium text-gray-900">Pricing</h4>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label for="editMinRate" class="block text-sm font-medium text-gray-700">Minimum Rate (KES)</label>
+                                <input type="number" id="editMinRate" name="minRate" min="0" step="50"
+                                       class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            </div>
+                            
+                            <div>
+                                <label for="editMaxRate" class="block text-sm font-medium text-gray-700">Maximum Rate (KES)</label>
+                                <input type="number" id="editMaxRate" name="maxRate" min="0" step="50"
+                                       class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label for="editPricingNotes" class="block text-sm font-medium text-gray-700">Pricing Notes</label>
+                            <textarea id="editPricingNotes" name="pricingNotes" rows="2"
+                                      class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                      placeholder="Additional pricing information..."></textarea>
+                        </div>
+                    </div>
+                    
+                    <!-- Service Settings -->
+                    <div class="space-y-4">
+                        <h4 class="text-md font-medium text-gray-900">Service Settings</h4>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label for="editResponseTime" class="block text-sm font-medium text-gray-700">Response Time</label>
+                                <select id="editResponseTime" name="responseTime"
+                                        class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                    <option value="immediate">Within 1 hour</option>
+                                    <option value="same-day">Same day</option>
+                                    <option value="next-day">Next day</option>
+                                    <option value="2-3-days">2-3 days</option>
+                                    <option value="weekly">Within a week</option>
+                                </select>
+                            </div>
+                            
+                            <div>
+                                <label for="editServiceRadius" class="block text-sm font-medium text-gray-700">Service Radius</label>
+                                <select id="editServiceRadius" name="serviceRadius"
+                                        class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                    <option value="5km">Within 5km</option>
+                                    <option value="10km">Within 10km</option>
+                                    <option value="20km">Within 20km</option>
+                                    <option value="county">County-wide</option>
+                                    <option value="nationwide">Nationwide</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label for="editTravelFee" class="block text-sm font-medium text-gray-700">Travel Fee (KES)</label>
+                            <input type="number" id="editTravelFee" name="travelFee" min="0" step="50"
+                                   class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                   placeholder="0 for no travel fee">
+                        </div>
+                    </div>
+                    
+                    <!-- Actions -->
+                    <div class="flex justify-end space-x-3 pt-6 border-t">
+                        <button type="button" onclick="closeEditProfileModal()" 
+                                class="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50">
+                            Cancel
+                        </button>
+                        <button type="submit" 
+                                class="px-4 py-2 bg-indigo-600 border border-transparent rounded-md text-sm font-medium text-white hover:bg-indigo-700">
+                            <i class="fas fa-save mr-2"></i>Save Changes
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/globals.js"></script>
+    <script src="/static/js/ui-utils.js"></script>
+    <script src="/static/js/auth.js"></script>
+    <script type="module" src="/static/js/service-catalog.js"></script>
+    <script src="/static/js/chat.js"></script>
+    <script type="module" src="/static/js/provider-dashboard.js"></script>
+</body>
+</html>

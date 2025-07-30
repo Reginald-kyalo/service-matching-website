@@ -1,13 +1,342 @@
-nohup: ignoring input
-2025-07-20 17:34:34,256 INFO sqlalchemy.engine.Engine BEGIN (implicit)
-2025-07-20 17:34:34,256 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("users")
-2025-07-20 17:34:34,256 INFO sqlalchemy.engine.Engine [raw sql] ()
-2025-07-20 17:34:34,257 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("service_providers")
-2025-07-20 17:34:34,257 INFO sqlalchemy.engine.Engine [raw sql] ()
-2025-07-20 17:34:34,257 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("reviews")
-2025-07-20 17:34:34,257 INFO sqlalchemy.engine.Engine [raw sql] ()
-2025-07-20 17:34:34,257 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("chat_messages")
-2025-07-20 17:34:34,257 INFO sqlalchemy.engine.Engine [raw sql] ()
-2025-07-20 17:34:34,257 INFO sqlalchemy.engine.Engine COMMIT
+2025-07-26 15:00:19,979 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-07-26 15:00:19,979 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("users")
+2025-07-26 15:00:19,979 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-07-26 15:00:19,980 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("service_providers")
+2025-07-26 15:00:19,980 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-07-26 15:00:19,981 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("reviews")
+2025-07-26 15:00:19,981 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-07-26 15:00:19,981 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("chat_messages")
+2025-07-26 15:00:19,981 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-07-26 15:00:19,981 INFO sqlalchemy.engine.Engine COMMIT
 INFO:     Will watch for changes in these directories: ['/home/reginaldkyalo/codes/service-matching-website']
-ERROR:    [Errno 98] Address already in use
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     Started reloader process [33637] using StatReload
+2025-07-26 15:00:20,855 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-07-26 15:00:20,855 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("users")
+2025-07-26 15:00:20,855 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-07-26 15:00:20,856 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("service_providers")
+2025-07-26 15:00:20,856 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-07-26 15:00:20,856 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("reviews")
+2025-07-26 15:00:20,856 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-07-26 15:00:20,856 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("chat_messages")
+2025-07-26 15:00:20,856 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-07-26 15:00:20,857 INFO sqlalchemy.engine.Engine COMMIT
+2025-07-26 15:00:20,902 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-07-26 15:00:20,902 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("users")
+2025-07-26 15:00:20,902 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-07-26 15:00:20,902 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("service_providers")
+2025-07-26 15:00:20,902 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-07-26 15:00:20,903 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("reviews")
+2025-07-26 15:00:20,903 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-07-26 15:00:20,903 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("chat_messages")
+2025-07-26 15:00:20,903 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-07-26 15:00:20,903 INFO sqlalchemy.engine.Engine COMMIT
+INFO:     Started server process [33639]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  StatReload detected changes in 'comprehensive_test.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [33639]
+2025-07-26 15:01:11,630 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-07-26 15:01:11,631 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("users")
+2025-07-26 15:01:11,631 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-07-26 15:01:11,631 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("service_providers")
+2025-07-26 15:01:11,631 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-07-26 15:01:11,632 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("reviews")
+2025-07-26 15:01:11,632 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-07-26 15:01:11,632 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("chat_messages")
+2025-07-26 15:01:11,632 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-07-26 15:01:11,632 INFO sqlalchemy.engine.Engine COMMIT
+2025-07-26 15:01:11,679 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-07-26 15:01:11,680 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("users")
+2025-07-26 15:01:11,680 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-07-26 15:01:11,680 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("service_providers")
+2025-07-26 15:01:11,680 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-07-26 15:01:11,680 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("reviews")
+2025-07-26 15:01:11,680 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-07-26 15:01:11,681 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("chat_messages")
+2025-07-26 15:01:11,681 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-07-26 15:01:11,681 INFO sqlalchemy.engine.Engine COMMIT
+INFO:     Started server process [33761]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+2025-07-26 15:01:24,601 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-07-26 15:01:24,606 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.email AS users_email, users.name AS users_name, users.phone AS users_phone, users.password_hash AS users_password_hash, users.user_type AS users_user_type, users.address AS users_address, users.county AS users_county, users.sub_county AS users_sub_county, users.ward AS users_ward, users.postal_code AS users_postal_code, users.landmark AS users_landmark, users.full_address AS users_full_address, users.latitude AS users_latitude, users.longitude AS users_longitude, users.city AS users_city, users.state AS users_state, users.zip_code AS users_zip_code, users.is_active AS users_is_active, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+WHERE users.email = ?
+ LIMIT ? OFFSET ?
+2025-07-26 15:01:24,606 INFO sqlalchemy.engine.Engine [generated in 0.00032s] ('comprehensive.test@example.com', 1, 0)
+(trapped) error reading bcrypt version
+Traceback (most recent call last):
+  File "/home/reginaldkyalo/codes/service-matching-website/venv/lib/python3.13/site-packages/passlib/handlers/bcrypt.py", line 620, in _load_backend_mixin
+    version = _bcrypt.__about__.__version__
+              ^^^^^^^^^^^^^^^^^
+AttributeError: module 'bcrypt' has no attribute '__about__'
+2025-07-26 15:01:24,920 INFO sqlalchemy.engine.Engine INSERT INTO users (email, name, phone, password_hash, user_type, address, county, sub_county, ward, postal_code, landmark, full_address, latitude, longitude, city, state, zip_code, is_active, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING id, created_at
+2025-07-26 15:01:24,921 INFO sqlalchemy.engine.Engine [generated in 0.00033s] ('comprehensive.test@example.com', 'Comprehensive Test User', '+254700111222', '$2b$12$J1FZMbuUg.W2pwTfRHqUsufXVUx1GbQHi3b99f9vjQRXGnDFhp0jO', 'client', 'Kileleshwa Estate', 'Nairobi', 'Dagoretti North', 'Kileleshwa', '00100', 'Near Westgate Mall', 'Kileleshwa Estate, Nairobi, Kenya', -1.2634, 36.8084, 'Nairobi', 'Dagoretti North', '00100', 1, None)
+2025-07-26 15:01:24,921 INFO sqlalchemy.engine.Engine COMMIT
+2025-07-26 15:01:25,041 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-07-26 15:01:25,042 INFO sqlalchemy.engine.Engine SELECT users.id, users.email, users.name, users.phone, users.password_hash, users.user_type, users.address, users.county, users.sub_county, users.ward, users.postal_code, users.landmark, users.full_address, users.latitude, users.longitude, users.city, users.state, users.zip_code, users.is_active, users.created_at, users.updated_at 
+FROM users 
+WHERE users.id = ?
+2025-07-26 15:01:25,042 INFO sqlalchemy.engine.Engine [generated in 0.00015s] (2,)
+2025-07-26 15:01:25,047 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:40524 - "POST /api/users/register HTTP/1.1" 200 OK
+2025-07-26 15:01:29,054 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-07-26 15:01:29,054 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.email AS users_email, users.name AS users_name, users.phone AS users_phone, users.password_hash AS users_password_hash, users.user_type AS users_user_type, users.address AS users_address, users.county AS users_county, users.sub_county AS users_sub_county, users.ward AS users_ward, users.postal_code AS users_postal_code, users.landmark AS users_landmark, users.full_address AS users_full_address, users.latitude AS users_latitude, users.longitude AS users_longitude, users.city AS users_city, users.state AS users_state, users.zip_code AS users_zip_code, users.is_active AS users_is_active, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+WHERE users.email = ?
+ LIMIT ? OFFSET ?
+2025-07-26 15:01:29,054 INFO sqlalchemy.engine.Engine [cached since 4.448s ago] ('comprehensive.test@example.com', 1, 0)
+2025-07-26 15:01:29,055 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:40540 - "POST /api/users/register HTTP/1.1" 400 Bad Request
+WARNING:  StatReload detected changes in 'comprehensive_test.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [33761]
+2025-07-26 15:14:04,688 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-07-26 15:14:04,688 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("users")
+2025-07-26 15:14:04,688 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-07-26 15:14:04,689 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("service_providers")
+2025-07-26 15:14:04,689 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-07-26 15:14:04,690 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("reviews")
+2025-07-26 15:14:04,690 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-07-26 15:14:04,690 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("chat_messages")
+2025-07-26 15:14:04,690 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-07-26 15:14:04,690 INFO sqlalchemy.engine.Engine COMMIT
+2025-07-26 15:14:04,735 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-07-26 15:14:04,736 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("users")
+2025-07-26 15:14:04,736 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-07-26 15:14:04,736 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("service_providers")
+2025-07-26 15:14:04,737 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-07-26 15:14:04,737 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("reviews")
+2025-07-26 15:14:04,737 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-07-26 15:14:04,737 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("chat_messages")
+2025-07-26 15:14:04,738 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-07-26 15:14:04,738 INFO sqlalchemy.engine.Engine COMMIT
+INFO:     Started server process [34197]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  StatReload detected changes in 'app/routers/users.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [34197]
+2025-07-26 15:15:29,556 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-07-26 15:15:29,557 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("users")
+2025-07-26 15:15:29,557 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-07-26 15:15:29,557 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("service_providers")
+2025-07-26 15:15:29,557 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-07-26 15:15:29,558 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("reviews")
+2025-07-26 15:15:29,558 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-07-26 15:15:29,558 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("chat_messages")
+2025-07-26 15:15:29,558 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-07-26 15:15:29,558 INFO sqlalchemy.engine.Engine COMMIT
+2025-07-26 15:15:29,606 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-07-26 15:15:29,607 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("users")
+2025-07-26 15:15:29,607 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-07-26 15:15:29,607 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("service_providers")
+2025-07-26 15:15:29,607 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-07-26 15:15:29,608 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("reviews")
+2025-07-26 15:15:29,608 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-07-26 15:15:29,608 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("chat_messages")
+2025-07-26 15:15:29,608 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-07-26 15:15:29,609 INFO sqlalchemy.engine.Engine COMMIT
+INFO:     Started server process [34220]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  StatReload detected changes in 'app/routers/users.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [34220]
+2025-07-26 15:15:36,012 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-07-26 15:15:36,013 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("users")
+2025-07-26 15:15:36,013 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-07-26 15:15:36,014 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("service_providers")
+2025-07-26 15:15:36,014 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-07-26 15:15:36,014 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("reviews")
+2025-07-26 15:15:36,014 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-07-26 15:15:36,014 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("chat_messages")
+2025-07-26 15:15:36,014 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-07-26 15:15:36,015 INFO sqlalchemy.engine.Engine COMMIT
+2025-07-26 15:15:36,061 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-07-26 15:15:36,061 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("users")
+2025-07-26 15:15:36,061 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-07-26 15:15:36,062 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("service_providers")
+2025-07-26 15:15:36,062 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-07-26 15:15:36,062 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("reviews")
+2025-07-26 15:15:36,062 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-07-26 15:15:36,062 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("chat_messages")
+2025-07-26 15:15:36,063 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-07-26 15:15:36,063 INFO sqlalchemy.engine.Engine COMMIT
+INFO:     Started server process [34228]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  StatReload detected changes in 'app/routers/users.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [34228]
+2025-07-26 15:15:41,556 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-07-26 15:15:41,556 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("users")
+2025-07-26 15:15:41,556 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-07-26 15:15:41,557 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("service_providers")
+2025-07-26 15:15:41,557 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-07-26 15:15:41,557 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("reviews")
+2025-07-26 15:15:41,557 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-07-26 15:15:41,557 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("chat_messages")
+2025-07-26 15:15:41,557 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-07-26 15:15:41,557 INFO sqlalchemy.engine.Engine COMMIT
+2025-07-26 15:15:41,602 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-07-26 15:15:41,603 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("users")
+2025-07-26 15:15:41,603 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-07-26 15:15:41,603 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("service_providers")
+2025-07-26 15:15:41,603 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-07-26 15:15:41,603 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("reviews")
+2025-07-26 15:15:41,603 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-07-26 15:15:41,604 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("chat_messages")
+2025-07-26 15:15:41,604 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-07-26 15:15:41,604 INFO sqlalchemy.engine.Engine COMMIT
+INFO:     Started server process [34233]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  StatReload detected changes in 'app/routers/users.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [34233]
+2025-07-26 15:15:49,805 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-07-26 15:15:49,805 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("users")
+2025-07-26 15:15:49,805 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-07-26 15:15:49,805 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("service_providers")
+2025-07-26 15:15:49,806 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-07-26 15:15:49,806 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("reviews")
+2025-07-26 15:15:49,806 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-07-26 15:15:49,806 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("chat_messages")
+2025-07-26 15:15:49,806 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-07-26 15:15:49,806 INFO sqlalchemy.engine.Engine COMMIT
+2025-07-26 15:15:49,851 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-07-26 15:15:49,851 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("users")
+2025-07-26 15:15:49,851 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-07-26 15:15:49,852 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("service_providers")
+2025-07-26 15:15:49,852 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-07-26 15:15:49,852 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("reviews")
+2025-07-26 15:15:49,852 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-07-26 15:15:49,852 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("chat_messages")
+2025-07-26 15:15:49,852 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-07-26 15:15:49,852 INFO sqlalchemy.engine.Engine COMMIT
+INFO:     Started server process [34257]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  StatReload detected changes in 'app/routers/users.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [34257]
+2025-07-26 15:15:56,656 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-07-26 15:15:56,656 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("users")
+2025-07-26 15:15:56,656 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-07-26 15:15:56,657 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("service_providers")
+2025-07-26 15:15:56,657 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-07-26 15:15:56,657 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("reviews")
+2025-07-26 15:15:56,657 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-07-26 15:15:56,657 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("chat_messages")
+2025-07-26 15:15:56,657 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-07-26 15:15:56,657 INFO sqlalchemy.engine.Engine COMMIT
+2025-07-26 15:15:56,703 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-07-26 15:15:56,703 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("users")
+2025-07-26 15:15:56,703 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-07-26 15:15:56,704 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("service_providers")
+2025-07-26 15:15:56,704 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-07-26 15:15:56,704 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("reviews")
+2025-07-26 15:15:56,704 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-07-26 15:15:56,704 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("chat_messages")
+2025-07-26 15:15:56,704 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-07-26 15:15:56,704 INFO sqlalchemy.engine.Engine COMMIT
+INFO:     Started server process [34262]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+2025-07-26 16:09:49,542 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-07-26 16:09:49,547 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.email AS users_email, users.name AS users_name, users.phone AS users_phone, users.password_hash AS users_password_hash, users.user_type AS users_user_type, users.address AS users_address, users.county AS users_county, users.sub_county AS users_sub_county, users.ward AS users_ward, users.postal_code AS users_postal_code, users.landmark AS users_landmark, users.full_address AS users_full_address, users.latitude AS users_latitude, users.longitude AS users_longitude, users.city AS users_city, users.state AS users_state, users.zip_code AS users_zip_code, users.is_active AS users_is_active, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+WHERE users.email = ?
+ LIMIT ? OFFSET ?
+2025-07-26 16:09:49,548 INFO sqlalchemy.engine.Engine [generated in 0.00030s] ('comprehensive.test@example.com', 1, 0)
+2025-07-26 16:09:49,549 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:38338 - "POST /api/users/register HTTP/1.1" 400 Bad Request
+2025-07-26 16:09:49,554 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-07-26 16:09:49,554 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.email AS users_email, users.name AS users_name, users.phone AS users_phone, users.password_hash AS users_password_hash, users.user_type AS users_user_type, users.address AS users_address, users.county AS users_county, users.sub_county AS users_sub_county, users.ward AS users_ward, users.postal_code AS users_postal_code, users.landmark AS users_landmark, users.full_address AS users_full_address, users.latitude AS users_latitude, users.longitude AS users_longitude, users.city AS users_city, users.state AS users_state, users.zip_code AS users_zip_code, users.is_active AS users_is_active, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+WHERE users.email = ?
+ LIMIT ? OFFSET ?
+2025-07-26 16:09:49,554 INFO sqlalchemy.engine.Engine [cached since 0.007039s ago] ('comprehensive.test@example.com', 1, 0)
+2025-07-26 16:09:49,555 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:38344 - "POST /api/users/register HTTP/1.1" 400 Bad Request
+2025-07-26 16:17:03,678 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-07-26 16:17:03,678 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.email AS users_email, users.name AS users_name, users.phone AS users_phone, users.password_hash AS users_password_hash, users.user_type AS users_user_type, users.address AS users_address, users.county AS users_county, users.sub_county AS users_sub_county, users.ward AS users_ward, users.postal_code AS users_postal_code, users.landmark AS users_landmark, users.full_address AS users_full_address, users.latitude AS users_latitude, users.longitude AS users_longitude, users.city AS users_city, users.state AS users_state, users.zip_code AS users_zip_code, users.is_active AS users_is_active, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+WHERE users.email = ?
+ LIMIT ? OFFSET ?
+2025-07-26 16:17:03,678 INFO sqlalchemy.engine.Engine [cached since 434.1s ago] ('comprehensive.test@example.com', 1, 0)
+2025-07-26 16:17:03,679 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:51686 - "POST /api/users/register HTTP/1.1" 400 Bad Request
+2025-07-26 16:17:03,683 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-07-26 16:17:03,684 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.email AS users_email, users.name AS users_name, users.phone AS users_phone, users.password_hash AS users_password_hash, users.user_type AS users_user_type, users.address AS users_address, users.county AS users_county, users.sub_county AS users_sub_county, users.ward AS users_ward, users.postal_code AS users_postal_code, users.landmark AS users_landmark, users.full_address AS users_full_address, users.latitude AS users_latitude, users.longitude AS users_longitude, users.city AS users_city, users.state AS users_state, users.zip_code AS users_zip_code, users.is_active AS users_is_active, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+WHERE users.email = ?
+ LIMIT ? OFFSET ?
+2025-07-26 16:17:03,684 INFO sqlalchemy.engine.Engine [cached since 434.1s ago] ('comprehensive.test@example.com', 1, 0)
+2025-07-26 16:17:03,685 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:51702 - "POST /api/users/register HTTP/1.1" 400 Bad Request
+INFO:     127.0.0.1:59474 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59474 - "GET /static/js/globals.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59508 - "GET /static/js/ai-analysis.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59512 - "GET /static/js/providers.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59498 - "GET /static/js/categories.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59480 - "GET /static/js/ui-utils.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59492 - "GET /static/js/auth.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59508 - "GET /static/js/chat.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59480 - "GET /static/js/main.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59474 - "GET /api/problems/categories HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59474 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:37446 - "GET /login HTTP/1.1" 200 OK
+2025-07-26 16:17:57,743 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-07-26 16:17:57,744 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.email AS users_email, users.name AS users_name, users.phone AS users_phone, users.password_hash AS users_password_hash, users.user_type AS users_user_type, users.address AS users_address, users.county AS users_county, users.sub_county AS users_sub_county, users.ward AS users_ward, users.postal_code AS users_postal_code, users.landmark AS users_landmark, users.full_address AS users_full_address, users.latitude AS users_latitude, users.longitude AS users_longitude, users.city AS users_city, users.state AS users_state, users.zip_code AS users_zip_code, users.is_active AS users_is_active, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+WHERE users.email = ?
+ LIMIT ? OFFSET ?
+2025-07-26 16:17:57,744 INFO sqlalchemy.engine.Engine [cached since 488.2s ago] ('admin@gmail.com', 1, 0)
+2025-07-26 16:17:57,745 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:37446 - "POST /api/users/login HTTP/1.1" 401 Unauthorized
+WARNING:  StatReload detected changes in 'app/routers/users.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [34262]
+2025-07-26 16:18:47,236 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-07-26 16:18:47,236 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("users")
+2025-07-26 16:18:47,236 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-07-26 16:18:47,237 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("service_providers")
+2025-07-26 16:18:47,237 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-07-26 16:18:47,237 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("reviews")
+2025-07-26 16:18:47,237 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-07-26 16:18:47,238 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("chat_messages")
+2025-07-26 16:18:47,238 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-07-26 16:18:47,238 INFO sqlalchemy.engine.Engine COMMIT
+2025-07-26 16:18:47,289 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-07-26 16:18:47,289 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("users")
+2025-07-26 16:18:47,289 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-07-26 16:18:47,289 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("service_providers")
+2025-07-26 16:18:47,289 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-07-26 16:18:47,290 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("reviews")
+2025-07-26 16:18:47,290 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-07-26 16:18:47,290 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("chat_messages")
+2025-07-26 16:18:47,290 INFO sqlalchemy.engine.Engine [raw sql] ()
+2025-07-26 16:18:47,290 INFO sqlalchemy.engine.Engine COMMIT
+INFO:     Started server process [35721]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Provider Signup - ServiceMatch</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body { padding: 20px; font-family: Arial, sans-serif; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 5px; }
+        .success { background-color: #d4edda; border-color: #c3e6cb; color: #155724; }
+        .error { background-color: #f8d7da; border-color: #f5c6cb; color: #721c24; }
+        .warning { background-color: #fff3cd; border-color: #ffeaa7; color: #856404; }
+    </style>
+</head>
+<body>
+    <h1>🧪 Provider Signup System Test</h1>
+    
+    <div class="test-section" id="jsTest">
+        <h3>JavaScript Functions Test</h3>
+        <button onclick="testValidationFunctions()" class="bg-blue-500 text-white px-4 py-2 rounded">
+            Test Validation Functions
+        </button>
+        <div id="jsResults"></div>
+    </div>
+    
+    <div class="test-section" id="progressTest">
+        <h3>Progress Bar Test</h3>
+        <div class="w-full bg-gray-200 rounded-full h-2 mb-4">
+            <div class="bg-indigo-600 h-2 rounded-full transition-all duration-300" id="testProgressBar" style="width: 25%"></div>
+        </div>
+        <div class="space-x-2">
+            <button onclick="setProgress(25)" class="bg-indigo-500 text-white px-3 py-1 rounded text-sm">25%</button>
+            <button onclick="setProgress(50)" class="bg-indigo-500 text-white px-3 py-1 rounded text-sm">50%</button>
+            <button onclick="setProgress(75)" class="bg-indigo-500 text-white px-3 py-1 rounded text-sm">75%</button>
+            <button onclick="setProgress(100)" class="bg-indigo-500 text-white px-3 py-1 rounded text-sm">100%</button>
+        </div>
+    </div>
+    
+    <div class="test-section" id="locationTest">
+        <h3>Location Data Test</h3>
+        <button onclick="testLocationData()" class="bg-green-500 text-white px-4 py-2 rounded">
+            Test Location Loading
+        </button>
+        <div id="locationResults"></div>
+    </div>
+    
+    <div class="test-section">
+        <h3>Quick Navigation Test</h3>
+        <p>Use this to quickly test the main provider signup page:</p>
+        <a href="provider-signup" class="bg-indigo-600 text-white px-4 py-2 rounded inline-block">
+            Open Provider Signup
+        </a>
+    </div>
+    
+    <script src="static/js/kenya-locations.js"></script>
+    <script>
+        // Test validation functions
+        function testValidationFunctions() {
+            const results = document.getElementById('jsResults');
+            
+            // Test if functions exist
+            const tests = [
+                {
+                    name: 'isValidEmail function',
+                    test: () => typeof isValidEmail === 'function',
+                    details: 'Checks if email validation function exists'
+                },
+                {
+                    name: 'isValidKenyanPhone function', 
+                    test: () => typeof isValidKenyanPhone === 'function',
+                    details: 'Checks if phone validation function exists'
+                },
+                {
+                    name: 'Email validation test',
+                    test: () => isValidEmail('test@example.com') && !isValidEmail('invalid-email'),
+                    details: 'Tests valid and invalid email formats'
+                },
+                {
+                    name: 'Phone validation test',
+                    test: () => isValidKenyanPhone('+254712345678') && isValidKenyanPhone('0712345678'),
+                    details: 'Tests valid Kenyan phone formats'
+                }
+            ];
+            
+            let html = '<div class="mt-3">';
+            tests.forEach(test => {
+                try {
+                    const passed = test.test();
+                    html += `<div class="flex items-center space-x-2 py-1">
+                        <span class="${passed ? 'text-green-600' : 'text-red-600'}">
+                            ${passed ? '✅' : '❌'}
+                        </span>
+                        <span class="font-medium">${test.name}</span>
+                        <span class="text-sm text-gray-600">- ${test.details}</span>
+                    </div>`;
+                } catch (error) {
+                    html += `<div class="flex items-center space-x-2 py-1">
+                        <span class="text-red-600">❌</span>
+                        <span class="font-medium">${test.name}</span>
+                        <span class="text-sm text-red-600">- Error: ${error.message}</span>
+                    </div>`;
+                }
+            });
+            html += '</div>';
+            
+            results.innerHTML = html;
+        }
+        
+        // Test progress bar
+        function setProgress(percentage) {
+            document.getElementById('testProgressBar').style.width = percentage + '%';
+        }
+        
+        // Test location data loading
+        function testLocationData() {
+            const results = document.getElementById('locationResults');
+            
+            try {
+                if (typeof kenyaAdministrativeData === 'undefined') {
+                    results.innerHTML = '<div class="text-red-600 mt-3">❌ Kenya administrative data not loaded</div>';
+                    return;
+                }
+                
+                const counties = kenyaAdministrativeData.counties;
+                const nairobiCounty = counties.find(c => c.name === 'Nairobi');
+                const totalAreas = counties.reduce((total, county) => {
+                    return total + county.subCounties.reduce((subTotal, subCounty) => {
+                        return subTotal + subCounty.wards.reduce((wardTotal, ward) => {
+                            return wardTotal + (ward.areas ? ward.areas.length : 0);
+                        }, 0);
+                    }, 0);
+                }, 0);
+                
+                results.innerHTML = `
+                    <div class="mt-3 space-y-2">
+                        <div class="text-green-600">✅ Kenya administrative data loaded successfully</div>
+                        <div class="text-sm">
+                            <div>📊 Total counties: ${counties.length}</div>
+                            <div>📊 Total areas/estates: ${totalAreas}</div>
+                            <div>📍 Nairobi sub-counties: ${nairobiCounty ? nairobiCounty.subCounties.length : 'Not found'}</div>
+                        </div>
+                    </div>
+                `;
+            } catch (error) {
+                results.innerHTML = `<div class="text-red-600 mt-3">❌ Error testing location data: ${error.message}</div>`;
+            }
+        }
+        
+        // Mock validation functions if not loaded
+        if (typeof isValidEmail === 'undefined') {
+            window.isValidEmail = function(email) {
+                return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+            };
+        }
+        
+        if (typeof isValidKenyanPhone === 'undefined') {
+            window.isValidKenyanPhone = function(phone) {
+                const cleanPhone = phone.replace(/[\s\-\+]/g, '');
+                return /^(254[0-9]{9}|0[0-9]{9}|[0-9]{9})$/.test(cleanPhone);
+            };
+        }
+        
+        // Auto-run tests on load
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🧪 Test page loaded - ready to test provider signup functionality');
+        });
+    </script>
+</body>
+</html>

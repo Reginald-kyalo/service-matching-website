@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join ServiceMatch - Service Provider Application</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Google Maps API integration is currently disabled for security -->
+    <!-- To enable Google Maps, uncomment the following line and add your API key: -->
+    <!-- <script async defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&libraries=places&callback=initMap"></script> -->
+    <style>
+        .step-indicator {
+            transition: all 0.3s ease;
+        }
+        .step-indicator.active {
+            background-color: #4F46E5;
+            color: white;
+        }
+        .step-indicator.completed {
+            background-color: #10B981;
+            color: white;
+        }
+        .form-section {
+            display: none;
+        }
+        .form-section.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .kenya-location-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 0.5rem;
+        }
+        
+        .map-container {
+            height: 400px;
+            border-radius: 8px;
+            border: 2px solid #e5e7eb;
+            overflow: hidden;
+        }
+        
+        .location-hierarchy {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+        
+        .location-step {
+            margin-bottom: 1rem;
+        }
+        
+        .location-validation-success {
+            border-color: #10B981 !important;
+            background-color: #ECFDF5;
+        }
+        
+        .location-validation-error {
+            border-color: #EF4444 !important;
+            background-color: #FEF2F2;
+        }
+        .map-container {
+            height: 400px;
+            width: 100%;
+            border-radius: 0.5rem;
+            border: 2px solid #e5e7eb;
+        }
+        .location-hierarchy {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            padding: 1rem;
+        }
+        .location-step {
+            margin-bottom: 1rem;
+        }
+        .location-step:last-child {
+            margin-bottom: 0;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <h1 class="text-2xl font-bold text-indigo-600">ServiceMatch</h1>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button onclick="resetForm()" class="text-gray-500 hover:text-red-600 px-3 py-2 rounded-md text-sm font-medium" title="Clear all progress">
+                        <i class="fas fa-trash mr-1"></i> Clear Progress
+                    </button>
+                    <a href="/" class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">Home</a>
+                    <div id="authSection">
+                        <!-- Auth buttons will be inserted by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header Section -->
+    <div class="bg-indigo-600">
+        <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h2 class="text-3xl font-extrabold text-white sm:text-4xl">
+                    Join ServiceMatch as a Provider
+                </h2>
+                <p class="mt-4 text-xl text-indigo-100">
+                    Connect with customers across Kenya and grow your service business
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Progress Indicator -->
+    <div class="max-w-4xl mx-auto py-8 px-4">
+        <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center">
+                <div class="step-indicator active flex items-center justify-center w-10 h-10 rounded-full bg-gray-300 text-gray-600 font-semibold mr-3" id="step1">
+                    1
+                </div>
+                <span class="text-sm font-medium text-gray-900 mr-6">Basic Info</span>
+            </div>
+            <div class="flex items-center">
+                <div class="step-indicator flex items-center justify-center w-10 h-10 rounded-full bg-gray-300 text-gray-600 font-semibold mr-3" id="step2">
+                    2
+                </div>
+                <span class="text-sm font-medium text-gray-600 mr-6">Services</span>
+            </div>
+            <div class="flex items-center">
+                <div class="step-indicator flex items-center justify-center w-10 h-10 rounded-full bg-gray-300 text-gray-600 font-semibold mr-3" id="step3">
+                    3
+                </div>
+                <span class="text-sm font-medium text-gray-600 mr-6">Location</span>
+            </div>
+            <div class="flex items-center">
+                <div class="step-indicator flex items-center justify-center w-10 h-10 rounded-full bg-gray-300 text-gray-600 font-semibold mr-3" id="step4">
+                    4
+                </div>
+                <span class="text-sm font-medium text-gray-600">Pricing</span>
+            </div>
+        </div>
+        <!-- Single progress bar for all steps -->
+        <div class="w-full bg-gray-200 rounded-full h-2">
+            <div class="bg-indigo-600 h-2 rounded-full transition-all duration-300" id="progressBar" style="width: 25%"></div>
+        </div>
+    </div>
+
+    <!-- Application Form -->
+    <div class="max-w-4xl mx-auto pb-12 px-4">
+        <form id="providerSignupForm" class="bg-white rounded-xl shadow-lg p-8">
+            
+            <!-- Step 1: Basic Information -->
+            <div class="form-section active" id="section1">
+                <h3 class="text-2xl font-semibold text-gray-900 mb-6">Basic Information</h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Full Name *</label>
+                        <input type="text" id="fullName" name="fullName" required 
+                               class="w-full border-2 border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Business Name (Optional)</label>
+                        <input type="text" id="businessName" name="businessName"
+                               class="w-full border-2 border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Email Address *</label>
+                        <input type="email" id="email" name="email" required
+                               class="w-full border-2 border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Phone Number *</label>
+                        <input type="tel" id="phone" name="phone" required placeholder="+254 XXX XXX XXX"
+                               class="w-full border-2 border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                    </div>
+                </div>
+                
+                <div class="mt-6">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Business Description</label>
+                    <textarea id="description" name="description" rows="4" 
+                              placeholder="Tell customers about your experience, qualifications, and what makes your service special..."
+                              class="w-full border-2 border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"></textarea>
+                </div>
+                
+                <div class="flex justify-end mt-8">
+                    <button type="button" onclick="nextStep()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-lg font-medium">
+                        Next Step <i class="fas fa-arrow-right ml-2"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Step 2: Services -->
+            <div class="form-section" id="section2">
+                <h3 class="text-2xl font-semibold text-gray-900 mb-6">Services & Specialties</h3>
+                
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-gray-700 mb-3">Service Categories & Specialties *</label>
+                    <p class="text-sm text-gray-500 mb-4">
+                        You can either select entire service categories or choose specific services within each category. 
+                        Click "Show specific services" to see individual services within a category.
+                    </p>
+                    <div id="serviceCategoriesGrid" class="space-y-4 border-2 border-gray-200 rounded-lg p-4 transition-colors">
+                        <!-- Categories will be loaded here -->
+                    </div>
+                    
+                    <!-- Selection Summary -->
+                    <div id="selectionSummary" class="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-lg hidden">
+                        <h4 class="font-medium text-blue-800 mb-2">Your Service Selection:</h4>
+                        <div id="summaryContent" class="text-sm text-blue-700"></div>
+                    </div>
+                </div>
+                
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Response Time *</label>
+                    <p class="text-sm text-gray-500 mb-3">How quickly can you typically respond to customer requests?</p>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                        <label class="flex items-center p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-indigo-300">
+                            <input type="radio" name="responseTime" value="same_day" class="text-indigo-600 mr-3">
+                            <div>
+                                <div class="font-medium">Same Day</div>
+                                <div class="text-sm text-gray-500">Within 24 hours</div>
+                            </div>
+                        </label>
+                        <label class="flex items-center p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-indigo-300">
+                            <input type="radio" name="responseTime" value="within_48h" class="text-indigo-600 mr-3">
+                            <div>
+                                <div class="font-medium">Within 2 Days</div>
+                                <div class="text-sm text-gray-500">48 hours response</div>
+                            </div>
+                        </label>
+                        <label class="flex items-center p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-indigo-300">
+                            <input type="radio" name="responseTime" value="within_week" class="text-indigo-600 mr-3">
+                            <div>
+                                <div class="font-medium">Within a Week</div>
+                                <div class="text-sm text-gray-500">7 days response</div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="flex justify-between mt-8">
+                    <button type="button" onclick="prevStep()" class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-3 rounded-lg font-medium">
+                        <i class="fas fa-arrow-left mr-2"></i> Previous
+                    </button>
+                    <button type="button" onclick="nextStep()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-lg font-medium">
+                        Next Step <i class="fas fa-arrow-right ml-2"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Step 3: Location -->
+            <div class="form-section" id="section3">
+                <h3 class="text-2xl font-semibold text-gray-900 mb-6">Service Location & Coverage</h3>
+                
+                <!-- Location Selection Hierarchy -->
+                <div class="mb-8">
+                    <label class="block text-sm font-medium text-gray-700 mb-3">Primary Service Location *</label>
+                    <p class="text-sm text-gray-500 mb-4">Please specify your exact service location using the hierarchy below</p>
+                    
+                    <div class="location-hierarchy">
+                        <!-- County Selection -->
+                        <div class="location-step">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">County *</label>
+                            <select id="county" name="county" required
+                                    class="w-full border-2 border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                                    onchange="loadSubCounties()">
+                                <option value="">Select County</option>
+                                <!-- Counties will be loaded here -->
+                            </select>
+                        </div>
+                        
+                        <!-- Sub-County Selection -->
+                        <div class="location-step">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Sub-County/Constituency *</label>
+                            <select id="subCounty" name="subCounty" required disabled
+                                    class="w-full border-2 border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                                    onchange="loadWards()">
+                                <option value="">Select Sub-County</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Ward Selection -->
+                        <div class="location-step">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Ward *</label>
+                            <select id="ward" name="ward" required disabled
+                                    class="w-full border-2 border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                                    onchange="loadLocations()">
+                                <option value="">Select Ward</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Specific Location/Estate -->
+                        <div class="location-step">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Specific Area/Estate</label>
+                            <select id="specificLocation" name="specificLocation"
+                                    class="w-full border-2 border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                                <option value="">Select Specific Area (Optional)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Google Maps Integration (Optional) -->
+                <div class="mb-8" id="mapsSection">
+                    <label class="block text-sm font-medium text-gray-700 mb-3">Precise Location (Map) - Optional</label>
+                    <p class="text-sm text-gray-500 mb-4">Click on the map to set your exact service location or search for an address. You can skip this section if you prefer.</p>
+                    
+                    <!-- Maps Availability Check -->
+                    <div id="mapsAvailable" class="hidden">
+                        <!-- Address Search -->
+                        <div class="mb-4">
+                            <div class="flex gap-2">
+                                <input type="text" id="addressSearch" placeholder="Search for your address or landmark..."
+                                       class="flex-1 border-2 border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                                <button type="button" onclick="searchAddress()" 
+                                        class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-lg font-medium">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                                <button type="button" onclick="getCurrentLocation()" 
+                                        class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-medium"
+                                        title="Use my current location">
+                                    <i class="fas fa-location-arrow"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Map Container -->
+                        <div class="map-container mb-4">
+                            <div id="map" style="height: 100%; width: 100%;"></div>
+                        </div>
+                        
+                        <!-- Selected Coordinates Display -->
+                        <div id="coordinatesDisplay" class="mt-3 p-3 bg-gray-50 rounded-lg hidden">
+                            <p class="text-sm text-gray-700">
+                                <i class="fas fa-map-pin text-red-500 mr-2"></i>
+                                Selected Location: <span id="selectedAddress">Not selected</span>
+                            </p>
+                            <p class="text-xs text-gray-500 mt-1">
+                                Coordinates: <span id="selectedCoordinates">-</span>
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Maps Not Available Message -->
+                    <div id="mapsNotAvailable" class="p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+                        <div class="flex items-start">
+                            <i class="fas fa-info-circle text-yellow-600 mr-3 mt-0.5"></i>
+                            <div>
+                                <h4 class="font-medium text-yellow-800">Maps Currently Unavailable</h4>
+                                <p class="text-sm text-yellow-700 mt-1">
+                                    The interactive map feature is temporarily unavailable. You can still complete your application using the administrative location selection above.
+                                </p>
+                                <div class="mt-3">
+                                    <label class="block text-sm font-medium text-yellow-800 mb-2">Manual Address Entry (Optional)</label>
+                                    <textarea id="manualAddress" name="manualAddress" rows="2" 
+                                              placeholder="Enter your full address including landmarks (e.g., House 123, ABC Road, near XYZ Mall, Nairobi)"
+                                              class="w-full border-2 border-yellow-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Service Coverage Area -->
+                <div class="mb-8">
+                    <label class="block text-sm font-medium text-gray-700 mb-3">Service Coverage Radius</label>
+                    <p class="text-sm text-gray-500 mb-4">How far are you willing to travel from your base location?</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Coverage Radius</label>
+                            <select id="serviceRadius" name="serviceRadius" 
+                                    class="w-full border-2 border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                                    onchange="updateRadiusDisplay()">
+                                <option value="2">Within 2 km</option>
+                                <option value="5">Within 5 km</option>
+                                <option value="10">Within 10 km</option>
+                                <option value="15">Within 15 km</option>
+                                <option value="20" selected>Within 20 km</option>
+                                <option value="30">Within 30 km</option>
+                                <option value="50">Within 50 km</option>
+                                <option value="county">Entire County</option>
+                                <option value="region">Entire Region</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Travel Fee (Optional)</label>
+                            <div class="relative">
+                                <span class="absolute left-3 top-3 text-gray-500">KSH</span>
+                                <input type="number" id="travelFee" name="travelFee" min="0" step="50"
+                                       placeholder="Travel charge per km"
+                                       class="w-full border-2 border-gray-300 rounded-lg pl-16 pr-4 py-3 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Coverage Area Preview -->
+                    <div id="coveragePreview" class="mt-4 p-3 bg-blue-50 rounded-lg">
+                        <p class="text-sm text-blue-700">
+                            <i class="fas fa-info-circle mr-2"></i>
+                            <span id="coverageText">You will serve customers within 20 km of your selected location</span>
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Additional Location Information -->
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-gray-700 mb-3">Additional Location Details</label>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Building/Landmark</label>
+                            <input type="text" id="landmark" name="landmark" 
+                                   placeholder="e.g., Nakumatt Junction, ABC Plaza"
+                                   class="w-full border-2 border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Postal Code</label>
+                            <input type="text" id="postalCode" name="postalCode" 
+                                   placeholder="e.g., 00100"
+                                   class="w-full border-2 border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Service Areas Description</label>
+                        <textarea id="serviceAreasDescription" name="serviceAreasDescription" rows="3" 
+                                  placeholder="Describe the specific areas you serve, any restrictions, or special coverage notes..."
+                                  class="w-full border-2 border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"></textarea>
+                    </div>
+                </div>
+                
+                <!-- Hidden fields for coordinates -->
+                <input type="hidden" id="latitude" name="latitude">
+                <input type="hidden" id="longitude" name="longitude">
+                <input type="hidden" id="fullAddress" name="fullAddress">
+                
+                <div class="flex justify-between mt-8">
+                    <button type="button" onclick="prevStep()" class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-3 rounded-lg font-medium">
+                        <i class="fas fa-arrow-left mr-2"></i> Previous
+                    </button>
+                    <button type="button" onclick="nextStep()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-lg font-medium">
+                        Next Step <i class="fas fa-arrow-right ml-2"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Step 4: Pricing -->
+            <div class="form-section" id="section4">
+                <h3 class="text-2xl font-semibold text-gray-900 mb-6">Pricing Information</h3>
+                
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-gray-700 mb-3">Hourly Rate Range *</label>
+                    <p class="text-sm text-gray-500 mb-4">Set your hourly rate in Kenyan Shillings (KSH)</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Minimum Rate (KSH/hr)</label>
+                            <div class="relative">
+                                <span class="absolute left-3 top-3 text-gray-500">KSH</span>
+                                <input type="number" id="minRate" name="minRate" min="100" step="50" required
+                                       class="w-full border-2 border-gray-300 rounded-lg pl-16 pr-4 py-3 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Maximum Rate (KSH/hr)</label>
+                            <div class="relative">
+                                <span class="absolute left-3 top-3 text-gray-500">KSH</span>
+                                <input type="number" id="maxRate" name="maxRate" min="100" step="50" required
+                                       class="w-full border-2 border-gray-300 rounded-lg pl-16 pr-4 py-3 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4 p-4 bg-blue-50 rounded-lg">
+                        <p class="text-sm text-blue-700">
+                            <i class="fas fa-info-circle mr-2"></i>
+                            Your rate range will be displayed to customers as "KSH <span id="ratePreview">XXX - XXX</span>/hr"
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-gray-700 mb-3">Additional Pricing Notes (Optional)</label>
+                    <textarea id="pricingNotes" name="pricingNotes" rows="3" 
+                              placeholder="Any additional pricing information, minimum charges, travel fees, etc."
+                              class="w-full border-2 border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"></textarea>
+                </div>
+                
+                <div class="flex justify-between mt-8">
+                    <button type="button" onclick="prevStep()" class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-3 rounded-lg font-medium">
+                        <i class="fas fa-arrow-left mr-2"></i> Previous
+                    </button>
+                    <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-lg font-medium">
+                        <i class="fas fa-check mr-2"></i> Submit Application
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+        <div class="flex items-center justify-center min-h-screen px-4">
+            <div class="bg-white rounded-lg shadow-xl max-w-md w-full p-8 text-center">
+                <div class="mb-6">
+                    <div class="mx-auto w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
+                        <i class="fas fa-check text-green-600 text-2xl"></i>
+                    </div>
+                </div>
+                <h3 class="text-2xl font-semibold text-gray-900 mb-4">Application Submitted!</h3>
+                <p class="text-gray-600 mb-6">
+                    Thank you for applying to become a ServiceMatch provider. We'll review your application and send you an email with next steps within 24-48 hours.
+                </p>
+                <button onclick="window.location.href='/'" class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-lg font-medium">
+                    Return to Home
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Google Maps API integration is currently disabled -->
+    <!-- To enable, add your API key and uncomment the script tag in the head section -->
+    
+    <!-- Load required JavaScript files in correct order -->
+    <script src="/static/js/globals.js"></script>
+    <script src="/static/js/auth.js"></script>
+    <script src="/static/js/kenya-locations.js"></script>
+    <script type="module" src="/static/js/service-catalog.js"></script>
+    <script type="module" src="/static/js/provider-signup.js"></script>
+</body>
+</html>

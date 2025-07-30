@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Services - ServiceMatch</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .card-hover {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        .service-card {
+            border: 1px solid #d1d5db;
+            transition: all 0.3s ease;
+        }
+        .service-card.selected {
+            border-color: #6366f1;
+            background-color: #eef2ff;
+        }
+        .service-card:hover {
+            border-color: #9ca3af;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center space-x-4">
+                    <button onclick="window.location.href='/provider-dashboard'" 
+                            class="flex items-center px-3 py-2 text-sm font-medium text-gray-600 hover:text-indigo-600 hover:bg-gray-50 rounded-md transition-colors duration-200">
+                        <i class="fas fa-arrow-left mr-2"></i>
+                        <span>Back to Dashboard</span>
+                    </button>
+                    <div class="flex-shrink-0">
+                        <h1 class="text-2xl font-bold text-indigo-600">ServiceMatch</h1>
+                    </div>
+                    <div class="ml-10">
+                        <span class="text-gray-600 text-sm">Manage Services</span>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div id="providerInfo" class="flex items-center space-x-3">
+                        <!-- Provider info will be loaded here -->
+                    </div>
+                    <button onclick="logout()" class="text-gray-600 hover:text-gray-800 text-sm">
+                        <i class="fas fa-sign-out-alt mr-1"></i> Logout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+        <!-- Header -->
+        <div class="mb-8">
+            <h1 class="text-3xl font-bold text-gray-900">Manage Your Services</h1>
+            <p class="mt-2 text-gray-600">Select the services you provide to help customers find you</p>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="mb-8 flex justify-between items-center">
+            <div class="flex space-x-4">
+                <button onclick="selectAllServices()" class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors">
+                    <i class="fas fa-check-double mr-2"></i>Select All
+                </button>
+                <button onclick="clearAllServices()" class="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 transition-colors">
+                    <i class="fas fa-times mr-2"></i>Clear All
+                </button>
+            </div>
+            <div class="flex space-x-4">
+                <span id="selectedCount" class="text-sm text-gray-600">0 services selected</span>
+                <button onclick="saveServices()" class="px-6 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors">
+                    <i class="fas fa-save mr-2"></i>Save Changes
+                </button>
+            </div>
+        </div>
+
+        <!-- Search and Filter -->
+        <div class="mb-6">
+            <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                <div class="flex-1">
+                    <input type="text" id="serviceSearch" placeholder="Search services..." 
+                           class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                           oninput="filterServices()">
+                </div>
+                <div>
+                    <select id="categoryFilter" onchange="filterServices()" 
+                            class="px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                        <option value="">All Categories</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Services Grid -->
+        <div id="servicesContainer">
+            <div id="servicesGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                <!-- Services will be loaded here -->
+            </div>
+            
+            <!-- Loading State -->
+            <div id="servicesLoading" class="text-center py-12">
+                <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto"></div>
+                <p class="mt-4 text-gray-600">Loading services...</p>
+            </div>
+            
+            <!-- Error State -->
+            <div id="servicesError" class="text-center py-12 hidden">
+                <i class="fas fa-exclamation-triangle text-4xl text-red-500 mb-4"></i>
+                <p class="text-gray-600 mb-4">Failed to load services</p>
+                <button onclick="loadServices()" class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700">
+                    Try Again
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success/Error Notifications -->
+    <div id="notification" class="fixed top-4 right-4 z-50 hidden">
+        <div class="bg-white rounded-lg shadow-lg border-l-4 p-4 max-w-sm">
+            <div class="flex">
+                <div class="flex-shrink-0">
+                    <i id="notificationIcon" class="fas fa-check-circle text-green-500"></i>
+                </div>
+                <div class="ml-3">
+                    <p id="notificationMessage" class="text-sm text-gray-700"></p>
+                </div>
+                <div class="ml-auto pl-3">
+                    <button onclick="hideNotification()" class="text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/static/js/globals.js"></script>
+    <script src="/static/js/auth.js"></script>
+    <script src="/static/js/ui-utils.js"></script>
+    <script type="module" src="/static/js/service-catalog.js"></script>
+    <script type="module" src="/static/js/provider-services.js"></script>
+</body>
+</html>

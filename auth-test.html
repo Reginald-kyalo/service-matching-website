@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auth Test</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-50 p-8">
+    <div class="max-w-md mx-auto bg-white rounded-lg shadow-lg p-6">
+        <h2 class="text-2xl font-bold text-gray-900 mb-6">Authentication Test</h2>
+        
+        <form id="loginForm" class="space-y-4">
+            <div>
+                <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                <input type="email" id="email" value="testuser@example.com" required
+                       class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+            </div>
+            
+            <div>
+                <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+                <input type="password" id="password" value="password123" required
+                       class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+            </div>
+            
+            <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">
+                Login
+            </button>
+        </form>
+        
+        <div id="result" class="mt-4 p-4 bg-gray-100 rounded text-sm"></div>
+        
+        <div class="mt-4 space-y-2">
+            <button onclick="checkAuth()" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                Check Auth State
+            </button>
+            <button onclick="goToProviderSignup()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                Go to Provider Signup
+            </button>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const resultDiv = document.getElementById('result');
+            
+            try {
+                const response = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    // Store authentication data
+                    localStorage.setItem('authToken', data.access_token);
+                    localStorage.setItem('currentUser', JSON.stringify(data.user));
+                    
+                    resultDiv.innerHTML = `
+                        <strong>Login successful!</strong><br>
+                        Token: ${data.access_token.substring(0, 20)}...<br>
+                        User: ${data.user.name} (${data.user.email})<br>
+                        Type: ${data.user.user_type || data.user.type}
+                    `;
+                    resultDiv.className = 'mt-4 p-4 bg-green-100 text-green-800 rounded text-sm';
+                } else {
+                    resultDiv.innerHTML = `<strong>Login failed:</strong> ${data.detail || data.message || 'Unknown error'}`;
+                    resultDiv.className = 'mt-4 p-4 bg-red-100 text-red-800 rounded text-sm';
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<strong>Error:</strong> ${error.message}`;
+                resultDiv.className = 'mt-4 p-4 bg-red-100 text-red-800 rounded text-sm';
+            }
+        });
+        
+        function checkAuth() {
+            const authToken = localStorage.getItem('authToken');
+            const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
+            const resultDiv = document.getElementById('result');
+            
+            resultDiv.innerHTML = `
+                <strong>Auth State:</strong><br>
+                Token: ${authToken ? 'Present (' + authToken.substring(0, 20) + '...)' : 'Not found'}<br>
+                User: ${currentUser ? currentUser.name + ' (' + currentUser.email + ')' : 'Not found'}<br>
+                Type: ${currentUser ? (currentUser.user_type || currentUser.type) : 'N/A'}
+            `;
+            resultDiv.className = 'mt-4 p-4 bg-blue-100 text-blue-800 rounded text-sm';
+        }
+        
+        function goToProviderSignup() {
+            window.location.href = '/provider-signup';
+        }
+    </script>
+</body>
+</html>

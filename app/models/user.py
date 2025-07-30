@@ -10,14 +10,23 @@ class User(Base):
     name = Column(String, nullable=False)
     phone = Column(String, nullable=True)
     password_hash = Column(String, nullable=False)
+    user_type = Column(String, default="client")  # 'client' or 'provider'
     
-    # Location details
-    address = Column(String, nullable=True)
-    city = Column(String, nullable=True)
-    state = Column(String, nullable=True)
-    zip_code = Column(String, nullable=True)
+    # Location details (Kenyan administrative hierarchy)
+    address = Column(String, nullable=True)  # Street address/estate/building
+    county = Column(String, nullable=True)
+    sub_county = Column(String, nullable=True)
+    ward = Column(String, nullable=True)
+    postal_code = Column(String, nullable=True)
+    landmark = Column(String, nullable=True)
+    full_address = Column(String, nullable=True)  # From Google Maps
     latitude = Column(Float, nullable=True)
     longitude = Column(Float, nullable=True)
+    
+    # Legacy location fields (for backward compatibility)
+    city = Column(String, nullable=True)  # Maps to county
+    state = Column(String, nullable=True)  # Maps to sub_county
+    zip_code = Column(String, nullable=True)  # Maps to postal_code
     
     # Profile
     is_active = Column(Boolean, default=True)

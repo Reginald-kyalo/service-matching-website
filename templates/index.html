@@ -7,9 +7,6 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        .gradient-bg {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
         .card-hover {
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
@@ -65,36 +62,400 @@
             }
         }
         
-        /* Prevent FOUC by hiding content until loaded */
-        .content-loading {
-            opacity: 0;
-            transition: opacity 0.3s ease-in-out;
+        /* Text input cursor animation */
+        .text-input-with-cursor {
+            position: relative;
         }
-        
-        .content-loaded {
+        .text-input-with-cursor:focus {
+            animation: cursor-blink 1s infinite;
+        }
+        .text-input-with-cursor::after {
+            content: '';
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            width: 2px;
+            height: 20px;
+            background-color: #4F46E5;
+            animation: cursor-flash 1s infinite;
+            opacity: 0;
+        }
+        .text-input-with-cursor:focus::after {
             opacity: 1;
         }
+        @keyframes cursor-flash {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
         
-        /* Preloader styles */
-        #pagePreloader {
-            transition: opacity 0.3s ease-in-out;
+        /* Example suggestions dropdown */
+        #exampleSuggestions {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .example-item {
+            transition: background-color 0.2s ease;
+        }
+        .example-item:hover {
+            background-color: #F9FAFB;
+        }
+        
+        /* Category group hover effects */
+        .category-group {
+            transition: background-color 0.3s ease;
+        }
+        .category-group:hover {
+            background-color: #F3F4F6 !important;
+        }
+        
+        /* Individual service cards with grey outline */
+        .service-card {
+            border: 1px solid #D1D5DB;
+            transition: all 0.3s ease;
+        }
+        .service-card:hover {
+            border-color: #9CA3AF;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        
+        /* Service details tooltip */
+        .service-details {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: #6366F1;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 10;
+        }
+        .category-option:hover .service-details {
+            opacity: 1;
+        }
+        .service-details:hover {
+            background-color: #4F46E5;
+            transform: scale(1.1);
+        }
+        
+        /* Service info card animations */
+        #serviceInfoCard {
+            animation: fadeIn 0.3s ease-out;
+        }
+        #serviceInfoCard > div {
+            animation: slideIn 0.3s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideIn {
+            from { transform: translateY(-20px) scale(0.95); opacity: 0; }
+            to { transform: translateY(0) scale(1); opacity: 1; }
+        }
+        
+        /* Skeleton Loading Styles */
+        .skeleton {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: skeleton-loading 1.5s infinite;
+        }
+        
+        @keyframes skeleton-loading {
+            0% {
+                background-position: 200% 0;
+            }
+            100% {
+                background-position: -200% 0;
+            }
+        }
+        
+        .skeleton-nav {
+            height: 64px;
+            background: white;
+        }
+        
+        .skeleton-hero {
+            height: 200px;
+            background: #6366f1;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .skeleton-hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent 25%, rgba(255,255,255,0.1) 50%, transparent 75%);
+            background-size: 200% 100%;
+            animation: skeleton-loading 1.5s infinite;
+        }
+        
+        .skeleton-card {
+            background: white;
+            border-radius: 12px;
+            padding: 32px;
+            margin: 32px auto;
+            max-width: 1024px;
+        }
+        
+        .skeleton-textarea {
+            height: 60px;
+            border-radius: 8px;
+            margin-bottom: 24px;
+        }
+        
+        .skeleton-upload {
+            height: 120px;
+            border-radius: 8px;
+            border: 2px dashed #e5e7eb;
+        }
+        
+        .skeleton-button {
+            height: 48px;
+            width: 150px;
+            border-radius: 8px;
+            margin: 24px auto;
+        }
+        
+        .skeleton-categories {
+            background: #f9fafb;
+            border-radius: 8px;
+            padding: 24px;
+            margin: 32px auto;
+            max-width: 1024px;
+        }
+        
+        .skeleton-category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-top: 24px;
+        }
+        
+        .skeleton-category-item {
+            height: 80px;
+            border-radius: 8px;
+            border: 1px solid #d1d5db;
+            background: white;
+        }
+        
+        .skeleton-section {
+            padding: 64px 0;
+            background: #f3f4f6;
+        }
+        
+        .skeleton-service-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 32px;
+            margin-top: 48px;
+            max-width: 1280px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 0 16px;
+        }
+        
+        .skeleton-service-card {
+            height: 200px;
+            border-radius: 8px;
+            background: white;
+            padding: 24px;
+        }
+        
+        .skeleton-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 4px;
+            margin-bottom: 16px;
+        }
+        
+        .skeleton-title {
+            height: 24px;
+            border-radius: 4px;
+            margin-bottom: 12px;
+            width: 70%;
+        }
+        
+        .skeleton-text {
+            height: 16px;
+            border-radius: 4px;
+            margin-bottom: 8px;
+        }
+        
+        .skeleton-text.short {
+            width: 60%;
+        }
+        
+        .skeleton-text.medium {
+            width: 80%;
+        }
+        
+        .skeleton-footer {
+            height: 200px;
+            background: #374151;
+        }
+        
+        /* Page content visibility */
+        .page-content {
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease-in-out, visibility 0s linear 0.5s;
+        }
+        
+        .page-content.loaded {
+            opacity: 1;
+            visibility: visible;
+            transition: opacity 0.5s ease-in-out;
+        }
+        
+        /* Skeleton overlay */
+        .skeleton-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #f9fafb;
+            z-index: 1000;
+            overflow-y: auto;
+            transition: opacity 0.5s ease-in-out;
+        }
+        
+        .skeleton-overlay.hiding {
+            opacity: 0;
         }
     </style>
 </head>
 <body class="bg-gray-50">
-    <!-- Page Preloader -->
-    <div id="pagePreloader" class="fixed inset-0 bg-white z-50 flex items-center justify-center">
-        <div class="text-center">
-            <div class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-indigo-600 bg-indigo-100">
-                <svg class="animate-spin -ml-1 mr-3 h-6 w-6 text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                </svg>
-                Loading ServiceMatch...
+    <!-- Skeleton Loading Screen -->
+    <div id="skeletonOverlay" class="skeleton-overlay">
+        <!-- Skeleton Navigation -->
+        <div class="skeleton-nav">
+            <div class="max-w-7xl mx-auto px-4 h-16 flex justify-between items-center">
+                <div class="skeleton" style="width: 150px; height: 32px; border-radius: 4px;"></div>
+                <div class="flex space-x-4">
+                    <div class="skeleton" style="width: 80px; height: 20px; border-radius: 4px;"></div>
+                    <div class="skeleton" style="width: 60px; height: 20px; border-radius: 4px;"></div>
+                    <div class="skeleton" style="width: 100px; height: 20px; border-radius: 4px;"></div>
+                    <div class="skeleton" style="width: 70px; height: 32px; border-radius: 6px;"></div>
+                </div>
             </div>
-            <p class="mt-2 text-sm text-gray-500">Preparing your service matching experience</p>
         </div>
+        
+        <!-- Skeleton Hero -->
+        <div class="skeleton-hero">
+            <div class="max-w-7xl mx-auto py-16 px-4 text-center">
+                <div class="skeleton" style="width: 60%; height: 32px; border-radius: 4px; margin: 0 auto 16px;"></div>
+                <div class="skeleton" style="width: 40%; height: 32px; border-radius: 4px; margin: 0 auto;"></div>
+            </div>
+        </div>
+        
+        <!-- Skeleton Form Card -->
+        <div class="max-w-4xl mx-auto py-12 px-4">
+            <div class="skeleton-card">
+                <div class="skeleton skeleton-textarea"></div>
+                <div class="skeleton skeleton-upload"></div>
+            </div>
+            
+            <div class="skeleton skeleton-button"></div>
+            
+            <!-- Skeleton Categories -->
+            <div class="skeleton-categories">
+                <div class="text-center mb-6">
+                    <div class="skeleton" style="width: 250px; height: 28px; border-radius: 4px; margin: 0 auto 12px;"></div>
+                    <div class="skeleton" style="width: 180px; height: 16px; border-radius: 4px; margin: 0 auto;"></div>
+                </div>
+                
+                <div class="skeleton-category-grid">
+                    <div class="skeleton skeleton-category-item"></div>
+                    <div class="skeleton skeleton-category-item"></div>
+                    <div class="skeleton skeleton-category-item"></div>
+                    <div class="skeleton skeleton-category-item"></div>
+                    <div class="skeleton skeleton-category-item"></div>
+                    <div class="skeleton skeleton-category-item"></div>
+                </div>
+            </div>
+            
+            <div class="skeleton" style="width: 200px; height: 56px; border-radius: 8px; margin: 24px auto;"></div>
+        </div>
+        
+        <!-- Skeleton How It Works -->
+        <div class="skeleton-section">
+            <div class="max-w-7xl mx-auto px-4 text-center">
+                <div class="skeleton" style="width: 300px; height: 36px; border-radius: 4px; margin: 0 auto 16px;"></div>
+                <div class="skeleton" style="width: 400px; height: 20px; border-radius: 4px; margin: 0 auto 48px;"></div>
+                
+                <div class="grid grid-cols-1 gap-8 md:grid-cols-3 mt-12">
+                    <div class="text-center">
+                        <div class="skeleton skeleton-icon mx-auto"></div>
+                        <div class="skeleton skeleton-title mx-auto"></div>
+                        <div class="skeleton skeleton-text"></div>
+                        <div class="skeleton skeleton-text short"></div>
+                    </div>
+                    <div class="text-center">
+                        <div class="skeleton skeleton-icon mx-auto"></div>
+                        <div class="skeleton skeleton-title mx-auto"></div>
+                        <div class="skeleton skeleton-text"></div>
+                        <div class="skeleton skeleton-text medium"></div>
+                    </div>
+                    <div class="text-center">
+                        <div class="skeleton skeleton-icon mx-auto"></div>
+                        <div class="skeleton skeleton-title mx-auto"></div>
+                        <div class="skeleton skeleton-text"></div>
+                        <div class="skeleton skeleton-text short"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Skeleton Services -->
+        <div style="padding: 64px 0;">
+            <div class="max-w-7xl mx-auto px-4 text-center">
+                <div class="skeleton" style="width: 280px; height: 36px; border-radius: 4px; margin: 0 auto 16px;"></div>
+                <div class="skeleton" style="width: 350px; height: 20px; border-radius: 4px; margin: 0 auto;"></div>
+                
+                <div class="skeleton-service-grid">
+                    <div class="skeleton-service-card">
+                        <div class="skeleton skeleton-icon"></div>
+                        <div class="skeleton skeleton-title"></div>
+                        <div class="skeleton skeleton-text"></div>
+                    </div>
+                    <div class="skeleton-service-card">
+                        <div class="skeleton skeleton-icon"></div>
+                        <div class="skeleton skeleton-title"></div>
+                        <div class="skeleton skeleton-text"></div>
+                    </div>
+                    <div class="skeleton-service-card">
+                        <div class="skeleton skeleton-icon"></div>
+                        <div class="skeleton skeleton-title"></div>
+                        <div class="skeleton skeleton-text"></div>
+                    </div>
+                    <div class="skeleton-service-card">
+                        <div class="skeleton skeleton-icon"></div>
+                        <div class="skeleton skeleton-title"></div>
+                        <div class="skeleton skeleton-text"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Skeleton Footer -->
+        <div class="skeleton-footer"></div>
     </div>
+
+    <!-- Actual Page Content -->
+    <div id="pageContent" class="page-content">
     <!-- Navigation -->
     <nav class="bg-white shadow-lg">
         <div class="max-w-7xl mx-auto px-4">
@@ -107,6 +468,9 @@
                 <div class="flex items-center space-x-4">
                     <a href="#how-it-works" class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">How It Works</a>
                     <a href="#services" class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">Services</a>
+                    <button onclick="handleJoinAsProvider()" class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium cursor-pointer">
+                        <i class="fas fa-user-tie mr-1"></i>Join as Provider
+                    </button>
                     <div id="authSection">
                         <!-- Auth buttons will be inserted by JavaScript -->
                     </div>
@@ -116,141 +480,152 @@
     </nav>
 
     <!-- Hero Section -->
-    <div class="gradient-bg">
+    <div class="bg-indigo-600">
         <div class="max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
             <div class="text-center">
-                <h1 class="text-4xl font-extrabold text-white sm:text-5xl md:text-6xl">
-                    <span class="block">Smart Service</span>
-                    <span class="block text-indigo-200">Matching Platform</span>
-                </h1>
-                <p class="mt-3 max-w-md mx-auto text-base text-indigo-100 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
-                    Describe your problem, get matched with the perfect professional. From simple repairs to complex construction projects.
-                </p>
+                <h3 class="text-2xl font-medium text-white text-center leading-relaxed">
+                    Connect with trusted local professionals<br>
+                    for all your service needs.
+                </h3>
             </div>
         </div>
     </div>
 
     <!-- Problem Description Form -->
     <div class="max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
-        <div class="bg-white rounded-lg shadow-xl p-8 content-loading" id="mainContent">
-            <div class="text-center mb-8">
-                <h2 class="text-3xl font-extrabold text-gray-900">Describe Your Problem</h2>
-                <p class="mt-4 text-lg text-gray-600">Get instant AI analysis or select your service category directly</p>
-            </div>
-
-            <form id="problemForm" class="space-y-6" method="POST" enctype="multipart/form-data">
-                <div>
-                    <label for="problemDescription" class="block text-sm font-medium text-gray-700 mb-2">
-                        What's the issue you need help with? (Optional if selecting category directly)
-                    </label>
-                    <textarea 
-                        id="problemDescription" 
-                        name="problemDescription" 
-                        rows="4" 
-                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                        placeholder="e.g., My kitchen tap is not working properly, or there are sparks coming from my electrical outlet... (Optional - you can also just select a category below)"
-                    ></textarea>
-                    <p class="mt-2 text-sm text-gray-500">Be as specific as possible for AI analysis, or simply select a category below for direct matching.</p>
-                </div>
-
-                <!-- AI Analysis Button -->
-                <div class="flex justify-center">
-                    <button 
-                        type="button"
-                        class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-lg text-lg transition-colors duration-200 flex items-center"
-                        id="analyzeBtn"
-                        onclick="analyzeProblem()"
-                    >
-                        <i class="fas fa-brain mr-2"></i>
-                        Analyze with AI
-                    </button>
-                </div>
-
-                <!-- AI Results (Hidden initially) -->
-                <div id="aiResults" class="hidden bg-blue-50 border border-blue-200 rounded-lg p-6">
-                    <h3 class="text-lg font-semibold text-blue-900 mb-4">AI Analysis Results</h3>
-                    <div id="aiContent"></div>
-                </div>
-
-                <!-- OR Separator -->
-                <div class="relative">
-                    <div class="absolute inset-0 flex items-center">
-                        <div class="w-full border-t border-gray-300"></div>
-                    </div>
-                    <div class="relative flex justify-center text-sm">
-                        <span class="px-2 bg-gray-50 text-gray-500">Or select a category directly (description optional)</span>
-                    </div>
-                </div>
-
-                <!-- Category Selection -->
-                <div class="border-t pt-6">
-                    <h3 class="text-lg font-medium text-gray-900 mb-6 text-center">
-                        Select Service Category
-                    </h3>
-                    
-                    <div id="categoryGroups" class="space-y-6">
-                        <!-- Loading state -->
-                        <div id="categoriesLoading" class="flex items-center justify-center py-12">
-                            <div class="text-center">
-                                <div class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-indigo-600 bg-indigo-100">
-                                    <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                    </svg>
-                                    Loading service categories...
+        <form id="problemForm" class="space-y-8" method="POST" enctype="multipart/form-data">
+            <!-- Problem Description Card -->
+            <div class="bg-white rounded-xl shadow-2xl overflow-hidden" id="mainContent">
+                <div class="px-8 py-8">
+                    <div class="relative">
+                        <textarea 
+                            id="problemDescription" 
+                            name="problemDescription" 
+                            rows="1" 
+                            class="w-full border-2 border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 text-input-with-cursor px-4 py-3"
+                            placeholder="Describe your project or issue - be as detailed as you'd like"
+                        ></textarea>
+                        
+                        <!-- Example suggestions dropdown -->
+                        <div id="exampleSuggestions" class="absolute top-full left-0 right-0 bg-white border border-gray-200 rounded-lg shadow-lg mt-1 z-10 hidden">
+                            <div class="p-2">
+                                <p class="text-xs text-gray-500 px-3 py-1 border-b">Quick examples to get you started:</p>
+                                <div class="example-item px-3 py-2 hover:bg-gray-50 cursor-pointer text-sm border-b border-gray-100" onclick="selectExample(this)">
+                                    My kitchen tap is leaking and making noise when I turn it on
+                                </div>
+                                <div class="example-item px-3 py-2 hover:bg-gray-50 cursor-pointer text-sm border-b border-gray-100" onclick="selectExample(this)">
+                                    Need help installing a ceiling fan in my living room
+                                </div>
+                                <div class="example-item px-3 py-2 hover:bg-gray-50 cursor-pointer text-sm" onclick="selectExample(this)">
+                                    Looking for someone to pressure wash my compound and driveway
                                 </div>
                             </div>
                         </div>
-                        <!-- Categories will be loaded here -->
                     </div>
-                    
-                    <input type="hidden" id="selectedCategory" name="selectedCategory">
-                </div>
 
-                <!-- Photo Upload (Optional) -->
-                <div class="bg-gray-50 rounded-lg p-6">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">
-                        <i class="fas fa-camera mr-2"></i>Upload Photos (Optional but helpful)
-                    </label>
-                    <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md hover:border-indigo-400 transition-colors">
-                        <div class="space-y-1 text-center">
-                            <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
-                                <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                            </svg>
-                            <div class="flex text-sm text-gray-600">
-                                <label for="problemImages" class="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
-                                    <span>Upload photos</span>
-                                    <input id="problemImages" name="problemImages" type="file" class="sr-only" multiple accept="image/*">
-                                </label>
-                                <p class="pl-1">or drag and drop</p>
-                            </div>
-                            <p class="text-xs text-gray-500">PNG, JPG, GIF up to 10MB each</p>
-                            <div id="filePreview" class="mt-4 hidden">
-                                <p class="text-sm text-gray-600 font-medium">Selected files:</p>
-                                <div id="fileList" class="text-xs text-gray-500"></div>
+                    <!-- Photo Upload Section -->
+                    <div class="mt-6">
+                        <label class="block text-sm font-medium text-gray-700 mb-3">
+                            <i class="fas fa-camera mr-2 text-indigo-600"></i>Upload Photos (Optional but helpful)
+                        </label>
+                        <div class="flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg hover:border-indigo-400 transition-colors bg-white">
+                            <div class="space-y-1 text-center">
+                                <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
+                                    <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                                <div class="flex text-sm text-gray-600">
+                                    <label for="problemImages" class="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
+                                        <span>Upload photos</span>
+                                        <input id="problemImages" name="problemImages" type="file" class="sr-only" multiple accept="image/*">
+                                    </label>
+                                    <p class="pl-1">or drag and drop</p>
+                                </div>
+                                <p class="text-xs text-gray-500">PNG, JPG, GIF up to 10MB each</p>
+                                <div id="filePreview" class="mt-4 hidden">
+                                    <p class="text-sm text-gray-600 font-medium">Selected files:</p>
+                                    <div id="fileList" class="text-xs text-gray-500"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <!-- Submit Button -->
-                <div class="flex justify-center">
-                    <button 
-                        type="submit" 
-                        class="bg-green-600 hover:bg-green-700 text-white font-bold py-4 px-10 rounded-lg text-xl transition-colors duration-200 flex items-center disabled:opacity-50 disabled:cursor-not-allowed"
-                        id="submitBtn"
-                        disabled
-                    >
-                        <i class="fas fa-search mr-2"></i>
-                        Find Professionals
-                    </button>
+            <!-- AI Analysis Button -->
+            <div class="flex justify-center">
+                <button 
+                    type="button"
+                    class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-8 rounded-lg transition-colors duration-200 flex items-center shadow-md hover:shadow-lg"
+                    id="analyzeBtn"
+                    onclick="analyzeProblem()"
+                >
+                    <i class="fas fa-search mr-2"></i>
+                    Search
+                </button>
+            </div>
+
+            <!-- AI Results (Hidden initially) -->
+            <div id="aiResults" class="hidden bg-blue-50 border border-blue-200 rounded-lg p-6">
+                <h3 class="text-lg font-semibold text-blue-900 mb-4">AI Analysis Results</h3>
+                <div id="aiContent"></div>
+            </div>
+
+            <!-- OR Separator -->
+            <div class="relative">
+                <div class="absolute inset-0 flex items-center">
+                    <div class="w-full border-t border-gray-300"></div>
+                </div>
+                <div class="relative flex justify-center text-sm">
+                    <span class="px-4 bg-gray-50 text-gray-500 font-medium">Or select a category directly</span>
+                </div>
+            </div>
+
+            <!-- Category Selection -->
+            <div class="bg-gray-50 rounded-lg p-6">
+                <div class="text-center mb-6">
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">
+                        <i class="fas fa-th-large text-indigo-600 mr-2"></i>
+                        Browse Service Categories
+                    </h3>
+                    <p class="text-sm text-gray-600">Choose the type of service you need</p>
                 </div>
                 
-                <div id="submitHelpText" class="text-center text-sm text-gray-500">
+                <div id="categoryGroups" class="space-y-6">
+                    <!-- Loading state -->
+                    <div id="categoriesLoading" class="flex items-center justify-center py-12">
+                        <div class="text-center">
+                            <div class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-indigo-600 bg-indigo-100">
+                                <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                                Loading service categories...
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Categories will be loaded here -->
+                </div>
+                
+                <input type="hidden" id="selectedCategory" name="selectedCategory">
+            </div>
+
+            <!-- Submit Button Section -->
+            <div class="text-center py-6">
+                <button 
+                    type="submit" 
+                    class="bg-green-600 hover:bg-green-700 text-white font-bold py-4 px-10 rounded-lg text-xl transition-colors duration-200 flex items-center disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl mx-auto"
+                    id="submitBtn"
+                    disabled
+                >
+                    <i class="fas fa-search mr-2"></i>
+                    Find Professionals
+                </button>
+                
+                <div id="submitHelpText" class="text-center text-sm text-gray-500 mt-3">
                     <i class="fas fa-info-circle mr-1"></i>Please select a service category to continue
                 </div>
-            </form>
-        </div>
+            </div>
+        </form>
     </div>
 
     <!-- Results Section (Hidden initially) -->
@@ -278,7 +653,7 @@
                         </div>
                         <h3 class="mt-6 text-xl font-medium text-gray-900">1. Describe Your Problem</h3>
                         <p class="mt-4 text-gray-600">
-                            Simply describe your issue in plain English. Include photos if helpful. Our AI will understand the context.
+                            Simply describe your issue in plain English. Include photos if helpful. Our system will understand the context.
                         </p>
                     </div>
 
@@ -288,7 +663,7 @@
                         </div>
                         <h3 class="mt-6 text-xl font-medium text-gray-900">2. Smart Analysis</h3>
                         <p class="mt-4 text-gray-600">
-                            Our AI analyzes your description and instantly suggests the best service category, or you can select one manually from our organized categories.
+                            Our system analyzes your description and instantly suggests the best service category, or you can select one manually from our organized categories.
                         </p>
                     </div>
 
@@ -298,7 +673,7 @@
                         </div>
                         <h3 class="mt-6 text-xl font-medium text-gray-900">3. Get Matched</h3>
                         <p class="mt-4 text-gray-600">
-                            Receive instant recommendations for qualified professionals based on your specific needs and location - no lengthy surveys required.
+                            Receive instant recommendations for qualified professionals based on your specific needs and location within Kenya.
                         </p>
                     </div>
                 </div>
@@ -318,53 +693,37 @@
                 </p>
             </div>
 
-            <div class="mt-20 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            <div class="mt-20 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+                <div class="bg-white rounded-lg shadow-lg p-6 card-hover">
+                    <div class="text-indigo-600 text-3xl mb-4">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Home Services</h3>
+                    <p class="text-gray-600">House cleaning, lawn care, pest control, and sitters</p>
+                </div>
+
                 <div class="bg-white rounded-lg shadow-lg p-6 card-hover">
                     <div class="text-indigo-600 text-3xl mb-4">
                         <i class="fas fa-wrench"></i>
                     </div>
-                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Plumbing</h3>
-                    <p class="text-gray-600">Leaks, clogs, installations, and emergency repairs</p>
-                </div>
-
-                <div class="bg-white rounded-lg shadow-lg p-6 card-hover">
-                    <div class="text-indigo-600 text-3xl mb-4">
-                        <i class="fas fa-bolt"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Electrical</h3>
-                    <p class="text-gray-600">Wiring, outlets, lighting, and safety inspections</p>
-                </div>
-
-                <div class="bg-white rounded-lg shadow-lg p-6 card-hover">
-                    <div class="text-indigo-600 text-3xl mb-4">
-                        <i class="fas fa-thermometer-half"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold text-gray-900 mb-2">HVAC</h3>
-                    <p class="text-gray-600">Heating, cooling, and ventilation systems</p>
-                </div>
-
-                <div class="bg-white rounded-lg shadow-lg p-6 card-hover">
-                    <div class="text-indigo-600 text-3xl mb-4">
-                        <i class="fas fa-broom"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Cleaning</h3>
-                    <p class="text-gray-600">House cleaning, deep cleaning, and maintenance</p>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Repairs & Maintenance</h3>
+                    <p class="text-gray-600">Appliance repairs, fridge, TV, washing machines</p>
                 </div>
 
                 <div class="bg-white rounded-lg shadow-lg p-6 card-hover">
                     <div class="text-indigo-600 text-3xl mb-4">
                         <i class="fas fa-hammer"></i>
                     </div>
-                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Carpentry</h3>
-                    <p class="text-gray-600">Woodwork, installations, and custom builds</p>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Home Improvement</h3>
+                    <p class="text-gray-600">Construction, carpentry, painting, flooring, roofing</p>
                 </div>
 
                 <div class="bg-white rounded-lg shadow-lg p-6 card-hover">
                     <div class="text-indigo-600 text-3xl mb-4">
-                        <i class="fas fa-hard-hat"></i>
+                        <i class="fas fa-cogs"></i>
                     </div>
-                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Construction</h3>
-                    <p class="text-gray-600">Renovations, additions, and new builds</p>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Home Systems</h3>
+                    <p class="text-gray-600">Plumbing, electrical, heating & cooling</p>
                 </div>
             </div>
         </div>
@@ -383,6 +742,109 @@
         </div>
     </footer>
 
-    <script src="/static/js/app.js"></script>
+    <!-- Chat Modal -->
+    <div id="chatModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+        <div class="flex items-center justify-center min-h-screen px-4">
+            <div class="bg-white rounded-lg shadow-xl w-full max-w-md">
+                <div class="flex items-center justify-between p-4 border-b">
+                    <h3 class="text-lg font-semibold" id="chatProviderName">Chat with Provider</h3>
+                    <button onclick="closeChatModal()" class="text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="h-96 flex flex-col">
+                    <div id="chatMessages" class="flex-1 p-4 overflow-y-auto border-b">
+                        <!-- Chat messages will be inserted here -->
+                    </div>
+                    <div class="p-4">
+                        <div class="flex space-x-2">
+                            <input type="text" id="chatInput" placeholder="Type your message..." 
+                                   class="flex-1 border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            <button onclick="sendChatMessage()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md">
+                                <i class="fas fa-paper-plane"></i>
+        </div>
+    </div>
+    </div>
+
+    <!-- Modular JavaScript files - order matters for dependencies -->
+    <script type="module" src="/static/js/globals.js"></script>
+    <script type="module" src="/static/js/ui-utils.js"></script>
+    <script type="module" src="/static/js/auth.js"></script>
+    <script type="module" src="/static/js/service-catalog.js"></script>
+    <script type="module" src="/static/js/categories.js"></script>
+    <script type="module" src="/static/js/ai-analysis.js"></script>
+    <script type="module" src="/static/js/providers.js"></script>
+    <script type="module" src="/static/js/chat.js"></script>
+    <script type="module" src="/static/js/main.js"></script>
+    </div>
+        </div>
+    </div>
+    </div>
+    <!-- Skeleton Loading Script -->
+    <script>
+        // Sequential skeleton loading simulation
+        function initializeSkeletonLoading() {
+            const skeletonOverlay = document.getElementById('skeletonOverlay');
+            const pageContent = document.getElementById('pageContent');
+            
+            if (!skeletonOverlay || !pageContent) return;
+            
+            // Simulate progressive loading phases with realistic timing
+            const loadingPhases = [
+                { delay: 300, action: () => console.log('Loading navigation...') },
+                { delay: 600, action: () => console.log('Loading hero section...') },
+                { delay: 900, action: () => console.log('Loading form components...') },
+                { delay: 1200, action: () => console.log('Loading categories...') },
+                { delay: 1500, action: () => console.log('Loading content sections...') },
+                { 
+                    delay: 1800, 
+                    action: () => {
+                        // Check if app is ready, otherwise wait
+                        checkAppReadyAndShow();
+                    }
+                }
+            ];
+            
+            loadingPhases.forEach(phase => {
+                setTimeout(phase.action, phase.delay);
+            });
+        }
+        
+        function checkAppReadyAndShow() {
+            // Check if the main app has initialized
+            if (window.appInitialized) {
+                console.log('App ready, showing content...');
+                showActualContent();
+            } else {
+                // Wait a bit more and check again
+                setTimeout(checkAppReadyAndShow, 200);
+            }
+        }
+        
+        function showActualContent() {
+            const skeletonOverlay = document.getElementById('skeletonOverlay');
+            const pageContent = document.getElementById('pageContent');
+            
+            if (skeletonOverlay && pageContent) {
+                // Start hiding skeleton
+                skeletonOverlay.classList.add('hiding');
+                
+                // Show actual content
+                pageContent.classList.add('loaded');
+                
+                // Remove skeleton after transition
+                setTimeout(() => {
+                    skeletonOverlay.style.display = 'none';
+                }, 500);
+            }
+        }
+        
+        // Start skeleton loading immediately when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initializeSkeletonLoading);
+        } else {
+            initializeSkeletonLoading();
+        }
+    </script>
 </body>
 </html>

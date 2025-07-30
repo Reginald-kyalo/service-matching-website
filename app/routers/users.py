@@ -20,6 +20,16 @@ class UserCreate(BaseModel):
     password: str
     phone: Optional[str] = None
     address: Optional[str] = None
+    # Kenyan location fields
+    county: Optional[str] = None
+    subCounty: Optional[str] = None
+    ward: Optional[str] = None
+    postalCode: Optional[str] = None
+    landmark: Optional[str] = None
+    fullAddress: Optional[str] = None
+    latitude: Optional[float] = None
+    longitude: Optional[float] = None
+    # Legacy fields for backward compatibility
     city: Optional[str] = None
     state: Optional[str] = None
     zip_code: Optional[str] = None
@@ -34,9 +44,20 @@ class UserResponse(BaseModel):
     email: str
     phone: Optional[str] = None
     address: Optional[str] = None
+    # Kenyan location fields
+    county: Optional[str] = None
+    sub_county: Optional[str] = None
+    ward: Optional[str] = None
+    postal_code: Optional[str] = None
+    landmark: Optional[str] = None
+    full_address: Optional[str] = None
+    latitude: Optional[float] = None
+    longitude: Optional[float] = None
+    # Legacy fields for backward compatibility
     city: Optional[str] = None
     state: Optional[str] = None
     zip_code: Optional[str] = None
+    user_type: str = "client"  # Include user_type for proper frontend handling
     
     class Config:
         from_attributes = True
@@ -66,16 +87,26 @@ async def register_user(user_data: UserCreate, db: Session = Depends(get_db)):
         password_hash=hashed_password,
         phone=user_data.phone,
         address=user_data.address,
-        city=user_data.city,
-        state=user_data.state,
-        zip_code=user_data.zip_code
+        # Kenyan location fields
+        county=user_data.county,
+        sub_county=user_data.subCounty,
+        ward=user_data.ward,
+        postal_code=user_data.postalCode,
+        landmark=user_data.landmark,
+        full_address=user_data.fullAddress,
+        latitude=user_data.latitude,
+        longitude=user_data.longitude,
+        # Legacy fields for backward compatibility (map from Kenyan fields)
+        city=user_data.county or user_data.city,  # Use county if available, fallback to city
+        state=user_data.subCounty or user_data.state,  # Use sub_county if available, fallback to state
+        zip_code=user_data.postalCode or user_data.zip_code  # Use postalCode if available, fallback to zip_code
     )
     
-    # Geocode address if provided (simplified - in production use proper geocoding)
-    if user_data.city and user_data.state:
-        # Mock coordinates for Springfield, IL area
-        new_user.latitude = 39.7817 + (hash(user_data.email) % 100) * 0.001
-        new_user.longitude = -89.6501 + (hash(user_data.email) % 100) * 0.001
+    # Use provided coordinates if available, otherwise generate mock coordinates for Kenya
+    if not new_user.latitude and new_user.county:
+        # Mock coordinates for Kenya (Nairobi area as default)
+        new_user.latitude = -1.2921 + (hash(user_data.email) % 100) * 0.01
+        new_user.longitude = 36.8219 + (hash(user_data.email) % 100) * 0.01
     
     db.add(new_user)
     db.commit()

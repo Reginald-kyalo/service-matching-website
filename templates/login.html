@@ -8,6 +8,15 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body class="bg-gray-50">
+    <!-- Back Button -->
+    <div class="absolute top-4 left-4 z-10">
+        <button onclick="goBack()" 
+                class="flex items-center px-4 py-2 text-sm font-medium text-indigo-600 bg-white rounded-lg border border-indigo-200 hover:bg-indigo-50 hover:text-indigo-700 hover:border-indigo-300 transition-all duration-200 shadow-sm hover:shadow-md">
+            <i class="fas fa-arrow-left mr-2"></i>
+            <span id="backButtonText">Back</span>
+        </button>
+    </div>
+
     <div class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <div class="max-w-md w-full space-y-8">
             <div>
@@ -72,23 +81,60 @@
                             class="block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                             placeholder="Phone number (optional)">
                     </div>
-                    <div>
-                        <input id="signup-address" name="address" type="text"
-                            class="block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                            placeholder="Street address (optional)">
-                    </div>
-                    <div class="grid grid-cols-2 gap-2">
-                        <input id="signup-city" name="city" type="text" required
-                            class="px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                            placeholder="City">
-                        <input id="signup-state" name="state" type="text" required
-                            class="px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                            placeholder="State">
-                    </div>
-                    <div>
-                        <input id="signup-zip" name="zip_code" type="text"
-                            class="block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                            placeholder="ZIP code (optional)">
+                    <!-- Location Section with Google Maps -->
+                    <div class="border-t border-gray-200 pt-4">
+                        <h3 class="text-sm font-medium text-gray-700 mb-3">Location Information</h3>
+                        
+                        <!-- Google Maps Search (Optional) -->
+                        <div class="mb-3">
+                            <input id="signup-address-search" type="text"
+                                class="block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                                placeholder="Search location on map (optional)">
+                            <p class="text-xs text-gray-500 mt-1">Start typing to search for your location</p>
+                        </div>
+                        
+                        <!-- Manual Address -->
+                        <div class="mb-3">
+                            <input id="signup-address" name="address" type="text"
+                                class="block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                                placeholder="Street address / Estate / Building (optional)">
+                        </div>
+                        
+                        <!-- Kenyan Administrative Hierarchy -->
+                        <div class="grid grid-cols-1 gap-2">
+                            <select id="signup-county" name="county" required
+                                class="px-3 py-2 border border-gray-300 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                                <option value="">Select County *</option>
+                                <!-- Counties will be populated by JavaScript -->
+                            </select>
+                            
+                            <select id="signup-sub-county" name="subCounty" required
+                                class="px-3 py-2 border border-gray-300 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                                <option value="">Select Sub-County *</option>
+                                <!-- Sub-counties will be populated based on county selection -->
+                            </select>
+                            
+                            <select id="signup-ward" name="ward" required
+                                class="px-3 py-2 border border-gray-300 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                                <option value="">Select Ward *</option>
+                                <!-- Wards will be populated based on sub-county selection -->
+                            </select>
+                        </div>
+                        
+                        <!-- Additional Location Details -->
+                        <div class="grid grid-cols-2 gap-2 mt-2">
+                            <input id="signup-postal-code" name="postalCode" type="text"
+                                class="px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                                placeholder="Postal Code">
+                            <input id="signup-landmark" name="landmark" type="text"
+                                class="px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                                placeholder="Nearby Landmark">
+                        </div>
+                        
+                        <!-- Hidden fields for coordinates -->
+                        <input type="hidden" id="signup-latitude" name="latitude">
+                        <input type="hidden" id="signup-longitude" name="longitude">
+                        <input type="hidden" id="signup-full-address" name="fullAddress">
                     </div>
                 </div>
 
@@ -113,26 +159,296 @@
         let authToken = localStorage.getItem('authToken');
         let currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
 
+        // State preservation keys
+        const LOGIN_STATE_KEY = 'loginFormState';
+        const SIGNUP_STATE_KEY = 'signupFormState';
+        const FORM_TYPE_KEY = 'currentFormType';
+
         // Check if already logged in
         if (authToken && currentUser) {
+            // Clear any saved form state since user is already logged in
+            clearAuthFormState();
+            
             // Check if there's a return URL in session storage
             const returnUrl = sessionStorage.getItem('returnUrl') || '/';
             sessionStorage.removeItem('returnUrl');
             window.location.href = returnUrl;
         }
 
+        // Initialize state preservation
+        document.addEventListener('DOMContentLoaded', function() {
+            setupAuthFormStatePreservation();
+            restoreAuthFormState();
+            updateBackButtonText(); // Update back button text based on navigation context
+        });
+
+        function setupAuthFormStatePreservation() {
+            const loginForm = document.getElementById('loginForm');
+            const signupForm = document.getElementById('signupForm');
+            
+            // Auto-save on input changes
+            loginForm.addEventListener('input', debounceAuthSave(() => saveFormState('login'), 1000));
+            signupForm.addEventListener('input', debounceAuthSave(() => saveFormState('signup'), 1000));
+            
+            // Save on page unload
+            window.addEventListener('beforeunload', () => {
+                saveFormState('login');
+                saveFormState('signup');
+            });
+        }
+
+        function debounceAuthSave(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        function saveFormState(formType) {
+            try {
+                const form = document.getElementById(formType + 'Form');
+                const formData = {};
+                
+                const inputs = form.querySelectorAll('input');
+                inputs.forEach(input => {
+                    if (input.type !== 'password' && input.value) { // Don't save passwords
+                        formData[input.name] = input.value;
+                    }
+                });
+                
+                const key = formType === 'login' ? LOGIN_STATE_KEY : SIGNUP_STATE_KEY;
+                localStorage.setItem(key, JSON.stringify(formData));
+                
+                // Save current form type
+                const isLoginVisible = !document.getElementById('loginForm').classList.contains('hidden');
+                localStorage.setItem(FORM_TYPE_KEY, isLoginVisible ? 'login' : 'signup');
+                
+            } catch (error) {
+                console.error('Error saving auth form state:', error);
+            }
+        }
+
+        function restoreAuthFormState() {
+            try {
+                // Restore form type
+                const savedFormType = localStorage.getItem(FORM_TYPE_KEY);
+                if (savedFormType === 'signup') {
+                    showSignup();
+                }
+                
+                // Restore login form
+                const loginState = localStorage.getItem(LOGIN_STATE_KEY);
+                if (loginState) {
+                    const formData = JSON.parse(loginState);
+                    Object.keys(formData).forEach(key => {
+                        const field = document.querySelector(`#loginForm [name="${key}"]`);
+                        if (field) {
+                            field.value = formData[key];
+                        }
+                    });
+                }
+                
+                // Restore signup form
+                const signupState = localStorage.getItem(SIGNUP_STATE_KEY);
+                if (signupState) {
+                    const formData = JSON.parse(signupState);
+                    Object.keys(formData).forEach(key => {
+                        const field = document.querySelector(`#signupForm [name="${key}"]`);
+                        if (field) {
+                            field.value = formData[key];
+                        }
+                    });
+                    
+                    // Show restore indicator if signup form has data
+                    if (Object.keys(formData).length > 0) {
+                        showAuthRestoreIndicator();
+                    }
+                }
+                
+            } catch (error) {
+                console.error('Error restoring auth form state:', error);
+                clearAuthFormState();
+            }
+        }
+
+        function clearAuthFormState() {
+            try {
+                localStorage.removeItem(LOGIN_STATE_KEY);
+                localStorage.removeItem(SIGNUP_STATE_KEY);
+                localStorage.removeItem(FORM_TYPE_KEY);
+            } catch (error) {
+                console.error('Error clearing auth form state:', error);
+            }
+        }
+
+        function showAuthRestoreIndicator() {
+            const indicator = document.createElement('div');
+            indicator.className = 'fixed top-4 right-4 bg-blue-500 text-white px-4 py-2 rounded-lg shadow-lg text-sm z-50';
+            indicator.innerHTML = `
+                <div class="flex items-center">
+                    <i class="fas fa-info-circle mr-2"></i>
+                    <span>Form data restored</span>
+                    <button onclick="this.parentElement.parentElement.remove()" class="ml-3 text-white hover:text-gray-200">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            `;
+            document.body.appendChild(indicator);
+            
+            setTimeout(() => {
+                if (indicator.parentElement) {
+                    indicator.remove();
+                }
+            }, 5000);
+        }
+
         function showSignup() {
             document.getElementById('loginForm').classList.add('hidden');
             document.getElementById('signupForm').classList.remove('hidden');
             document.querySelector('h2').textContent = 'Create your account';
+            saveFormState('login'); // Save current login state before switching
         }
 
         function showLogin() {
             document.getElementById('signupForm').classList.add('hidden');
             document.getElementById('loginForm').classList.remove('hidden');
             document.querySelector('h2').textContent = 'Sign in to your account';
+            saveFormState('signup'); // Save current signup state before switching
         }
 
+        /**
+         * Handle back navigation with intelligent routing
+         */
+        function goBack() {
+            // Save current form state before leaving
+            saveFormState('login');
+            saveFormState('signup');
+            
+            // Check authentication status
+            const authToken = localStorage.getItem('authToken');
+            const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
+            const isAuthenticated = authToken && currentUser;
+            
+            // Check for redirect URL parameter (highest priority)
+            const urlParams = new URLSearchParams(window.location.search);
+            const redirectUrl = urlParams.get('redirect');
+            
+            if (redirectUrl) {
+                try {
+                    // Decode and validate the redirect URL
+                    const decodedUrl = decodeURIComponent(redirectUrl);
+                    
+                    // Security check: ensure it's a relative URL or from same origin
+                    if (decodedUrl.startsWith('/') || decodedUrl.startsWith(window.location.origin)) {
+                        // Additional check: don't redirect to protected pages if not authenticated
+                        if (!isAuthenticated && (decodedUrl.includes('dashboard') || decodedUrl.includes('provider'))) {
+                            window.location.href = '/';
+                            return;
+                        }
+                        window.location.href = decodedUrl;
+                        return;
+                    }
+                } catch (error) {
+                    console.warn('Invalid redirect URL:', redirectUrl);
+                }
+            }
+            
+            // Check for return URL in session storage (second priority)
+            const returnUrl = sessionStorage.getItem('returnUrl');
+            if (returnUrl) {
+                sessionStorage.removeItem('returnUrl');
+                // Don't redirect to protected pages if not authenticated
+                if (!isAuthenticated && (returnUrl.includes('dashboard') || returnUrl.includes('provider'))) {
+                    window.location.href = '/';
+                    return;
+                }
+                window.location.href = returnUrl;
+                return;
+            }
+            
+            // Check for referrer (third priority)
+            if (document.referrer && 
+                document.referrer !== window.location.href && 
+                document.referrer.includes(window.location.origin)) {
+                // Don't redirect to protected pages if not authenticated
+                if (!isAuthenticated && (document.referrer.includes('dashboard') || document.referrer.includes('provider'))) {
+                    window.location.href = '/';
+                    return;
+                }
+                window.location.href = document.referrer;
+                return;
+            }
+            
+            // Default: go to home page
+            window.location.href = '/';
+        }
+
+        /**
+         * Update back button text based on available navigation options
+         */
+        function updateBackButtonText() {
+            const backButton = document.getElementById('backButtonText');
+            if (!backButton) return;
+            
+            // Check what destination we have
+            const urlParams = new URLSearchParams(window.location.search);
+            const redirectUrl = urlParams.get('redirect');
+            const returnUrl = sessionStorage.getItem('returnUrl');
+            
+            if (redirectUrl) {
+                try {
+                    const decodedUrl = decodeURIComponent(redirectUrl);
+                    if (decodedUrl === '/') {
+                        backButton.textContent = 'Back to Home';
+                    } else if (decodedUrl.includes('provider-signup')) {
+                        backButton.textContent = 'Back to Provider Signup';
+                    } else if (decodedUrl.includes('dashboard')) {
+                        backButton.textContent = 'Back to Dashboard';
+                    } else {
+                        backButton.textContent = 'Back';
+                    }
+                    return;
+                } catch (error) {
+                    // Invalid URL, continue to other checks
+                }
+            }
+            
+            if (returnUrl) {
+                if (returnUrl === '/') {
+                    backButton.textContent = 'Back to Home';
+                } else if (returnUrl.includes('provider-signup')) {
+                    backButton.textContent = 'Back to Provider Signup';
+                } else if (returnUrl.includes('dashboard')) {
+                    backButton.textContent = 'Back to Dashboard';
+                } else {
+                    backButton.textContent = 'Back';
+                }
+                return;
+            }
+            
+            if (document.referrer && document.referrer.includes(window.location.origin)) {
+                const referrerUrl = new URL(document.referrer);
+                if (referrerUrl.pathname === '/') {
+                    backButton.textContent = 'Back to Home';
+                } else if (referrerUrl.pathname.includes('provider-signup')) {
+                    backButton.textContent = 'Back to Provider Signup';
+                } else if (referrerUrl.pathname.includes('dashboard')) {
+                    backButton.textContent = 'Back to Dashboard';
+                } else {
+                    backButton.textContent = 'Back';
+                }
+                return;
+            }
+            
+            // Default
+            backButton.textContent = 'Back to Home';
+        }
+        
         // Login form handler
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -156,6 +472,19 @@
                     const result = await response.json();
                     localStorage.setItem('authToken', result.access_token);
                     localStorage.setItem('currentUser', JSON.stringify(result.user));
+                    
+                    // Clear form state on successful login
+                    clearAuthFormState();
+                    
+                    // Check for post-login action first (e.g., from Join as Provider button)
+                    const postLoginAction = sessionStorage.getItem('postLoginAction');
+                    if (postLoginAction) {
+                        sessionStorage.removeItem('postLoginAction');
+                        if (postLoginAction === 'provider-signup') {
+                            window.location.href = '/provider-signup';
+                            return;
+                        }
+                    }
                     
                     // Check if there's a return URL
                     const returnUrl = sessionStorage.getItem('returnUrl') || '/';
@@ -182,9 +511,20 @@
                 password: formData.get('password'),
                 phone: formData.get('phone') || null,
                 address: formData.get('address') || null,
-                city: formData.get('city'),
-                state: formData.get('state'),
-                zip_code: formData.get('zip_code') || null
+                // Kenyan location fields
+                county: formData.get('county'),
+                subCounty: formData.get('subCounty'),
+                ward: formData.get('ward'),
+                postalCode: formData.get('postalCode') || null,
+                landmark: formData.get('landmark') || null,
+                // Coordinates from Google Maps
+                latitude: formData.get('latitude') || null,
+                longitude: formData.get('longitude') || null,
+                fullAddress: formData.get('fullAddress') || null,
+                // Legacy fields for backward compatibility (map to Kenyan fields)
+                city: formData.get('county'), // Map county to city
+                state: formData.get('subCounty'), // Map sub-county to state
+                zip_code: formData.get('postalCode') || null // Map postal code to zip_code
             };
 
             try {
@@ -201,6 +541,19 @@
                     localStorage.setItem('authToken', result.access_token);
                     localStorage.setItem('currentUser', JSON.stringify(result.user));
                     
+                    // Clear form state on successful signup
+                    clearAuthFormState();
+                    
+                    // Check for post-login action first (e.g., from Join as Provider button)
+                    const postLoginAction = sessionStorage.getItem('postLoginAction');
+                    if (postLoginAction) {
+                        sessionStorage.removeItem('postLoginAction');
+                        if (postLoginAction === 'provider-signup') {
+                            window.location.href = '/provider-signup';
+                            return;
+                        }
+                    }
+                    
                     // Check if there's a return URL
                     const returnUrl = sessionStorage.getItem('returnUrl') || '/';
                     sessionStorage.removeItem('returnUrl');
@@ -214,6 +567,150 @@
                 alert('Registration failed. Please try again.');
             }
         });
+    </script>
+
+    <!-- Google Maps API (placeholder - will be activated when API key is added) -->
+    <!-- <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places&callback=initAutocomplete" async defer></script> -->
+    
+    <!-- Kenya Location Data -->
+    <script src="/static/js/kenya-locations.js"></script>
+    
+    <script>
+        // Initialize Kenya location dropdowns
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeKenyaLocations();
+        });
+
+        function initializeKenyaLocations() {
+            const countySelect = document.getElementById('signup-county');
+            const subCountySelect = document.getElementById('signup-sub-county');
+            const wardSelect = document.getElementById('signup-ward');
+
+            // Populate counties
+            if (typeof kenyaLocations !== 'undefined') {
+                Object.keys(kenyaLocations).forEach(county => {
+                    const option = document.createElement('option');
+                    option.value = county;
+                    option.textContent = county;
+                    countySelect.appendChild(option);
+                });
+
+                // Handle county selection
+                countySelect.addEventListener('change', function() {
+                    const selectedCounty = this.value;
+                    
+                    // Clear sub-county and ward options
+                    subCountySelect.innerHTML = '<option value="">Select Sub-County *</option>';
+                    wardSelect.innerHTML = '<option value="">Select Ward *</option>';
+                    
+                    if (selectedCounty && kenyaLocations[selectedCounty]) {
+                        Object.keys(kenyaLocations[selectedCounty]).forEach(subCounty => {
+                            const option = document.createElement('option');
+                            option.value = subCounty;
+                            option.textContent = subCounty;
+                            subCountySelect.appendChild(option);
+                        });
+                    }
+                });
+
+                // Handle sub-county selection
+                subCountySelect.addEventListener('change', function() {
+                    const selectedCounty = countySelect.value;
+                    const selectedSubCounty = this.value;
+                    
+                    // Clear ward options
+                    wardSelect.innerHTML = '<option value="">Select Ward *</option>';
+                    
+                    if (selectedCounty && selectedSubCounty && 
+                        kenyaLocations[selectedCounty] && 
+                        kenyaLocations[selectedCounty][selectedSubCounty]) {
+                        
+                        kenyaLocations[selectedCounty][selectedSubCounty].forEach(ward => {
+                            const option = document.createElement('option');
+                            option.value = ward;
+                            option.textContent = ward;
+                            wardSelect.appendChild(option);
+                        });
+                    }
+                });
+            }
+        }
+
+        // Google Maps Autocomplete (will be activated when API key is available)
+        function initAutocomplete() {
+            const addressInput = document.getElementById('signup-address-search');
+            
+            if (typeof google !== 'undefined' && google.maps && google.maps.places) {
+                const autocomplete = new google.maps.places.Autocomplete(addressInput, {
+                    types: ['establishment', 'geocode'],
+                    componentRestrictions: { country: 'KE' } // Restrict to Kenya
+                });
+
+                autocomplete.addListener('place_changed', function() {
+                    const place = autocomplete.getPlace();
+                    
+                    if (place.geometry) {
+                        // Set coordinates
+                        document.getElementById('signup-latitude').value = place.geometry.location.lat();
+                        document.getElementById('signup-longitude').value = place.geometry.location.lng();
+                        document.getElementById('signup-full-address').value = place.formatted_address;
+                        
+                        // Try to extract Kenyan administrative levels
+                        extractKenyanLocation(place);
+                    }
+                });
+            } else {
+                // Fallback when Google Maps is not available
+                addressInput.placeholder = "Google Maps not available - use manual location selection below";
+                addressInput.disabled = true;
+            }
+        }
+
+        function extractKenyanLocation(place) {
+            const components = place.address_components || [];
+            let county = '';
+            let subCounty = '';
+            
+            components.forEach(component => {
+                const types = component.types;
+                
+                if (types.includes('administrative_area_level_1')) {
+                    county = component.long_name;
+                } else if (types.includes('administrative_area_level_2')) {
+                    subCounty = component.long_name;
+                }
+            });
+            
+            // Try to match with our Kenya locations data
+            if (county && typeof kenyaLocations !== 'undefined') {
+                const countySelect = document.getElementById('signup-county');
+                const matchedCounty = Object.keys(kenyaLocations).find(k => 
+                    k.toLowerCase().includes(county.toLowerCase()) || 
+                    county.toLowerCase().includes(k.toLowerCase())
+                );
+                
+                if (matchedCounty) {
+                    countySelect.value = matchedCounty;
+                    countySelect.dispatchEvent(new Event('change'));
+                    
+                    // Try to match sub-county
+                    if (subCounty) {
+                        setTimeout(() => {
+                            const subCountySelect = document.getElementById('signup-sub-county');
+                            const matchedSubCounty = Array.from(subCountySelect.options).find(option =>
+                                option.value.toLowerCase().includes(subCounty.toLowerCase()) ||
+                                subCounty.toLowerCase().includes(option.value.toLowerCase())
+                            );
+                            
+                            if (matchedSubCounty) {
+                                subCountySelect.value = matchedSubCounty.value;
+                                subCountySelect.dispatchEvent(new Event('change'));
+                            }
+                        }, 100);
+                    }
+                }
+            }
+        }
     </script>
 </body>
 </html>
