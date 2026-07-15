@@ -271,15 +271,28 @@
   }
 
   /* unlock */
+  .unlock-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 26px; }
+  @media (max-width: 760px) { .unlock-grid { grid-template-columns: 1fr; } }
   .unlock {
-    margin-top: 26px; border-radius: 10px; padding: 24px 26px;
+    border-radius: 10px; padding: 24px 26px;
     background: var(--accent-wash); border: 1px solid var(--accent);
-    display: grid; grid-template-columns: 1fr auto; gap: 18px; align-items: center;
+    display: flex; flex-direction: column; gap: 4px;
   }
-  @media (max-width: 700px) { .unlock { grid-template-columns: 1fr; } }
+  .unlock.expert { background: var(--surface); border: 1px solid var(--line-strong); }
   .unlock ul { margin: 8px 0 0; padding-left: 18px; color: var(--ink-2); font-size: 14px; }
-  .unlock .price { font-size: 13px; color: var(--ink-2); margin-top: 8px; }
+  .unlock .price { font-size: 13px; color: var(--ink-2); margin: 10px 0 14px; }
   .unlock .price b { color: var(--ink); font-size: 16px; }
+  .unlock .btn { align-self: flex-start; margin-top: auto; }
+  .unlock-kicker {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase;
+    color: var(--accent-ink); margin: 0 0 6px;
+  }
+  .stage-gallery {
+    margin-top: 6px; border: 1.5px dashed var(--line-strong); border-radius: 8px;
+    padding: 14px 16px; display: flex; align-items: center; gap: 12px;
+    color: var(--ink-3); font-size: 13px; max-width: 560px;
+  }
+  .stage-gallery svg { flex: none; }
 
   .disclaimer { font-size: 12px; color: var(--ink-3); margin-top: 22px; max-width: 72ch; }
 
@@ -411,8 +424,9 @@
       <div class="stage-list" id="stage-list"></div>
     </div>
 
-    <div class="unlock">
-      <div>
+    <div class="unlock-grid">
+      <div class="unlock">
+        <p class="unlock-kicker">Instant · Automated</p>
         <h2 style="margin-bottom:2px;">Unlock the detailed report</h2>
         <ul>
           <li>Full bill of indicative materials with current prices</li>
@@ -421,8 +435,20 @@
           <li>PDF you can share with your fundi or contractor</li>
         </ul>
         <p class="price">One-time unlock · <b>KES 500</b></p>
+        <button class="btn">Unlock report</button>
       </div>
-      <button class="btn">Unlock report</button>
+      <div class="unlock expert">
+        <p class="unlock-kicker">Billed · Human expert</p>
+        <h2 style="margin-bottom:2px;">Get an expert opinion</h2>
+        <ul>
+          <li>A registered Quantity Surveyor reviews your estimate</li>
+          <li>Written opinion on cost, risks and savings for your plot</li>
+          <li>Adjusted figures where your case differs from the template</li>
+          <li>30-minute call to walk through the numbers</li>
+        </ul>
+        <p class="price">Billed per opinion · <b>from KES 5,000</b> · 2–3 working days</p>
+        <button class="btn ghost">Request expert review</button>
+      </div>
     </div>
 
     <p class="disclaimer" id="res-disclaimer"></p>
@@ -918,6 +944,14 @@ function renderStages() {
       </summary>
       <div class="stage-body">
         <p>${s.description}</p>
+        <div class="stage-gallery">
+          <svg width="28" height="24" viewBox="0 0 28 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true">
+            <rect x="1.5" y="4.5" width="25" height="17" rx="2.5"/>
+            <circle cx="14" cy="13" r="4.5"/>
+            <path d="M9 4.5 L11 1.5 h6 l2 3"/>
+          </svg>
+          <span>Photos of this stage from real builds appear here — added through the admin panel as the knowledge base grows.</span>
+        </div>
         <p class="mini-h">Indicative materials — scaled to ${state.areaM2} m²</p>
         <div class="table-scroll"><table class="mat-table"><tbody>${mats}</tbody></table></div>
         <p class="mini-h">Who you'll need</p>
