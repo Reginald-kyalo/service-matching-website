@@ -1,0 +1,980 @@
+<title>Allura Works — Estimate Mockup</title>
+<style>
+  :root {
+    --ground: #f3f2ee;
+    --surface: #fcfcfa;
+    --surface-2: #f7f6f2;
+    --ink: #1c1b18;
+    --ink-2: #57554e;
+    --ink-3: #8a877e;
+    --line: #e3e1d9;
+    --line-strong: #c9c6bb;
+    --accent: #9c6b10;
+    --accent-ink: #7a5209;
+    --accent-wash: rgba(156, 107, 16, 0.09);
+    --good: #006300;
+    --c1: #2a78d6; --c2: #1baf7a; --c3: #eda100; --c4: #008300;
+    --c5: #4a3aa7; --c6: #e34948; --c7: #e87ba4;
+    --shadow: 0 1px 2px rgba(28, 27, 24, 0.05), 0 8px 24px rgba(28, 27, 24, 0.06);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ground: #141411;
+      --surface: #1e1d1a;
+      --surface-2: #242320;
+      --ink: #f2f1ec;
+      --ink-2: #c0beb2;
+      --ink-3: #8a877e;
+      --line: #302f2a;
+      --line-strong: #45443c;
+      --accent: #e0a32e;
+      --accent-ink: #ecb551;
+      --accent-wash: rgba(224, 163, 46, 0.12);
+      --good: #0ca30c;
+      --c1: #3987e5; --c2: #199e70; --c3: #c98500; --c4: #008300;
+      --c5: #9085e9; --c6: #e66767; --c7: #d55181;
+      --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.35);
+    }
+  }
+  :root[data-theme="light"] {
+    --ground: #f3f2ee; --surface: #fcfcfa; --surface-2: #f7f6f2;
+    --ink: #1c1b18; --ink-2: #57554e; --ink-3: #8a877e;
+    --line: #e3e1d9; --line-strong: #c9c6bb;
+    --accent: #9c6b10; --accent-ink: #7a5209; --accent-wash: rgba(156,107,16,0.09);
+    --good: #006300;
+    --c1: #2a78d6; --c2: #1baf7a; --c3: #eda100; --c4: #008300;
+    --c5: #4a3aa7; --c6: #e34948; --c7: #e87ba4;
+    --shadow: 0 1px 2px rgba(28,27,24,0.05), 0 8px 24px rgba(28,27,24,0.06);
+  }
+  :root[data-theme="dark"] {
+    --ground: #141411; --surface: #1e1d1a; --surface-2: #242320;
+    --ink: #f2f1ec; --ink-2: #c0beb2; --ink-3: #8a877e;
+    --line: #302f2a; --line-strong: #45443c;
+    --accent: #e0a32e; --accent-ink: #ecb551; --accent-wash: rgba(224,163,46,0.12);
+    --good: #0ca30c;
+    --c1: #3987e5; --c2: #199e70; --c3: #c98500; --c4: #008300;
+    --c5: #9085e9; --c6: #e66767; --c7: #d55181;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--ground);
+    color: var(--ink);
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    line-height: 1.5;
+    font-size: 15px;
+  }
+  .wrap { max-width: 1060px; margin: 0 auto; padding: 0 24px 96px; }
+
+  /* ---------- header ---------- */
+  header.site {
+    display: flex; align-items: baseline; gap: 14px;
+    padding: 26px 0 22px; border-bottom: 1px solid var(--line);
+    margin-bottom: 36px;
+  }
+  .wordmark { font-size: 19px; font-weight: 800; letter-spacing: -0.02em; }
+  .wordmark .works { color: var(--accent); }
+  .mock-tag {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--ink-3); border: 1px solid var(--line-strong); border-radius: 3px;
+    padding: 2px 7px;
+  }
+  header.site .spacer { flex: 1; }
+  header.site .strap { font-size: 13px; color: var(--ink-2); }
+  @media (max-width: 700px) { header.site .strap { display: none; } }
+
+  .eyebrow {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--accent-ink); margin: 0 0 8px;
+  }
+  h1 { font-size: 30px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.15; margin: 0 0 10px; text-wrap: balance; }
+  h2 { font-size: 17px; font-weight: 700; letter-spacing: -0.01em; margin: 0 0 4px; }
+  .lede { color: var(--ink-2); max-width: 60ch; margin: 0 0 34px; }
+
+  /* ---------- template cards ---------- */
+  .step-label {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 12px; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase;
+    color: var(--ink-3); margin: 0 0 14px;
+  }
+  .step-label::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+
+  .tpl-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 18px; margin-bottom: 40px; }
+  .tpl-card {
+    text-align: left; cursor: pointer; padding: 0; overflow: hidden;
+    background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
+    color: inherit; font: inherit; box-shadow: var(--shadow);
+    transition: border-color 0.15s;
+  }
+  .tpl-card:hover { border-color: var(--line-strong); }
+  .tpl-card[aria-pressed="true"] { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent), var(--shadow); }
+  .tpl-card:focus-visible, .btn:focus-visible, .finish-opt:focus-visible,
+  select:focus-visible, input:focus-visible, .linkish:focus-visible {
+    outline: 2px solid var(--accent); outline-offset: 2px;
+  }
+  .tpl-art { display: block; width: 100%; height: auto; background: var(--surface-2); border-bottom: 1px solid var(--line); }
+  .tpl-body { padding: 16px 18px 18px; }
+  .tpl-meta { display: flex; flex-wrap: wrap; gap: 6px 14px; margin-top: 8px; font-size: 13px; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+  .tpl-meta strong { color: var(--ink); font-weight: 600; }
+  .tpl-pick {
+    display: inline-block; margin-top: 12px; font-size: 12px; font-weight: 700;
+    letter-spacing: 0.07em; text-transform: uppercase; color: var(--accent-ink);
+  }
+
+  /* ---------- input form ---------- */
+  .panel {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
+    box-shadow: var(--shadow); padding: 24px;
+  }
+  .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 22px; }
+  .field label.lab, .lab {
+    display: block; font-size: 12px; font-weight: 700; letter-spacing: 0.06em;
+    text-transform: uppercase; color: var(--ink-2); margin-bottom: 8px;
+  }
+  .field input[type="number"], .field select {
+    width: 100%; padding: 10px 12px; font: inherit; color: var(--ink);
+    background: var(--surface); border: 1px solid var(--line-strong); border-radius: 7px;
+    font-variant-numeric: tabular-nums;
+  }
+  .field input[type="range"] { width: 100%; accent-color: var(--accent); margin-top: 10px; }
+  .hint { font-size: 12px; color: var(--ink-3); margin-top: 6px; }
+
+  .finish-row { display: flex; gap: 8px; }
+  .finish-opt {
+    flex: 1; cursor: pointer; font: inherit; text-align: center;
+    padding: 9px 6px; border: 1px solid var(--line-strong); border-radius: 7px;
+    background: var(--surface); color: var(--ink-2); font-size: 13px; font-weight: 600;
+  }
+  .finish-opt[aria-pressed="true"] { background: var(--accent-wash); border-color: var(--accent); color: var(--accent-ink); }
+
+  .form-foot { display: flex; align-items: center; gap: 18px; margin-top: 26px; flex-wrap: wrap; }
+  .btn {
+    cursor: pointer; font: inherit; font-weight: 700; font-size: 15px;
+    padding: 12px 26px; border-radius: 8px; border: 1px solid transparent;
+    background: var(--accent); color: #fff;
+  }
+  :root[data-theme="dark"] .btn.primary, .btn.primary { color: #fff; }
+  @media (prefers-color-scheme: dark) { .btn { color: #141411; } }
+  :root[data-theme="dark"] .btn { color: #141411; }
+  :root[data-theme="light"] .btn { color: #fff; }
+  .btn:hover { filter: brightness(1.06); }
+  .btn.ghost { background: transparent; color: var(--accent-ink); border-color: var(--line-strong); }
+  .form-foot .note { font-size: 13px; color: var(--ink-3); max-width: 40ch; }
+
+  /* ---------- results ---------- */
+  .screen { display: none; }
+  .screen.active { display: block; }
+  .linkish {
+    background: none; border: none; cursor: pointer; font: inherit;
+    color: var(--accent-ink); font-weight: 600; padding: 0;
+  }
+  .crumbs { margin: 0 0 22px; font-size: 13px; color: var(--ink-3); display: flex; gap: 8px; align-items: center; }
+
+  .hero {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
+    box-shadow: var(--shadow); padding: 26px 28px; margin-bottom: 20px;
+    display: grid; grid-template-columns: 1.4fr 1fr; gap: 24px;
+  }
+  @media (max-width: 780px) { .hero { grid-template-columns: 1fr; } }
+  .hero-total { font-size: 42px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.05; margin: 2px 0 4px; }
+  .hero-total .cur { font-size: 20px; font-weight: 700; color: var(--ink-2); margin-right: 6px; vertical-align: 8px; }
+  .hero-range { font-size: 14px; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+  .hero-range b { color: var(--ink); font-weight: 600; }
+  .stat-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; align-content: start; }
+  .stat {
+    background: var(--surface-2); border: 1px solid var(--line); border-radius: 8px;
+    padding: 12px 14px;
+  }
+  .stat .k { font-size: 11px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--ink-3); }
+  .stat .v { font-size: 20px; font-weight: 700; margin-top: 2px; font-variant-numeric: tabular-nums; }
+  .stat .v small { font-size: 12px; font-weight: 600; color: var(--ink-2); }
+
+  .adjust {
+    display: flex; flex-wrap: wrap; gap: 14px 20px; align-items: end;
+    background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
+    padding: 14px 18px; margin-bottom: 20px; box-shadow: var(--shadow);
+  }
+  .adjust .field { min-width: 130px; }
+  .adjust .field input, .adjust .field select { padding: 7px 10px; font-size: 14px; }
+  .adjust .lab { margin-bottom: 5px; font-size: 11px; }
+  .adjust-note { font-size: 12px; color: var(--ink-3); margin-left: auto; align-self: center; }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1.15fr; gap: 20px; margin-bottom: 20px; }
+  @media (max-width: 860px) { .two-col { grid-template-columns: 1fr; } }
+
+  .donut-wrap { display: flex; gap: 8px; align-items: center; flex-direction: column; }
+  .donut-svg { max-width: 260px; width: 100%; height: auto; }
+  .donut-center-total { font-size: 21px; font-weight: 800; letter-spacing: -0.01em; }
+  .legend { list-style: none; margin: 14px 0 0; padding: 0; width: 100%; display: grid; gap: 6px; }
+  .legend li {
+    display: grid; grid-template-columns: 12px 1fr auto auto; gap: 10px; align-items: center;
+    font-size: 13px; padding: 3px 6px; border-radius: 5px;
+  }
+  .legend li.hl { background: var(--surface-2); }
+  .legend .chip { width: 12px; height: 12px; border-radius: 3px; }
+  .legend .pct { color: var(--ink-2); font-variant-numeric: tabular-nums; }
+  .legend .amt { font-weight: 600; font-variant-numeric: tabular-nums; min-width: 96px; text-align: right; }
+
+  .cost-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  .cost-table th {
+    text-align: left; font-size: 11px; font-weight: 700; letter-spacing: 0.07em;
+    text-transform: uppercase; color: var(--ink-3); padding: 8px 10px; border-bottom: 1px solid var(--line-strong);
+  }
+  .cost-table td { padding: 9px 10px; border-bottom: 1px solid var(--line); font-variant-numeric: tabular-nums; }
+  .cost-table td.num, .cost-table th.num { text-align: right; }
+  .cost-table tr.total td { border-bottom: none; font-weight: 800; border-top: 2px solid var(--line-strong); }
+  .table-scroll { overflow-x: auto; }
+
+  /* timeline */
+  .tl-bar { display: flex; height: 34px; border-radius: 7px; overflow: hidden; gap: 2px; background: var(--ground); margin: 14px 0 8px; }
+  .tl-seg { position: relative; min-width: 3px; cursor: default; }
+  .tl-scale { display: flex; justify-content: space-between; font-size: 12px; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+
+  /* stages */
+  .stage-list { display: grid; gap: 10px; margin-top: 14px; }
+  details.stage {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 9px;
+    overflow: hidden;
+  }
+  details.stage[open] { border-color: var(--line-strong); }
+  details.stage summary {
+    list-style: none; cursor: pointer; display: grid;
+    grid-template-columns: 30px 1fr auto auto; gap: 14px; align-items: center;
+    padding: 13px 16px;
+  }
+  details.stage summary::-webkit-details-marker { display: none; }
+  .stage-dot {
+    width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center;
+    font-size: 12px; font-weight: 700; color: #fff; background: var(--ink-3);
+  }
+  .stage-name { font-weight: 600; }
+  .stage-elem { font-size: 11px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-3); display: block; margin-top: 1px; }
+  .stage-cost { font-weight: 700; font-variant-numeric: tabular-nums; }
+  .stage-days { font-size: 13px; color: var(--ink-2); font-variant-numeric: tabular-nums; min-width: 64px; text-align: right; }
+  .stage-body { padding: 2px 16px 16px 60px; border-top: 1px dashed var(--line); }
+  .stage-body p { margin: 12px 0; color: var(--ink-2); max-width: 65ch; }
+  .mini-h { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); margin: 14px 0 6px; }
+  .mat-table { width: 100%; border-collapse: collapse; font-size: 13px; max-width: 560px; }
+  .mat-table td { padding: 5px 8px 5px 0; border-bottom: 1px dashed var(--line); font-variant-numeric: tabular-nums; }
+  .mat-table td:last-child { text-align: right; font-weight: 600; }
+  .pro-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .pro-chip {
+    font-size: 12px; font-weight: 600; color: var(--ink-2);
+    border: 1px solid var(--line-strong); border-radius: 999px; padding: 3px 10px;
+  }
+  @media (max-width: 640px) {
+    details.stage summary { grid-template-columns: 30px 1fr auto; }
+    .stage-days { display: none; }
+    .stage-body { padding-left: 16px; }
+  }
+
+  /* unlock */
+  .unlock {
+    margin-top: 26px; border-radius: 10px; padding: 24px 26px;
+    background: var(--accent-wash); border: 1px solid var(--accent);
+    display: grid; grid-template-columns: 1fr auto; gap: 18px; align-items: center;
+  }
+  @media (max-width: 700px) { .unlock { grid-template-columns: 1fr; } }
+  .unlock ul { margin: 8px 0 0; padding-left: 18px; color: var(--ink-2); font-size: 14px; }
+  .unlock .price { font-size: 13px; color: var(--ink-2); margin-top: 8px; }
+  .unlock .price b { color: var(--ink); font-size: 16px; }
+
+  .disclaimer { font-size: 12px; color: var(--ink-3); margin-top: 22px; max-width: 72ch; }
+
+  .tooltip {
+    position: fixed; z-index: 10; pointer-events: none; display: none;
+    background: var(--ink); color: var(--ground); font-size: 12.5px; line-height: 1.4;
+    padding: 7px 10px; border-radius: 6px; max-width: 240px;
+    font-variant-numeric: tabular-nums;
+  }
+  .tooltip b { display: block; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .tpl-card, details.stage, .btn { transition: border-color 0.15s, filter 0.15s; }
+  }
+</style>
+
+<div class="wrap">
+  <header class="site">
+    <span class="wordmark">Allura<span class="works">&nbsp;Works</span></span>
+    <span class="mock-tag">V1 mockup</span>
+    <span class="spacer"></span>
+    <span class="strap">Know your build before you spend a shilling.</span>
+  </header>
+
+  <!-- ============ SCREEN 1 : INPUT ============ -->
+  <section class="screen active" id="screen-input">
+    <p class="eyebrow">Cost &amp; project estimator</p>
+    <h1>What do you want to build?</h1>
+    <p class="lede">Pick a project, tell us where and how big, and get an instant cost estimate,
+      a stage-by-stage breakdown, and a realistic timeline — before you talk to anyone.</p>
+
+    <p class="step-label">1 · Choose a project</p>
+    <div class="tpl-grid" id="tpl-grid"></div>
+
+    <p class="step-label">2 · Your details</p>
+    <div class="panel">
+      <div class="form-grid">
+        <div class="field">
+          <label class="lab" for="in-area">Floor area (m²)</label>
+          <input type="number" id="in-area" min="60" max="500" step="5" value="150">
+          <input type="range" id="in-area-range" min="60" max="500" step="5" value="150" aria-label="Floor area slider">
+          <p class="hint" id="area-hint">Template reference: 150 m²</p>
+        </div>
+        <div class="field">
+          <label class="lab" for="in-location">Location</label>
+          <select id="in-location"></select>
+          <p class="hint">Adjusts labour &amp; material logistics.</p>
+        </div>
+        <div class="field">
+          <span class="lab" id="finish-lab">Finish level</span>
+          <div class="finish-row" role="group" aria-labelledby="finish-lab" id="finish-row"></div>
+          <p class="hint" id="finish-hint">Standard — quality mainstream fittings.</p>
+        </div>
+        <div class="field">
+          <span class="lab">Floors</span>
+          <div class="hint" id="floors-note" style="font-size:14px;color:var(--ink);margin-top:0;"></div>
+          <p class="hint">Set by the chosen template in V1.</p>
+        </div>
+      </div>
+      <div class="form-foot">
+        <button class="btn" id="btn-estimate">Get my estimate</button>
+        <p class="note">Free, instant, no sign-up. The detailed report is the only paid step.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SCREEN 2 : RESULTS ============ -->
+  <section class="screen" id="screen-results">
+    <p class="crumbs"><button class="linkish" id="btn-back">← Change project</button><span>/</span><span id="crumb-name"></span></p>
+
+    <div class="hero">
+      <div>
+        <p class="eyebrow" id="res-eyebrow"></p>
+        <div class="hero-total"><span class="cur">KES</span><span id="res-total"></span></div>
+        <p class="hero-range">Estimated range <b id="res-range"></b> · ±15% planning margin</p>
+      </div>
+      <div class="stat-row">
+        <div class="stat"><div class="k">Rate</div><div class="v" id="res-rate"></div></div>
+        <div class="stat"><div class="k">Build time</div><div class="v" id="res-months"></div></div>
+        <div class="stat"><div class="k">Floor area</div><div class="v" id="res-area"></div></div>
+        <div class="stat"><div class="k">Stages</div><div class="v" id="res-stagecount"></div></div>
+      </div>
+    </div>
+
+    <div class="adjust" id="adjust-bar">
+      <div class="field">
+        <label class="lab" for="adj-area">Area m²</label>
+        <input type="number" id="adj-area" min="60" max="500" step="5">
+      </div>
+      <div class="field">
+        <label class="lab" for="adj-location">Location</label>
+        <select id="adj-location"></select>
+      </div>
+      <div class="field">
+        <label class="lab" for="adj-finish">Finish</label>
+        <select id="adj-finish"></select>
+      </div>
+      <span class="adjust-note">Everything below recalculates live.</span>
+    </div>
+
+    <div class="two-col">
+      <div class="panel">
+        <h2>Where the money goes</h2>
+        <p class="hint" style="margin:0 0 10px;">Grouped by cost element, QS-style.</p>
+        <div class="donut-wrap">
+          <svg class="donut-svg" id="donut" viewBox="0 0 240 240" role="img" aria-labelledby="donut-title">
+            <title id="donut-title">Cost breakdown by element</title>
+          </svg>
+          <ul class="legend" id="legend"></ul>
+        </div>
+      </div>
+      <div class="panel">
+        <h2>Cost plan</h2>
+        <p class="hint" style="margin:0 0 10px;">Element weights come from the building template.</p>
+        <div class="table-scroll">
+          <table class="cost-table" id="cost-table">
+            <thead><tr><th>Element</th><th class="num">Share</th><th class="num">Amount (KES)</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>The build journey</h2>
+      <p class="hint" style="margin:0;">Each stage shows its cost, duration, and what it takes. Durations scale with your floor area.</p>
+      <div class="tl-bar" id="tl-bar"></div>
+      <div class="tl-scale"><span>Week 0</span><span id="tl-end"></span></div>
+      <div class="stage-list" id="stage-list"></div>
+    </div>
+
+    <div class="unlock">
+      <div>
+        <h2 style="margin-bottom:2px;">Unlock the detailed report</h2>
+        <ul>
+          <li>Full bill of indicative materials with current prices</li>
+          <li>Stage-by-stage payment schedule</li>
+          <li>Professionals you'll need at each stage, and when</li>
+          <li>PDF you can share with your fundi or contractor</li>
+        </ul>
+        <p class="price">One-time unlock · <b>KES 500</b></p>
+      </div>
+      <button class="btn">Unlock report</button>
+    </div>
+
+    <p class="disclaimer" id="res-disclaimer"></p>
+  </section>
+</div>
+
+<div class="tooltip" id="tooltip"></div>
+
+<script>
+/* =====================================================================
+   KNOWLEDGE — two BuildingTemplate documents. This is Allano's side of
+   the contract: adding a project means adding a document like these.
+   Quantities are RATES (per_m2 / per_floor / fixed) so they scale.
+   ===================================================================== */
+const LOCATIONS = [
+  { key: "nairobi",  name: "Nairobi",  multiplier: 1.00 },
+  { key: "kiambu",   name: "Kiambu",   multiplier: 0.97 },
+  { key: "mombasa",  name: "Mombasa",  multiplier: 1.05 },
+  { key: "nakuru",   name: "Nakuru",   multiplier: 0.95 },
+  { key: "kisumu",   name: "Kisumu",   multiplier: 0.98 },
+  { key: "machakos", name: "Machakos", multiplier: 0.93 },
+];
+
+const FINISHES = [
+  { key: "basic",    name: "Basic",    multiplier: 0.85, hint: "Basic — functional, budget-first fittings." },
+  { key: "standard", name: "Standard", multiplier: 1.00, hint: "Standard — quality mainstream fittings." },
+  { key: "premium",  name: "Premium",  multiplier: 1.35, hint: "Premium — high-end finishes and fittings." },
+];
+
+const COST_ELEMENTS = [
+  { key: "preliminaries",  name: "Preliminaries" },
+  { key: "substructure",   name: "Substructure" },
+  { key: "superstructure", name: "Superstructure" },
+  { key: "roofing",        name: "Roofing" },
+  { key: "finishes",       name: "Finishes" },
+  { key: "services",       name: "Services" },
+  { key: "external",       name: "External works" },
+];
+
+const TEMPLATES = [
+{
+  key: "bungalow_3br",
+  name: "Modern 3-Bedroom Bungalow",
+  tagline: "The classic family home on one level — master ensuite, open-plan kitchen and living.",
+  referenceAreaM2: 150,
+  baseRatePerM2: 23000,
+  floors: 1,
+  areaRange: [90, 300],
+  costElementWeights: {
+    preliminaries: 0.05, substructure: 0.15, superstructure: 0.30,
+    roofing: 0.12, finishes: 0.22, services: 0.10, external: 0.06,
+  },
+  stages: [
+    { key: "site_prep", order: 1, name: "Site preparation & setup", costElement: "preliminaries", weightInElement: 1.0, durationDays: 7,
+      description: "Clearing and levelling the plot, hoarding, a temporary water point and site store, and setting out the house footprint with the surveyor. Approvals and drawings are assumed in hand.",
+      materials: [
+        { name: "Hoarding timber & ironsheet", unit: "lot", basis: "fixed", qty: 1, unitPrice: 45000 },
+        { name: "Setting-out profiles & lines", unit: "lot", basis: "fixed", qty: 1, unitPrice: 8000 },
+      ],
+      professionals: ["Surveyor", "Site agent"] },
+    { key: "foundation", order: 2, name: "Foundation & substructure", costElement: "substructure", weightInElement: 1.0, durationDays: 21,
+      description: "Excavating strip footings, blinding, reinforced footing and ground beams, foundation walling up to plinth, hardcore fill, damp-proof membrane and the ground-floor slab.",
+      materials: [
+        { name: "Cement (32.5N)", unit: "bags", basis: "per_m2", qty: 1.4, unitPrice: 780 },
+        { name: "Ballast", unit: "tonnes", basis: "per_m2", qty: 0.12, unitPrice: 2300 },
+        { name: "Reinforcement steel (D10–D12)", unit: "kg", basis: "per_m2", qty: 5.5, unitPrice: 145 },
+        { name: "Hardcore fill", unit: "tonnes", basis: "per_m2", qty: 0.25, unitPrice: 1500 },
+      ],
+      professionals: ["Structural engineer (inspection)", "Mason crew", "Steel fixer"] },
+    { key: "walling", order: 3, name: "Walling", costElement: "superstructure", weightInElement: 0.65, durationDays: 30,
+      description: "Machine-cut stone walls to wall-plate level: external walls, internal partitions, door and window openings formed as the walls rise.",
+      materials: [
+        { name: "Machine-cut blocks (9\")", unit: "pcs", basis: "per_m2", qty: 12.5, unitPrice: 65 },
+        { name: "Cement (32.5N)", unit: "bags", basis: "per_m2", qty: 0.8, unitPrice: 780 },
+        { name: "River sand", unit: "tonnes", basis: "per_m2", qty: 0.09, unitPrice: 2600 },
+      ],
+      professionals: ["Mason crew", "Site agent"] },
+    { key: "lintel_ringbeam", order: 4, name: "Lintel & ring beam", costElement: "superstructure", weightInElement: 0.15, durationDays: 10,
+      description: "Reinforced concrete band over all openings and around the top of the walls, tying the structure together before the roof goes on.",
+      materials: [
+        { name: "Cement (32.5N)", unit: "bags", basis: "per_m2", qty: 0.3, unitPrice: 780 },
+        { name: "Reinforcement steel (D8–D12)", unit: "kg", basis: "per_m2", qty: 1.8, unitPrice: 145 },
+        { name: "Formwork timber", unit: "ft", basis: "per_m2", qty: 1.2, unitPrice: 60 },
+      ],
+      professionals: ["Mason crew", "Steel fixer", "Carpenter (formwork)"] },
+    { key: "roof_structure", order: 5, name: "Roof structure", costElement: "superstructure", weightInElement: 0.20, durationDays: 12,
+      description: "Treated timber trusses, purlins and fascia — the hipped-roof skeleton, ready for covering.",
+      materials: [
+        { name: "Treated timber (trusses & purlins)", unit: "ft", basis: "per_m2", qty: 4.2, unitPrice: 85 },
+        { name: "Fixings & hurricane straps", unit: "lot", basis: "fixed", qty: 1, unitPrice: 25000 },
+      ],
+      professionals: ["Roofing carpenter crew"] },
+    { key: "roof_cover", order: 6, name: "Roof covering", costElement: "roofing", weightInElement: 1.0, durationDays: 10,
+      description: "Underlay, roofing sheets or tiles, ridges, valleys, flashings and gutters. The house is now weather-tight — a major milestone.",
+      materials: [
+        { name: "Stone-coated roofing tiles", unit: "m²", basis: "per_m2", qty: 1.15, unitPrice: 1350 },
+        { name: "Gutters & downpipes", unit: "m", basis: "per_m2", qty: 0.35, unitPrice: 950 },
+      ],
+      professionals: ["Roofing contractor"] },
+    { key: "first_fix", order: 7, name: "Electrical & plumbing (first fix)", costElement: "services", weightInElement: 0.55, durationDays: 18,
+      description: "Conduits, cabling, water and waste pipework chased into walls and floors before plastering hides them.",
+      materials: [
+        { name: "Electrical conduit & cable", unit: "lot", basis: "per_m2", qty: 1, unitPrice: 620 },
+        { name: "PPR & waste pipework", unit: "lot", basis: "per_m2", qty: 1, unitPrice: 540 },
+      ],
+      professionals: ["Licensed electrician", "Plumber"] },
+    { key: "plastering", order: 8, name: "Plastering & wall finishes", costElement: "finishes", weightInElement: 0.40, durationDays: 21,
+      description: "Internal and external plaster, window sills and reveals — the point where the rooms start to feel real.",
+      materials: [
+        { name: "Cement (32.5N)", unit: "bags", basis: "per_m2", qty: 0.9, unitPrice: 780 },
+        { name: "Plaster sand", unit: "tonnes", basis: "per_m2", qty: 0.11, unitPrice: 2600 },
+      ],
+      professionals: ["Plastering crew"] },
+    { key: "second_fix", order: 9, name: "Second-fix services", costElement: "services", weightInElement: 0.45, durationDays: 10,
+      description: "Sockets, switches, light fittings, sanitary ware, taps and the water heater — everything the first fix prepared for.",
+      materials: [
+        { name: "Sanitary ware set", unit: "lot", basis: "fixed", qty: 3, unitPrice: 28000 },
+        { name: "Switchgear, sockets & fittings", unit: "lot", basis: "per_m2", qty: 1, unitPrice: 380 },
+      ],
+      professionals: ["Licensed electrician", "Plumber"] },
+    { key: "floors_fittings", order: 10, name: "Floors, fittings & painting", costElement: "finishes", weightInElement: 0.60, durationDays: 24,
+      description: "Floor and wall tiling, doors and wardrobes hung, kitchen fitted, ceilings closed, then primer and final paint coats throughout.",
+      materials: [
+        { name: "Ceramic floor tiles", unit: "m²", basis: "per_m2", qty: 0.95, unitPrice: 1150 },
+        { name: "Paint (undercoat + finish)", unit: "litres", basis: "per_m2", qty: 0.35, unitPrice: 800 },
+        { name: "Internal doors", unit: "pcs", basis: "fixed", qty: 8, unitPrice: 14500 },
+      ],
+      professionals: ["Tiler", "Carpenter / joiner", "Painter"] },
+    { key: "external_works", order: 11, name: "External works & handover", costElement: "external", weightInElement: 1.0, durationDays: 14,
+      description: "Septic tank or sewer connection, paths and a simple driveway, compound levelling, final snagging and clean handover.",
+      materials: [
+        { name: "Septic tank (build & fittings)", unit: "lot", basis: "fixed", qty: 1, unitPrice: 120000 },
+        { name: "Paving & walkways", unit: "m²", basis: "per_m2", qty: 0.20, unitPrice: 1800 },
+      ],
+      professionals: ["Mason crew", "Plumber", "Site agent"] },
+  ],
+},
+{
+  key: "maisonette_4br",
+  name: "4-Bedroom Maisonette",
+  tagline: "Two storeys — living, kitchen and guest suite below; three bedrooms and a family lounge above.",
+  referenceAreaM2: 220,
+  baseRatePerM2: 26500,
+  floors: 2,
+  areaRange: [140, 400],
+  costElementWeights: {
+    preliminaries: 0.05, substructure: 0.12, superstructure: 0.33,
+    roofing: 0.09, finishes: 0.24, services: 0.11, external: 0.06,
+  },
+  stages: [
+    { key: "site_prep", order: 1, name: "Site preparation & setup", costElement: "preliminaries", weightInElement: 1.0, durationDays: 7,
+      description: "Clearing, hoarding, site store and water, and setting out — with extra care on levels since this house carries a suspended floor.",
+      materials: [
+        { name: "Hoarding timber & ironsheet", unit: "lot", basis: "fixed", qty: 1, unitPrice: 55000 },
+        { name: "Setting-out profiles & lines", unit: "lot", basis: "fixed", qty: 1, unitPrice: 10000 },
+      ],
+      professionals: ["Surveyor", "Site agent"] },
+    { key: "foundation", order: 2, name: "Foundation & substructure", costElement: "substructure", weightInElement: 1.0, durationDays: 24,
+      description: "Deeper strip footings and column bases sized for two storeys, foundation walling, hardcore, DPM and the ground slab.",
+      materials: [
+        { name: "Cement (32.5N)", unit: "bags", basis: "per_m2", qty: 0.9, unitPrice: 780 },
+        { name: "Ballast", unit: "tonnes", basis: "per_m2", qty: 0.08, unitPrice: 2300 },
+        { name: "Reinforcement steel (D10–D16)", unit: "kg", basis: "per_m2", qty: 4.8, unitPrice: 145 },
+      ],
+      professionals: ["Structural engineer (inspection)", "Mason crew", "Steel fixer"] },
+    { key: "walling_gf", order: 3, name: "Ground-floor walling & columns", costElement: "superstructure", weightInElement: 0.30, durationDays: 24,
+      description: "Ground-floor stone walls with reinforced concrete columns cast as the walls rise, up to first-floor slab level.",
+      materials: [
+        { name: "Machine-cut blocks (9\")", unit: "pcs", basis: "per_m2", qty: 6.5, unitPrice: 65 },
+        { name: "Cement (32.5N)", unit: "bags", basis: "per_m2", qty: 0.5, unitPrice: 780 },
+      ],
+      professionals: ["Mason crew", "Steel fixer"] },
+    { key: "slab", order: 4, name: "First-floor slab & staircase", costElement: "superstructure", weightInElement: 0.30, durationDays: 21,
+      description: "Formwork, reinforcement and casting of the suspended slab and the concrete staircase — the structural heart of a maisonette, cured for 21 days before load.",
+      materials: [
+        { name: "Cement (32.5N)", unit: "bags", basis: "per_m2", qty: 0.85, unitPrice: 780 },
+        { name: "Reinforcement steel (D12–D16)", unit: "kg", basis: "per_m2", qty: 6.0, unitPrice: 145 },
+        { name: "Slab formwork & props", unit: "lot", basis: "per_floor", qty: 1, unitPrice: 160000 },
+      ],
+      professionals: ["Structural engineer (inspection)", "Carpenter (formwork)", "Steel fixer", "Mason crew"] },
+    { key: "walling_ff", order: 5, name: "Upper walling, lintels & ring beam", costElement: "superstructure", weightInElement: 0.25, durationDays: 24,
+      description: "First-floor walls, lintels over openings and the ring beam at wall-plate level, ready to receive the roof.",
+      materials: [
+        { name: "Machine-cut blocks (6\"–9\")", unit: "pcs", basis: "per_m2", qty: 6.0, unitPrice: 60 },
+        { name: "Cement (32.5N)", unit: "bags", basis: "per_m2", qty: 0.5, unitPrice: 780 },
+      ],
+      professionals: ["Mason crew", "Steel fixer"] },
+    { key: "roof_structure", order: 6, name: "Roof structure", costElement: "superstructure", weightInElement: 0.15, durationDays: 12,
+      description: "Timber trusses and purlins over the upper floor — a smaller roof footprint than a bungalow of the same floor area.",
+      materials: [
+        { name: "Treated timber (trusses & purlins)", unit: "ft", basis: "per_m2", qty: 2.4, unitPrice: 85 },
+        { name: "Fixings & straps", unit: "lot", basis: "fixed", qty: 1, unitPrice: 30000 },
+      ],
+      professionals: ["Roofing carpenter crew"] },
+    { key: "roof_cover", order: 7, name: "Roof covering", costElement: "roofing", weightInElement: 1.0, durationDays: 8,
+      description: "Underlay, tiles, flashings and gutters. Weather-tight from here.",
+      materials: [
+        { name: "Stone-coated roofing tiles", unit: "m²", basis: "per_m2", qty: 0.65, unitPrice: 1350 },
+        { name: "Gutters & downpipes", unit: "m", basis: "per_m2", qty: 0.22, unitPrice: 950 },
+      ],
+      professionals: ["Roofing contractor"] },
+    { key: "first_fix", order: 8, name: "Electrical & plumbing (first fix)", costElement: "services", weightInElement: 0.55, durationDays: 21,
+      description: "Two floors of conduits, cabling and pipework — including risers between floors — chased in before plastering.",
+      materials: [
+        { name: "Electrical conduit & cable", unit: "lot", basis: "per_m2", qty: 1, unitPrice: 680 },
+        { name: "PPR & waste pipework", unit: "lot", basis: "per_m2", qty: 1, unitPrice: 590 },
+      ],
+      professionals: ["Licensed electrician", "Plumber"] },
+    { key: "plastering", order: 9, name: "Plastering & wall finishes", costElement: "finishes", weightInElement: 0.38, durationDays: 26,
+      description: "Plaster to both floors inside and out, with scaffolding for the upper external walls.",
+      materials: [
+        { name: "Cement (32.5N)", unit: "bags", basis: "per_m2", qty: 0.9, unitPrice: 780 },
+        { name: "Plaster sand", unit: "tonnes", basis: "per_m2", qty: 0.11, unitPrice: 2600 },
+        { name: "Scaffolding hire", unit: "lot", basis: "per_floor", qty: 1, unitPrice: 40000 },
+      ],
+      professionals: ["Plastering crew"] },
+    { key: "second_fix", order: 10, name: "Second-fix services", costElement: "services", weightInElement: 0.45, durationDays: 12,
+      description: "Sockets, switches and light fittings on both floors, sanitary ware in four bathrooms, taps and water heating.",
+      materials: [
+        { name: "Sanitary ware set", unit: "lot", basis: "fixed", qty: 4, unitPrice: 30000 },
+        { name: "Switchgear, sockets & fittings", unit: "lot", basis: "per_m2", qty: 1, unitPrice: 400 },
+      ],
+      professionals: ["Licensed electrician", "Plumber"] },
+    { key: "floors_fittings", order: 11, name: "Floors, fittings & painting", costElement: "finishes", weightInElement: 0.62, durationDays: 30,
+      description: "Tiling and timber flooring, staircase balustrade, doors, wardrobes and kitchen, ceilings, then full internal and external painting.",
+      materials: [
+        { name: "Floor tiles & timber flooring", unit: "m²", basis: "per_m2", qty: 0.95, unitPrice: 1400 },
+        { name: "Staircase balustrade", unit: "lot", basis: "fixed", qty: 1, unitPrice: 90000 },
+        { name: "Paint (undercoat + finish)", unit: "litres", basis: "per_m2", qty: 0.38, unitPrice: 800 },
+        { name: "Internal doors", unit: "pcs", basis: "fixed", qty: 11, unitPrice: 14500 },
+      ],
+      professionals: ["Tiler", "Carpenter / joiner", "Painter"] },
+    { key: "external_works", order: 12, name: "External works & handover", costElement: "external", weightInElement: 1.0, durationDays: 14,
+      description: "Septic or sewer connection, driveway and paths, compound works, snagging and handover.",
+      materials: [
+        { name: "Septic tank (build & fittings)", unit: "lot", basis: "fixed", qty: 1, unitPrice: 140000 },
+        { name: "Paving & walkways", unit: "m²", basis: "per_m2", qty: 0.18, unitPrice: 1800 },
+      ],
+      professionals: ["Mason crew", "Plumber", "Site agent"] },
+  ],
+},
+];
+
+/* =====================================================================
+   ENGINE — generateEstimate(template, input): a pure function.
+   rate  = baseRatePerM2 × finishMultiplier × locationMultiplier
+   total = rate × areaM2
+   stageCost = total × elementWeight × weightInElement
+   Material quantities scale by basis; durations scale by √(area ratio).
+   ===================================================================== */
+function generateEstimate(template, input) {
+  const finish = FINISHES.find(f => f.key === input.finish);
+  const location = LOCATIONS.find(l => l.key === input.location);
+  const rate = template.baseRatePerM2 * finish.multiplier * location.multiplier;
+  const total = rate * input.areaM2;
+  const areaRatio = input.areaM2 / template.referenceAreaM2;
+  const durationFactor = Math.sqrt(areaRatio);
+
+  const stages = template.stages.map(s => {
+    const cost = total * template.costElementWeights[s.costElement] * s.weightInElement;
+    const durationDays = Math.max(2, Math.round(s.durationDays * durationFactor));
+    const materials = s.materials.map(m => {
+      let qty = m.qty;
+      if (m.basis === "per_m2") qty = m.qty * input.areaM2;
+      else if (m.basis === "per_floor") qty = m.qty * template.floors;
+      qty = Math.ceil(qty * 100) / 100;
+      return { ...m, scaledQty: qty, cost: qty * m.unitPrice };
+    });
+    return { ...s, cost, scaledDurationDays: durationDays, scaledMaterials: materials };
+  });
+
+  const elements = COST_ELEMENTS.map(el => ({
+    ...el,
+    weight: template.costElementWeights[el.key],
+    amount: total * template.costElementWeights[el.key],
+  }));
+
+  return {
+    total, rate,
+    totalDurationDays: stages.reduce((a, s) => a + s.scaledDurationDays, 0),
+    stages, elements,
+    low: total * 0.85, high: total * 1.15,
+  };
+}
+
+/* Phase-0 check from the plan: 150 m², standard, Nairobi → 3,450,000 @ 23,000/m² */
+(function () {
+  const e = generateEstimate(TEMPLATES[0], { areaM2: 150, finish: "standard", location: "nairobi" });
+  console.assert(e.total === 3450000 && e.rate === 23000, "engine check failed", e.total, e.rate);
+  const w = Object.values(TEMPLATES[0].costElementWeights).reduce((a, b) => a + b, 0);
+  console.assert(Math.abs(w - 1) < 1e-9, "bungalow weights must sum to 1.0");
+})();
+
+/* =====================================================================
+   UI
+   ===================================================================== */
+const state = { templateKey: "bungalow_3br", areaM2: 150, location: "nairobi", finish: "standard" };
+const SLICE_COLORS = ["var(--c1)", "var(--c2)", "var(--c3)", "var(--c4)", "var(--c5)", "var(--c6)", "var(--c7)"];
+const $ = id => document.getElementById(id);
+const fmt = n => Math.round(n).toLocaleString("en-KE");
+const fmtM = n => n >= 1e6 ? (n / 1e6).toFixed(2) + "M" : fmt(n);
+
+function tpl() { return TEMPLATES.find(t => t.key === state.templateKey); }
+
+/* ---- template art: simple line elevations, no stock photos ---- */
+function houseArt(kind) {
+  const s = 'fill="none" stroke="var(--ink-3)" stroke-width="2" stroke-linejoin="round"';
+  const a = 'fill="var(--accent-wash)" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round"';
+  if (kind === "bungalow_3br") return `
+    <svg class="tpl-art" viewBox="0 0 340 130" role="img" aria-label="Single-storey bungalow elevation">
+      <path d="M40 60 L120 24 L200 60" ${a}/>
+      <rect x="52" y="60" width="136" height="46" ${s}/>
+      <rect x="70" y="74" width="24" height="32" ${s}/>
+      <rect x="110" y="74" width="26" height="20" ${s}/>
+      <rect x="152" y="74" width="26" height="20" ${s}/>
+      <path d="M200 60 L268 40 L300 60" ${s}/>
+      <rect x="212" y="60" width="76" height="46" ${s}/>
+      <rect x="230" y="74" width="26" height="20" ${s}/>
+      <line x1="24" y1="106" x2="316" y2="106" stroke="var(--line-strong)" stroke-width="2"/>
+    </svg>`;
+  return `
+    <svg class="tpl-art" viewBox="0 0 340 130" role="img" aria-label="Two-storey maisonette elevation">
+      <path d="M96 34 L170 12 L244 34" ${a}/>
+      <rect x="106" y="34" width="128" height="72" ${s}/>
+      <line x1="106" y1="70" x2="234" y2="70" stroke="var(--ink-3)" stroke-width="2"/>
+      <rect x="120" y="44" width="24" height="18" ${s}/>
+      <rect x="158" y="44" width="24" height="18" ${s}/>
+      <rect x="196" y="44" width="24" height="18" ${s}/>
+      <rect x="120" y="80" width="24" height="26" ${s}/>
+      <rect x="160" y="80" width="22" height="18" ${s}/>
+      <rect x="196" y="80" width="24" height="18" ${s}/>
+      <rect x="244" y="70" width="52" height="36" ${s}/>
+      <line x1="44" y1="106" x2="306" y2="106" stroke="var(--line-strong)" stroke-width="2"/>
+    </svg>`;
+}
+
+/* ---- screen 1 ---- */
+function renderTemplateCards() {
+  $("tpl-grid").innerHTML = TEMPLATES.map(t => `
+    <button class="tpl-card" data-key="${t.key}" aria-pressed="${t.key === state.templateKey}">
+      ${houseArt(t.key)}
+      <span class="tpl-body" style="display:block;">
+        <h2>${t.name}</h2>
+        <span style="font-size:13.5px;color:var(--ink-2);display:block;">${t.tagline}</span>
+        <span class="tpl-meta">
+          <span>from <strong>KES ${fmt(t.baseRatePerM2)}</strong>/m²</span>
+          <span><strong>${t.floors}</strong> floor${t.floors > 1 ? "s" : ""}</span>
+          <span>ref <strong>${t.referenceAreaM2} m²</strong></span>
+          <span><strong>${t.stages.length}</strong> stages</span>
+        </span>
+        <span class="tpl-pick">${t.key === state.templateKey ? "✓ Selected" : "Select →"}</span>
+      </span>
+    </button>`).join("");
+  document.querySelectorAll(".tpl-card").forEach(c =>
+    c.addEventListener("click", () => selectTemplate(c.dataset.key)));
+}
+
+function selectTemplate(key) {
+  state.templateKey = key;
+  const t = tpl();
+  state.areaM2 = t.referenceAreaM2;
+  ["in-area", "in-area-range"].forEach(id => {
+    $(id).min = t.areaRange[0]; $(id).max = t.areaRange[1]; $(id).value = t.referenceAreaM2;
+  });
+  $("area-hint").textContent = `Template reference: ${t.referenceAreaM2} m² · range ${t.areaRange[0]}–${t.areaRange[1]} m²`;
+  $("floors-note").textContent = t.floors === 1 ? "1 — single storey" : `${t.floors} — two storeys`;
+  renderTemplateCards();
+}
+
+function locationOptions(sel) {
+  sel.innerHTML = LOCATIONS.map(l =>
+    `<option value="${l.key}" ${l.key === state.location ? "selected" : ""}>${l.name}</option>`).join("");
+}
+
+function renderFinishRow() {
+  $("finish-row").innerHTML = FINISHES.map(f =>
+    `<button class="finish-opt" data-key="${f.key}" aria-pressed="${f.key === state.finish}">${f.name}</button>`).join("");
+  document.querySelectorAll(".finish-opt").forEach(b => b.addEventListener("click", () => {
+    state.finish = b.dataset.key;
+    $("finish-hint").textContent = FINISHES.find(f => f.key === state.finish).hint;
+    renderFinishRow();
+  }));
+}
+
+/* ---- screen 2 ---- */
+let estimate = null;
+
+function recalc() {
+  estimate = generateEstimate(tpl(), { areaM2: state.areaM2, location: state.location, finish: state.finish });
+  renderResults();
+}
+
+function renderResults() {
+  const t = tpl(), e = estimate;
+  $("crumb-name").textContent = t.name;
+  $("res-eyebrow").textContent = `${t.name} · ${LOCATIONS.find(l => l.key === state.location).name} · ${FINISHES.find(f => f.key === state.finish).name} finish`;
+  $("res-total").textContent = fmt(e.total);
+  $("res-range").textContent = `KES ${fmtM(e.low)} – ${fmtM(e.high)}`;
+  $("res-rate").innerHTML = `${fmt(e.rate)} <small>KES/m²</small>`;
+  $("res-months").innerHTML = `≈ ${Math.round(e.totalDurationDays / 30)} <small>months (${e.totalDurationDays} working days)</small>`;
+  $("res-area").innerHTML = `${state.areaM2} <small>m² · ${t.floors} floor${t.floors > 1 ? "s" : ""}</small>`;
+  $("res-stagecount").innerHTML = `${e.stages.length} <small>stages</small>`;
+  $("adj-area").value = state.areaM2;
+  $("res-disclaimer").textContent =
+    `This is a planning estimate (±15%), not a bill of quantities. It is derived from the "${t.name}" template — base rate KES ${fmt(t.baseRatePerM2)}/m² at ${t.referenceAreaM2} m² reference — adjusted for your area, location and finish level. Material quantities are indicative and scaled to your floor area. A quantity surveyor should price the final drawings before you commit funds.`;
+  renderDonut(); renderCostTable(); renderTimeline(); renderStages();
+}
+
+function renderDonut() {
+  const svg = $("donut"), e = estimate;
+  const cx = 120, cy = 120, r = 88, w = 34, gap = 0.035; // gap ≈ 2px at r=88
+  let a0 = -Math.PI / 2;
+  let paths = "";
+  e.elements.forEach((el, i) => {
+    const sweep = el.weight * Math.PI * 2;
+    const s = a0 + gap / 2, f = a0 + sweep - gap / 2;
+    const large = (f - s) > Math.PI ? 1 : 0;
+    const p = (ang, rad) => `${cx + rad * Math.cos(ang)} ${cy + rad * Math.sin(ang)}`;
+    paths += `<path d="M ${p(s, r)} A ${r} ${r} 0 ${large} 1 ${p(f, r)} L ${p(f, r - w)} A ${r - w} ${r - w} 0 ${large} 0 ${p(s, r - w)} Z"
+      fill="${SLICE_COLORS[i]}" data-i="${i}" class="slice" style="cursor:default;"></path>`;
+    a0 += sweep;
+  });
+  svg.innerHTML = `<title id="donut-title">Cost breakdown by element</title>${paths}
+    <text x="120" y="112" text-anchor="middle" style="font-size:11px;font-weight:700;letter-spacing:0.08em;fill:var(--ink-3);" >TOTAL</text>
+    <text x="120" y="134" text-anchor="middle" class="donut-center-total" style="fill:var(--ink);font-weight:800;font-size:21px;">KES ${fmtM(e.total)}</text>`;
+  $("legend").innerHTML = e.elements.map((el, i) => `
+    <li data-i="${i}">
+      <span class="chip" style="background:${SLICE_COLORS[i]}"></span>
+      <span>${el.name}</span>
+      <span class="pct">${Math.round(el.weight * 100)}%</span>
+      <span class="amt">${fmt(el.amount)}</span>
+    </li>`).join("");
+  svg.querySelectorAll(".slice").forEach(sl => {
+    sl.addEventListener("mousemove", ev => {
+      const el = e.elements[+sl.dataset.i];
+      showTip(ev, `<b>${el.name}</b>${Math.round(el.weight * 100)}% · KES ${fmt(el.amount)}`);
+      highlightLegend(+sl.dataset.i);
+    });
+    sl.addEventListener("mouseleave", () => { hideTip(); highlightLegend(-1); });
+  });
+}
+
+function highlightLegend(i) {
+  document.querySelectorAll("#legend li").forEach(li =>
+    li.classList.toggle("hl", +li.dataset.i === i));
+}
+
+function renderCostTable() {
+  const e = estimate;
+  $("cost-table").querySelector("tbody").innerHTML =
+    e.elements.map((el, i) => `
+      <tr>
+        <td><span class="chip" style="display:inline-block;width:10px;height:10px;border-radius:2px;background:${SLICE_COLORS[i]};margin-right:8px;"></span>${el.name}</td>
+        <td class="num">${(el.weight * 100).toFixed(0)}%</td>
+        <td class="num">${fmt(el.amount)}</td>
+      </tr>`).join("") +
+    `<tr class="total"><td>Total</td><td class="num">100%</td><td class="num">${fmt(e.total)}</td></tr>`;
+}
+
+function renderTimeline() {
+  const e = estimate;
+  const bar = $("tl-bar");
+  bar.innerHTML = e.stages.map((s, i) => {
+    const ci = COST_ELEMENTS.findIndex(c => c.key === s.costElement);
+    return `<div class="tl-seg" data-i="${i}" style="flex:${s.scaledDurationDays};background:${SLICE_COLORS[ci]}"></div>`;
+  }).join("");
+  $("tl-end").textContent = `Week ${Math.ceil(e.totalDurationDays / 6)} · handover`;
+  bar.querySelectorAll(".tl-seg").forEach(seg => {
+    seg.addEventListener("mousemove", ev => {
+      const s = e.stages[+seg.dataset.i];
+      showTip(ev, `<b>${s.order}. ${s.name}</b>${s.scaledDurationDays} days · KES ${fmt(s.cost)}`);
+    });
+    seg.addEventListener("mouseleave", hideTip);
+  });
+}
+
+function renderStages() {
+  const e = estimate;
+  $("stage-list").innerHTML = e.stages.map((s, i) => {
+    const ci = COST_ELEMENTS.findIndex(c => c.key === s.costElement);
+    const mats = s.scaledMaterials.map(m => `
+      <tr><td>${m.name}</td>
+          <td>${m.scaledQty.toLocaleString("en-KE")} ${m.unit}</td>
+          <td>KES ${fmt(m.cost)}</td></tr>`).join("");
+    return `
+    <details class="stage" ${i === 0 ? "open" : ""}>
+      <summary>
+        <span class="stage-dot" style="background:${SLICE_COLORS[ci]}">${s.order}</span>
+        <span><span class="stage-name">${s.name}</span>
+          <span class="stage-elem">${COST_ELEMENTS[ci].name}</span></span>
+        <span class="stage-days">${s.scaledDurationDays} days</span>
+        <span class="stage-cost">KES ${fmt(s.cost)}</span>
+      </summary>
+      <div class="stage-body">
+        <p>${s.description}</p>
+        <p class="mini-h">Indicative materials — scaled to ${state.areaM2} m²</p>
+        <div class="table-scroll"><table class="mat-table"><tbody>${mats}</tbody></table></div>
+        <p class="mini-h">Who you'll need</p>
+        <div class="pro-chips">${s.professionals.map(p => `<span class="pro-chip">${p}</span>`).join("")}</div>
+      </div>
+    </details>`;
+  }).join("");
+}
+
+/* ---- tooltip ---- */
+function showTip(ev, html) {
+  const tip = $("tooltip");
+  tip.innerHTML = html; tip.style.display = "block";
+  const pad = 14;
+  let x = ev.clientX + pad, y = ev.clientY + pad;
+  const r = tip.getBoundingClientRect();
+  if (x + r.width > innerWidth - 8) x = ev.clientX - r.width - pad;
+  if (y + r.height > innerHeight - 8) y = ev.clientY - r.height - pad;
+  tip.style.left = x + "px"; tip.style.top = y + "px";
+}
+function hideTip() { $("tooltip").style.display = "none"; }
+
+/* ---- wiring ---- */
+function syncArea(v) {
+  const t = tpl();
+  state.areaM2 = Math.min(t.areaRange[1], Math.max(t.areaRange[0], +v || t.referenceAreaM2));
+  $("in-area").value = state.areaM2; $("in-area-range").value = state.areaM2;
+}
+$("in-area").addEventListener("change", e => syncArea(e.target.value));
+$("in-area-range").addEventListener("input", e => syncArea(e.target.value));
+$("in-location").addEventListener("change", e => state.location = e.target.value);
+
+$("btn-estimate").addEventListener("click", () => {
+  recalc();
+  $("screen-input").classList.remove("active");
+  $("screen-results").classList.add("active");
+  scrollTo({ top: 0 });
+});
+$("btn-back").addEventListener("click", () => {
+  $("screen-results").classList.remove("active");
+  $("screen-input").classList.add("active");
+  scrollTo({ top: 0 });
+});
+
+$("adj-area").addEventListener("change", e => {
+  const t = tpl();
+  state.areaM2 = Math.min(t.areaRange[1], Math.max(t.areaRange[0], +e.target.value || t.referenceAreaM2));
+  recalc();
+});
+$("adj-location").addEventListener("change", e => { state.location = e.target.value; recalc(); });
+$("adj-finish").addEventListener("change", e => { state.finish = e.target.value; recalc(); });
+
+/* init */
+locationOptions($("in-location"));
+locationOptions($("adj-location"));
+$("adj-finish").innerHTML = FINISHES.map(f =>
+  `<option value="${f.key}" ${f.key === state.finish ? "selected" : ""}>${f.name}</option>`).join("");
+selectTemplate(state.templateKey);
+renderFinishRow();
+</script>
