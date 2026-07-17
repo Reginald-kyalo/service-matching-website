@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Allura Works — V1 Pitch</title>
+<style>
+  :root {
+    --ground: #f3f2ee;
+    --surface: #fcfcfa;
+    --surface-2: #f7f6f2;
+    --ink: #1c1b18;
+    --ink-2: #57554e;
+    --ink-3: #8a877e;
+    --line: #e3e1d9;
+    --line-strong: #c9c6bb;
+    --accent: #9c6b10;
+    --accent-ink: #7a5209;
+    --accent-wash: rgba(156, 107, 16, 0.09);
+    --c1: #2a78d6; --c2: #1baf7a; --c3: #eda100; --c4: #008300;
+    --c5: #4a3aa7; --c6: #e34948; --c7: #e87ba4;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  html, body { background: #fff; }
+  body { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; color: var(--ink); }
+
+  .slide {
+    width: 13.333in; height: 7.5in; overflow: hidden; position: relative;
+    background: var(--ground); page-break-after: always;
+    padding: 0.55in 0.7in 0.7in; display: flex; flex-direction: column;
+  }
+  .slide.dark { background: var(--ink); color: var(--ground); }
+
+  .chrome {
+    display: flex; align-items: baseline; gap: 12px; margin-bottom: 0.32in;
+  }
+  .chrome .wm { font-size: 15px; font-weight: 800; letter-spacing: -0.02em; }
+  .chrome .wm b { color: var(--accent); font-weight: 800; }
+  .slide.dark .chrome .wm b { color: #e0a32e; }
+  .chrome .rule { flex: 1; height: 1px; background: var(--line-strong); align-self: center; }
+  .slide.dark .chrome .rule { background: rgba(255,255,255,0.18); }
+  .chrome .pg { font-size: 12px; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+
+  .eyebrow {
+    font-size: 13px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--accent-ink); margin-bottom: 10px;
+  }
+  .slide.dark .eyebrow { color: #e0a32e; }
+  h1 { font-size: 54px; font-weight: 800; letter-spacing: -0.025em; line-height: 1.06; }
+  h2 { font-size: 38px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 18px; }
+  h3 { font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
+  .sub { font-size: 19px; color: var(--ink-2); line-height: 1.5; max-width: 9in; }
+  .slide.dark .sub { color: #c0beb2; }
+
+  .grow { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+
+  .cols { display: grid; gap: 0.28in; flex: 1; align-content: stretch; }
+  .cols.c2 { grid-template-columns: 1fr 1fr; }
+  .cols.c3 { grid-template-columns: 1fr 1fr 1fr; }
+
+  .card {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
+    padding: 22px 24px; display: flex; flex-direction: column;
+  }
+  .card.accent { background: var(--accent-wash); border-color: var(--accent); }
+  .card .k {
+    font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--ink-3); margin-bottom: 8px;
+  }
+  .card.accent .k { color: var(--accent-ink); }
+  .card p { font-size: 15.5px; color: var(--ink-2); line-height: 1.5; }
+  .card ul { padding-left: 18px; font-size: 15.5px; color: var(--ink-2); line-height: 1.65; }
+  .card li b, .card p b { color: var(--ink); font-weight: 650; }
+
+  .big { font-size: 46px; font-weight: 800; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+  .big small { font-size: 18px; font-weight: 600; color: var(--ink-2); letter-spacing: 0; }
+
+  .formula {
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    font-size: 19px; line-height: 1.9; background: var(--surface);
+    border: 1px solid var(--line-strong); border-radius: 12px; padding: 26px 30px;
+    color: var(--ink);
+  }
+  .formula .hl { color: var(--accent-ink); font-weight: 700; }
+
+  .kicker-num {
+    font-size: 15px; font-weight: 800; color: var(--accent-ink);
+    font-variant-numeric: tabular-nums; margin-bottom: 6px;
+  }
+
+  table.simple { border-collapse: collapse; width: 100%; font-size: 15px; }
+  table.simple th {
+    text-align: left; font-size: 11.5px; font-weight: 700; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--ink-3); padding: 8px 12px;
+    border-bottom: 1.5px solid var(--line-strong);
+  }
+  table.simple td { padding: 9px 12px; border-bottom: 1px solid var(--line); color: var(--ink-2); font-variant-numeric: tabular-nums; }
+  table.simple td:first-child { color: var(--ink); font-weight: 600; }
+
+  .pill {
+    display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: 0.08em;
+    text-transform: uppercase; border: 1.5px solid var(--accent); color: var(--accent-ink);
+    border-radius: 999px; padding: 4px 14px;
+  }
+  .slide.dark .pill { border-color: #e0a32e; color: #e0a32e; }
+
+  .chip { display: inline-block; width: 11px; height: 11px; border-radius: 3px; margin-right: 8px; vertical-align: -1px; }
+
+  .flow { display: flex; align-items: center; gap: 14px; font-size: 16px; font-weight: 650; }
+  .flow .node {
+    background: var(--surface); border: 1.5px solid var(--line-strong); border-radius: 10px;
+    padding: 14px 18px; text-align: center; flex: 1;
+  }
+  .flow .node.hot { border-color: var(--accent); background: var(--accent-wash); }
+  .flow .arr { color: var(--ink-3); font-size: 20px; }
+  .flow .node small { display: block; font-size: 12.5px; font-weight: 500; color: var(--ink-2); margin-top: 3px; }
+
+  .foot-note { margin-top: 0.22in; font-size: 13px; color: var(--ink-3); }
+</style>
+</head>
+<body>
+
+<!-- 1 · TITLE -->
+<section class="slide dark">
+  <div class="chrome"><span class="wm">Allura<b>&nbsp;Works</b></span><span class="rule"></span><span class="pg">V1 · 2026</span></div>
+  <div class="grow">
+    <p class="eyebrow">Version 1 — Concept &amp; roles</p>
+    <h1>Know your build<br>before you spend<br>a shilling.</h1>
+    <p class="sub" style="margin-top:22px;">A construction cost &amp; project-planning estimator for Kenya. A visitor describes what they
+    want to build — Allura Works instantly returns a credible cost, a stage-by-stage breakdown, and a timeline.</p>
+  </div>
+  <p class="foot-note">Reginald Kyalo — Product &amp; Engineering &nbsp;·&nbsp; Allan — Construction Engineering</p>
+</section>
+
+<!-- 2 · PROBLEM -->
+<section class="slide">
+  <div class="chrome"><span class="wm">Allura<b>&nbsp;Works</b></span><span class="rule"></span><span class="pg">02</span></div>
+  <p class="eyebrow">The problem</p>
+  <h2>Everyone who wants to build hits the same wall first.</h2>
+  <div class="cols c3">
+    <div class="card">
+      <p class="big" style="color:var(--accent-ink);">?</p>
+      <h3 style="margin:8px 0 6px;">No idea what it costs</h3>
+      <p>Quotes vary wildly, and a real BOQ requires paying a professional before you even know if the project is feasible.</p>
+    </div>
+    <div class="card">
+      <p class="big" style="color:var(--accent-ink);">?</p>
+      <h3 style="margin:8px 0 6px;">No idea of the process</h3>
+      <p>What comes after the foundation? When do you pay for what? Which professionals do you actually need, and when?</p>
+    </div>
+    <div class="card">
+      <p class="big" style="color:var(--accent-ink);">?</p>
+      <h3 style="margin:8px 0 6px;">No one to trust yet</h3>
+      <p>Advice comes from whoever wants the job. There is no neutral first step between "I have a dream" and "I've hired someone."</p>
+    </div>
+  </div>
+  <p class="foot-note">That confusion — before any money moves — is the gap Allura Works exists to close.</p>
+</section>
+
+<!-- 3 · SOLUTION -->
+<section class="slide">
+  <div class="chrome"><span class="wm">Allura<b>&nbsp;Works</b></span><span class="rule"></span><span class="pg">03</span></div>
+  <p class="eyebrow">The solution — V1</p>
+  <h2>Describe it. Understand it. In seconds, for free.</h2>
+  <div class="flow" style="margin-bottom:0.28in;">
+    <div class="node">Pick a project<small>3BR bungalow · 4BR maisonette</small></div>
+    <span class="arr">→</span>
+    <div class="node">Your details<small>area · location · finish level</small></div>
+    <span class="arr">→</span>
+    <div class="node hot">Instant estimate<small>cost · stages · timeline · journey</small></div>
+  </div>
+  <div class="cols c3" style="flex:0 0 auto;">
+    <div class="card"><p class="k">Example — 150 m² bungalow, Nairobi</p><p class="big">KES 3.45M <small>±15%</small></p><p>at KES 23,000 per m², standard finish</p></div>
+    <div class="card"><p class="k">The journey</p><p class="big">11 <small>stages</small></p><p>each with cost, duration, materials, and the professionals needed</p></div>
+    <div class="card"><p class="k">The timeline</p><p class="big">≈ 6 <small>months</small></p><p>durations scale automatically with floor area</p></div>
+  </div>
+  <p class="foot-note">A planning estimate with a stated margin — not a BOQ. Honest about what it is, useful from day one.</p>
+</section>
+
+<!-- 4 · HOW IT WORKS -->
+<section class="slide">
+  <div class="chrome"><span class="wm">Allura<b>&nbsp;Works</b></span><span class="rule"></span><span class="pg">04</span></div>
+  <p class="eyebrow">How it works</p>
+  <h2>A tiny engine on top of deep construction knowledge.</h2>
+  <div class="cols c2">
+    <div>
+      <div class="formula">
+        rate&nbsp;&nbsp;= <span class="hl">baseRatePerM2</span> × <span class="hl">finish</span> × <span class="hl">location</span><br>
+        total = rate × areaM2<br>
+        stageCost = total × <span class="hl">elementWeight</span>
+      </div>
+      <p class="sub" style="font-size:15.5px;margin-top:16px;">Cost is computed <b>top-down</b> — credible immediately, no waiting for
+      perfect data. Material quantities are stored as <b>rates</b> (blocks per m², cement per m²), so one template produces a correct,
+      scaled material list for any floor area. As real prices mature, the numbers converge toward bottom-up accuracy without a rebuild.</p>
+    </div>
+    <div class="card">
+      <p class="k">One dataset, two views</p>
+      <p style="margin-bottom:12px;">A single array of stages drives both the <b>build journey</b> (timeline &amp; storytelling) and the
+      <b>QS-style cost plan</b> — they can never drift apart.</p>
+      <table class="simple">
+        <tr><th>Cost element</th><th style="text-align:right;">Share</th></tr>
+        <tr><td><span class="chip" style="background:var(--c1)"></span>Preliminaries</td><td style="text-align:right;">5%</td></tr>
+        <tr><td><span class="chip" style="background:var(--c2)"></span>Substructure</td><td style="text-align:right;">15%</td></tr>
+        <tr><td><span class="chip" style="background:var(--c3)"></span>Superstructure</td><td style="text-align:right;">30%</td></tr>
+        <tr><td><span class="chip" style="background:var(--c4)"></span>Roofing</td><td style="text-align:right;">12%</td></tr>
+        <tr><td><span class="chip" style="background:var(--c5)"></span>Finishes</td><td style="text-align:right;">22%</td></tr>
+        <tr><td><span class="chip" style="background:var(--c6)"></span>Services</td><td style="text-align:right;">10%</td></tr>
+        <tr><td><span class="chip" style="background:var(--c7)"></span>External works</td><td style="text-align:right;">6%</td></tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- 5 · THE MOAT -->
+<section class="slide">
+  <div class="chrome"><span class="wm">Allura<b>&nbsp;Works</b></span><span class="rule"></span><span class="pg">05</span></div>
+  <p class="eyebrow">Why this scales</p>
+  <h2>The knowledge is the moat. Growth is content, not code.</h2>
+  <div class="cols c2">
+    <div class="card accent">
+      <p class="k">The core object — BuildingTemplate</p>
+      <p style="margin-bottom:10px;">Every project on the platform is <b>one JSON document</b>: base rate, multipliers,
+      element weights, and stages with materials stored as rates.</p>
+      <ul>
+        <li>Adding the 2nd, 10th, or 100th house type = <b>adding a document</b>, never writing code</li>
+        <li>Published through an admin panel — no developer in the loop</li>
+        <li>Photos, plans, and refined prices drop into existing slots</li>
+      </ul>
+    </div>
+    <div class="card">
+      <p class="k">What competitors would have to copy</p>
+      <ul style="flex:1;">
+        <li>Verified <b>cost rates per m²</b> across regions and finish levels</li>
+        <li>Stage-by-stage <b>weights, durations, and material rates</b> validated on real Kenyan builds</li>
+        <li>A growing library of <b>real stage photos</b> and professional-drawn plans</li>
+      </ul>
+      <p style="margin-top:12px;">The software is a thin engine. The construction intelligence inside the templates is what a stranger pays for — and it compounds with every project added.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 6 · ROLES -->
+<section class="slide">
+  <div class="chrome"><span class="wm">Allura<b>&nbsp;Works</b></span><span class="rule"></span><span class="pg">06</span></div>
+  <p class="eyebrow">The team — two roles, one contract</p>
+  <h2>The developer builds the engine. The construction engineer builds the intelligence.</h2>
+  <div class="cols c2" style="flex:1;">
+    <div class="card">
+      <p class="k">Reginald — Developer · "the engine"</p>
+      <ul style="flex:1;">
+        <li><b>Data model &amp; schema</b> — defines the BuildingTemplate / StageTemplate shape</li>
+        <li><b>generateEstimate()</b> — the provably-correct pure calculation function, with tests</li>
+        <li><b>Admin panel &amp; persistence</b> — the CRUD that lets knowledge enter without code</li>
+        <li><b>Frontend</b> — input flow, results page, donut, timeline; renders whatever a template contains</li>
+        <li><b>Payments &amp; reports</b> — the KES 500 unlock and PDF generation</li>
+      </ul>
+      <p style="margin-top:10px;"><b>Owns correctness:</b> the math, the tests, the uptime. Never invents a construction fact.</p>
+    </div>
+    <div class="card">
+      <p class="k">Allan — Construction Engineer · "the intelligence"</p>
+      <ul style="flex:1;">
+        <li><b>Rates &amp; multipliers</b> — cost per m², finish and location factors, element weights</li>
+        <li><b>Stages</b> — the real sequence, durations, descriptions, and tips per house type</li>
+        <li><b>Materials &amp; prices</b> — quantities as rates (per m² / per floor) and current market prices</li>
+        <li><b>Professionals per stage</b> — who is needed, when, and what they check</li>
+        <li><b>Field content</b> — stage photos from live sites, validation against real builds; delivers the billed expert opinions</li>
+      </ul>
+      <p style="margin-top:10px;"><b>Owns credibility:</b> the numbers a stranger would pay for. Never touches code — fills a form.</p>
+    </div>
+  </div>
+  <p class="foot-note"><b>The contract between them is the BuildingTemplate JSON.</b> Fixed early, it lets both work in parallel: the engine is built and tested against a draft while the real numbers are refined — and refined numbers drop in without touching code.</p>
+</section>
+
+<!-- 7 · BUSINESS MODEL -->
+<section class="slide">
+  <div class="chrome"><span class="wm">Allura<b>&nbsp;Works</b></span><span class="rule"></span><span class="pg">07</span></div>
+  <p class="eyebrow">Business model</p>
+  <h2>Free to understand. Paid to go deeper.</h2>
+  <div class="cols c3">
+    <div class="card">
+      <p class="k">Step 1 · Free</p>
+      <p class="big" style="font-size:34px;">Estimate</p>
+      <p style="flex:1;">Instant cost, stages, and timeline. No sign-up. This is the traffic engine and the trust-builder.</p>
+      <p style="margin-top:12px;font-weight:700;color:var(--ink);">KES 0</p>
+    </div>
+    <div class="card accent">
+      <p class="k">Step 2 · Instant, automated</p>
+      <p class="big" style="font-size:34px;">Detailed report</p>
+      <p style="flex:1;">Full indicative material bill with prices, payment schedule, professionals per stage, shareable PDF.</p>
+      <p style="margin-top:12px;font-weight:700;color:var(--ink);">KES 500 <span style="font-weight:500;color:var(--ink-2);">one-time</span></p>
+    </div>
+    <div class="card">
+      <p class="k">Step 3 · Billed, human expert</p>
+      <p class="big" style="font-size:34px;">Expert opinion</p>
+      <p style="flex:1;">A registered QS reviews the estimate for the client's actual plot — written opinion, adjusted figures, a call. Delivered by the construction engineer's network.</p>
+      <p style="margin-top:12px;font-weight:700;color:var(--ink);">from KES 5,000 <span style="font-weight:500;color:var(--ink-2);">per opinion</span></p>
+    </div>
+  </div>
+  <p class="foot-note">A natural ladder: software scales the first two steps; the third monetizes human expertise and seeds the future professionals marketplace.</p>
+</section>
+
+<!-- 8 · ROADMAP -->
+<section class="slide">
+  <div class="chrome"><span class="wm">Allura<b>&nbsp;Works</b></span><span class="rule"></span><span class="pg">08</span></div>
+  <p class="eyebrow">Roadmap — prove the engine before building around it</p>
+  <h2>Ship in provable layers.</h2>
+  <div class="cols c3" style="flex:0 0 auto;">
+    <div class="card">
+      <p class="kicker-num">PHASE 0 · NOW</p>
+      <h3 style="margin-bottom:6px;">The provable core</h3>
+      <ul style="flex:1;">
+        <li>Two schemas + one hand-authored bungalow template</li>
+        <li>Pure <b>generateEstimate()</b> with passing tests (150 m² → KES 3.45M ✓)</li>
+      </ul>
+      <p style="margin-top:10px;"><b>Done when:</b> the engine reproduces the mockup math.</p>
+    </div>
+    <div class="card">
+      <p class="kicker-num">PHASE 1</p>
+      <h3 style="margin-bottom:6px;">Persistence + admin</h3>
+      <ul style="flex:1;">
+        <li>Templates move into the database</li>
+        <li>Admin CRUD: rates, stages, images, publish</li>
+      </ul>
+      <p style="margin-top:10px;"><b>Done when:</b> Allan adds a project with no developer involved.</p>
+    </div>
+    <div class="card">
+      <p class="kicker-num">PHASE 2</p>
+      <h3 style="margin-bottom:6px;">Public frontend</h3>
+      <ul style="flex:1;">
+        <li>Input page → results page (donut, stages, timeline)</li>
+        <li>The KES 500 report unlock + expert-opinion request</li>
+      </ul>
+      <p style="margin-top:10px;"><b>Done when:</b> a stranger goes input → estimate → understands their project.</p>
+    </div>
+  </div>
+  <p class="foot-note"><b>Deliberately out of V1:</b> marketplace, suppliers, messaging, reviews, project tracking, real-time 3D. We say no on purpose so V1 ships. <b>Later:</b> real stage-photo pipeline from live sites, professional partnerships, more templates every month.</p>
+</section>
+
+<!-- 9 · CLOSE -->
+<section class="slide dark">
+  <div class="chrome"><span class="wm">Allura<b>&nbsp;Works</b></span><span class="rule"></span><span class="pg">09</span></div>
+  <div class="grow">
+    <p class="eyebrow">What V1 success looks like</p>
+    <h1 style="font-size:44px;">A visitor arrives confused,<br>and leaves with a plan —<br>in under a minute.</h1>
+    <p class="sub" style="margin-top:22px;">Behind that: one carefully prepared building template, a provably-correct engine,
+    and an admin panel that makes every new project <b>content, not code</b>. From there we never rebuild — we add templates,
+    deepen the knowledge, and layer professionals and suppliers onto the same core object.</p>
+  </div>
+  <div style="display:flex;gap:14px;">
+    <span class="pill">Interactive mockup live</span>
+    <span class="pill">Engine math verified</span>
+    <span class="pill">Contract: BuildingTemplate JSON</span>
+  </div>
+</section>
+
+</body>
+</html>
